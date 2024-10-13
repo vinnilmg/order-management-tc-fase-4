@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.ms_order;
+package com.fiap.techchallenge4.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

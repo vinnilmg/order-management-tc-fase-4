@@ -1,6 +1,26 @@
+# TODO: H2 está sendo utilizado como base (por enqto)
+
 spring:
+  sql:
+    init:
+      mode: always
   application:
     name: ms-order
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: root
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
 
 server:
   port: 8091
