@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ms-order
+
+server:
+  port: 8091
+
+logging:
+  level:
+    root: INFO
+
