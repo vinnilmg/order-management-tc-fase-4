@@ -6,6 +6,8 @@ import com.fiap.techchallenge4.order.infra.persistence.entities.OrderEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
@@ -22,4 +24,6 @@ public interface OrderEntityMapper {
                 entity.getOrderCompletionDate()
         );
     }
+
+    List<Order> toDomains(final List<OrderEntity> entities);
 }
