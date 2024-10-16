@@ -2,7 +2,7 @@ package com.fiap.techchallenge4.order.application.usecases.order.impl;
 
 import com.fiap.techchallenge4.order.application.gateways.OrderGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.FindOrderByIdUseCase;
-import com.fiap.techchallenge4.order.domain.entities.Order;
+import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 import com.fiap.techchallenge4.order.domain.exceptions.NotFoundException;
 

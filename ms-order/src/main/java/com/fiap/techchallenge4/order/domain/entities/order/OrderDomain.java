@@ -1,14 +1,17 @@
-package com.fiap.techchallenge4.order.domain.entities;
+package com.fiap.techchallenge4.order.domain.entities.order;
 
+import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 
-import javax.swing.text.MaskFormatter;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatCpf;
+import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatRealBrasileiro;
 import static java.util.Objects.isNull;
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 public class OrderDomain implements Order {
     private Long id;
@@ -17,6 +20,7 @@ public class OrderDomain implements Order {
     private BigDecimal total;
     private LocalDateTime creationDate;
     private LocalDateTime completionDate;
+    private List<Product> products;
 
     public static Order of(
             final Long id,
@@ -24,7 +28,8 @@ public class OrderDomain implements Order {
             final String status,
             final BigDecimal total,
             final LocalDateTime creationDate,
-            final LocalDateTime completionDate
+            final LocalDateTime completionDate,
+            final List<Product> products
     ) {
         return new OrderDomain(
                 id,
@@ -32,7 +37,8 @@ public class OrderDomain implements Order {
                 status,
                 total,
                 creationDate,
-                completionDate
+                completionDate,
+                products
         );
     }
 
@@ -54,7 +60,8 @@ public class OrderDomain implements Order {
             final String status,
             final BigDecimal total,
             final LocalDateTime creationDate,
-            final LocalDateTime completionDate
+            final LocalDateTime completionDate,
+            final List<Product> products
     ) {
         this.id = id;
         this.cpf = cpfValidation(cpf);
@@ -62,6 +69,7 @@ public class OrderDomain implements Order {
         this.total = totalValidation(total);
         this.creationDate = creationDate;
         this.completionDate = completionDate;
+        this.products = productsValidation(products);
     }
 
     @Override
@@ -76,14 +84,7 @@ public class OrderDomain implements Order {
 
     @Override
     public String getMaskedCpf() {
-        MaskFormatter mf;
-        try {
-            mf = new MaskFormatter("###.###.###-##");
-            mf.setValueContainsLiteralCharacters(false);
-            return mf.valueToString(cpf);
-        } catch (ParseException ex) {
-            return cpf;
-        }
+        return formatCpf(cpf);
     }
 
     @Override
@@ -106,6 +107,16 @@ public class OrderDomain implements Order {
         return completionDate;
     }
 
+    @Override
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    @Override
+    public String getFormattedTotal() {
+        return formatRealBrasileiro(total);
+    }
+
     private static String cpfValidation(final String cpf) {
         if (isNull(cpf)) throw CustomValidationException.of("Customer CPF", "cannot be null");
         if (cpf.length() < 11) throw CustomValidationException.of("Customer CPF", "must be 11 positions");
@@ -116,5 +127,10 @@ public class OrderDomain implements Order {
         if (isNull(total)) throw CustomValidationException.of("Order Total", "cannot be null");
         if (total.signum() < 1) throw CustomValidationException.of("Order Total", "cannot be negative or zero");
         return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private static List<Product> productsValidation(final List<Product> products) {
+        if (isEmpty(products)) throw CustomValidationException.of("Order Products", "not exists");
+        return products;
     }
 }

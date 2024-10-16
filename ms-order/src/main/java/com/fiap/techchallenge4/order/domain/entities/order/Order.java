@@ -1,7 +1,10 @@
-package com.fiap.techchallenge4.order.domain.entities;
+package com.fiap.techchallenge4.order.domain.entities.order;
+
+import com.fiap.techchallenge4.order.domain.entities.product.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface Order {
     Long getId();
@@ -17,4 +20,8 @@ public interface Order {
     LocalDateTime getCreationDate();
 
     LocalDateTime getCompletionDate();
+
+    List<Product> getProducts();
+
+    String getFormattedTotal();
 }

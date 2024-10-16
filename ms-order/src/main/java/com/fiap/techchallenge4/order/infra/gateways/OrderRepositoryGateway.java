@@ -1,7 +1,7 @@
 package com.fiap.techchallenge4.order.infra.gateways;
 
 import com.fiap.techchallenge4.order.application.gateways.OrderGateway;
-import com.fiap.techchallenge4.order.domain.entities.Order;
+import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.infra.persistence.mappers.OrderEntityMapper;
 import com.fiap.techchallenge4.order.infra.persistence.repositories.OrderRepository;
 import org.springframework.stereotype.Component;

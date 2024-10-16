@@ -1,6 +1,6 @@
 package com.fiap.techchallenge4.order.application.gateways;
 
-import com.fiap.techchallenge4.order.domain.entities.Order;
+import com.fiap.techchallenge4.order.domain.entities.order.Order;
 
 import java.util.List;
 import java.util.Optional;

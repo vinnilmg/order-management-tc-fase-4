@@ -13,7 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler({CustomValidationException.class, IllegalArgumentException.class})
+    @ExceptionHandler({CustomValidationException.class})
     public ResponseEntity<ApiErrorResponse> handleValidationError(Exception e, WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -28,18 +28,11 @@ public class CustomExceptionHandler {
                 .body(ApiErrorResponse.of(e.getClass().getSimpleName(), e.getMessage()));
     }
 
-    /*@ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<String> handleNoResourceFoundException(NoResourceFoundException e) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body("Recurso não localizado, verifique a URL");
-    }*/
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleInternalServerError(Exception e, WebRequest request) {
         log.error("Erro interno: {}", e.getMessage(), e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiErrorResponse.of(e.getClass().getSimpleName(), "Erro interno"));
+                .body(ApiErrorResponse.of(e.getClass().getSimpleName(), "Internal server error"));
     }
 }

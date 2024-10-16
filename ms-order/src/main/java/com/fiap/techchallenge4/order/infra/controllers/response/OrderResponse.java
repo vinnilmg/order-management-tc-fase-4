@@ -2,15 +2,16 @@ package com.fiap.techchallenge4.order.infra.controllers.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public record OrderResponse(
         Long id,
         String cpf,
         String status,
-        BigDecimal total,
+        String total,
         String creationDate,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        String completionDate
+        String completionDate,
+        List<ProductResponse> products
 ) {
 }
