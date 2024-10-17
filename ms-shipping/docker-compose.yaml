@@ -21,7 +21,7 @@ services:
   ms-shipping:
     build: .
     ports:
-      - "9090:9090"
+      - "8090:8090"
     depends_on:
       - mysql
     networks:
