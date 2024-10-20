@@ -2,6 +2,7 @@ package com.fiap.techchallenge4.order.domain.entities.order;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
+import com.fiap.techchallenge4.order.infra.persistence.entities.enums.OrderStatusEnum;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -11,12 +12,13 @@ import java.util.List;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatCpf;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatRealBrasileiro;
 import static java.util.Objects.isNull;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 public class OrderDomain implements Order {
     private Long id;
     private String cpf;
-    private String status;
+    private OrderStatusEnum status;
     private BigDecimal total;
     private LocalDateTime creationDate;
     private LocalDateTime completionDate;
@@ -42,16 +44,33 @@ public class OrderDomain implements Order {
         );
     }
 
-    public OrderDomain(
+    public static Order of(
             final String cpf,
             final String status,
-            final BigDecimal total,
-            final LocalDateTime creationDate
+            final LocalDateTime creationDate,
+            final List<Product> products
+    ) {
+        return new OrderDomain(
+                cpf,
+                status,
+                creationDate,
+                products
+        );
+    }
+
+    private OrderDomain(
+            final String cpf,
+            final String status,
+            final LocalDateTime creationDate,
+            final List<Product> products
     ) {
         this.cpf = cpfValidation(cpf);
-        this.status = status;
-        this.total = totalValidation(total);
-        this.creationDate = creationDate;
+        this.products = productsValidation(products);
+        this.status = statusValidation(status);
+        this.creationDate = creationDateValidation(creationDate);
+
+        final var calculatedTotal = calculateTotal(products);
+        this.total = totalValidation(calculatedTotal);
     }
 
     private OrderDomain(
@@ -63,13 +82,20 @@ public class OrderDomain implements Order {
             final LocalDateTime completionDate,
             final List<Product> products
     ) {
-        this.id = id;
+        this.id = requireNonNull(id, "Order Id cannot be null");
         this.cpf = cpfValidation(cpf);
-        this.status = status;
-        this.total = totalValidation(total);
-        this.creationDate = creationDate;
-        this.completionDate = completionDate;
         this.products = productsValidation(products);
+        this.status = statusValidation(status);
+        this.creationDate = creationDateValidation(creationDate);
+
+        if (isNull(total) || total.signum() < 1) throw CustomValidationException.of("Order Total", "is invalid");
+        this.total = total;
+
+        if (this.status.equals(OrderStatusEnum.FINALIZADO)) {
+            if (isNull(completionDate)) throw CustomValidationException.of("Order Completion Date", "cannot be null");
+            if (creationDate.isAfter(completionDate)) throw CustomValidationException.of("Order Completion Date", "is before to creation date");
+            this.completionDate = completionDate;
+        }
     }
 
     @Override
@@ -89,7 +115,7 @@ public class OrderDomain implements Order {
 
     @Override
     public String getStatus() {
-        return status;
+        return status.toString();
     }
 
     @Override
@@ -132,5 +158,23 @@ public class OrderDomain implements Order {
     private static List<Product> productsValidation(final List<Product> products) {
         if (isEmpty(products)) throw CustomValidationException.of("Order Products", "not exists");
         return products;
+    }
+
+    private static OrderStatusEnum statusValidation(final String status) {
+        if (isNull(status)) throw CustomValidationException.of("Order Status", "cannot be null");
+        final var orderStatusEnum = OrderStatusEnum.of(status);
+        return requireNonNull(orderStatusEnum, "Status is invalid");
+    }
+
+    private LocalDateTime creationDateValidation(final LocalDateTime creationDate) {
+        if (isNull(creationDate)) throw CustomValidationException.of("Order Created Date", "cannot be null");
+        return creationDate;
+    }
+
+    private static BigDecimal calculateTotal(final List<Product> products) {
+        return products.stream()
+                .map(Product::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

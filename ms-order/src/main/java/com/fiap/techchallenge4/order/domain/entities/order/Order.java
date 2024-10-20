@@ -2,11 +2,12 @@ package com.fiap.techchallenge4.order.domain.entities.order;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface Order {
+public interface Order extends Serializable {
     Long getId();
 
     String getCpf();
