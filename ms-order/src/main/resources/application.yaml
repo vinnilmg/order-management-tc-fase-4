@@ -1,18 +1,12 @@
 # TODO: H2 est� sendo utilizado como base (por enqto)
 
 spring:
+  application:
+    name: ms-order
   sql:
     init:
       mode: always
-  application:
-    name: ms-order
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: root
-    password: root
-  h2:
-    console:
-      enabled: true
+
   jpa:
     show: true
     defer-datasource-initialization: true
@@ -29,3 +23,5 @@ logging:
   level:
     root: INFO
 
+kafka:
+  topic-name: order-topic

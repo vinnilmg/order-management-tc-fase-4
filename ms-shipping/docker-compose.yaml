@@ -1,0 +1,34 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-shipping
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - ms-shipping-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
+      timeout: 3s
+      retries: 10
+  ms-shipping:
+    build: .
+    ports:
+      - "8090:8090"
+    depends_on:
+      - mysql
+    networks:
+        - ms-shipping-network
+networks:
+  ms-shipping-network:
+    driver: bridge
+volumes:
+    mysql-data:
+        driver: local
