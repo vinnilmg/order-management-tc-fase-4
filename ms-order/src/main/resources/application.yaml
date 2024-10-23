@@ -22,4 +22,6 @@ logging:
     root: INFO
 
 kafka:
-  topic-name: order-topic
+  topics:
+    created-order: created-order-topic
+    pending-payment: pending-payment-topic

@@ -8,3 +8,7 @@ spring:
       enabled: true
   kafka:
     bootstrap-servers: localhost:9092
+
+ms:
+  product:
+    host: http://localhost:8082

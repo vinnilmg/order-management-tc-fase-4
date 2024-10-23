@@ -6,9 +6,7 @@ import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGat
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.infra.persistence.mappers.OrderEntityMapper;
-import com.fiap.techchallenge4.order.infra.persistence.mappers.ProductEntityMapper;
 import com.fiap.techchallenge4.order.infra.persistence.repositories.OrderRepository;
-import com.fiap.techchallenge4.order.infra.persistence.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -23,20 +21,11 @@ public class OrderRepositoryGateway implements
         FindOrdersByCpfGateway,
         CreateOrderGateway {
     private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
     private final OrderEntityMapper orderEntityMapper;
-    private final ProductEntityMapper productEntityMapper;
 
-    public OrderRepositoryGateway(
-            OrderRepository orderRepository,
-            ProductRepository productRepository,
-            OrderEntityMapper orderEntityMapper,
-            ProductEntityMapper productEntityMapper
-    ) {
+    public OrderRepositoryGateway(OrderRepository orderRepository, OrderEntityMapper orderEntityMapper) {
         this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
         this.orderEntityMapper = orderEntityMapper;
-        this.productEntityMapper = productEntityMapper;
     }
 
     @Override

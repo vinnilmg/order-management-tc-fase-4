@@ -2,7 +2,7 @@ package com.fiap.techchallenge4.order.domain.entities.order;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
-import com.fiap.techchallenge4.order.infra.persistence.entities.enums.OrderStatusEnum;
+import com.fiap.techchallenge4.order.domain.enums.OrderStatusEnum;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -4,7 +4,7 @@ import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.entities.order.OrderDomain;
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.infra.controllers.request.OrderRequest;
-import com.fiap.techchallenge4.order.infra.persistence.entities.enums.OrderStatusEnum;
+import com.fiap.techchallenge4.order.domain.enums.OrderStatusEnum;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
