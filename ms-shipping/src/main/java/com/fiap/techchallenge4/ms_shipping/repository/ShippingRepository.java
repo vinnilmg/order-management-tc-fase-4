@@ -1,6 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.repository;
 
-import com.fiap.techchallenge4.ms_shipping.repository.entities.ShippingEntity;
+import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

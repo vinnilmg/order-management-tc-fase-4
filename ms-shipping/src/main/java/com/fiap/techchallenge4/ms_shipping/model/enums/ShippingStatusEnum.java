@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.ms_shipping.repository.entities.enums;
+package com.fiap.techchallenge4.ms_shipping.model.enums;
 
 public enum ShippingStatusEnum {
     WAITING_FOR_DELIVERY,

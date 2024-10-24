@@ -1,6 +1,6 @@
-package com.fiap.techchallenge4.ms_shipping.repository.entities;
+package com.fiap.techchallenge4.ms_shipping.model;
 
-import com.fiap.techchallenge4.ms_shipping.repository.entities.enums.RegionEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

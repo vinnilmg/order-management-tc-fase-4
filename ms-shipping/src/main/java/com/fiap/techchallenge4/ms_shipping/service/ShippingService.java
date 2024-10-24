@@ -3,7 +3,7 @@ package com.fiap.techchallenge4.ms_shipping.service;
 import com.fiap.techchallenge4.ms_shipping.config.exception.NotFoundExpection;
 import com.fiap.techchallenge4.ms_shipping.dto.ShippingDto;
 import com.fiap.techchallenge4.ms_shipping.repository.ShippingRepository;
-import com.fiap.techchallenge4.ms_shipping.repository.entities.ShippingEntity;
+import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

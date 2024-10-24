@@ -1,6 +1,6 @@
-package com.fiap.techchallenge4.ms_shipping.repository.entities;
+package com.fiap.techchallenge4.ms_shipping.model;
 
-import com.fiap.techchallenge4.ms_shipping.repository.entities.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
