@@ -21,10 +21,10 @@ public class ShippingEntity {
     private RegionEnum region;
 
     @NotNull
-    private String CEP_Start;
+    private String cepStart;
 
     @NotNull
-    private String CEP_End;
+    private String cepEnd;
 
     @NotNull
     private String daysToDelivery;
