@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/products/3000"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": 1,
+      "sku": 3000,
+      "name": "Camiseta",
+      "price": 50.0,
+      "stock": 5
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/customers/29460595022"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": 2,
+      "cpf": "29460595022",
+      "name": "Cristiano Ronaldo",
+      "birthDate": "1999-10-03",
+      "address": {
+        "id": "1",
+        "street": "Rua Not Found",
+        "number": 7,
+        "complement": "",
+        "neighborhood": "Vila dos javeiros",
+        "city": "Miraval",
+        "state": "SP",
+        "postalCode": "02998050"
+      }
+    }
+  }
+}
