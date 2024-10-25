@@ -19,6 +19,6 @@ public class FindOrderByIdUseCaseImpl implements FindOrderByIdUseCase {
     public Order find(final Long id) {
         if (isNull(id) || id < 0) throw CustomValidationException.of("Order Id", "cannot be null or negative");
         return findOrderByIdGateway.find(id)
-                .orElseThrow(() -> NotFoundException.of("Order"));
+                .orElseThrow(NotFoundException::ofOrder);
     }
 }

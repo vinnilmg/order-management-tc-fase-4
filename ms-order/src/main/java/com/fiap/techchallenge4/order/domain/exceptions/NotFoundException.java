@@ -24,4 +24,16 @@ public class NotFoundException extends RuntimeException {
     public static NotFoundException of(final String resource) {
         return new NotFoundException(resource);
     }
+
+    public static NotFoundException ofProduct() {
+        return of("Product");
+    }
+
+    public static NotFoundException ofCustomer() {
+        return of("Customer");
+    }
+
+    public static NotFoundException ofOrder() {
+        return of("Order");
+    }
 }

@@ -12,3 +12,5 @@ spring:
 ms:
   product:
     host: http://localhost:8082
+  customer:
+      host: http://localhost:8082
