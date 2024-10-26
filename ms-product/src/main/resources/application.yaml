@@ -35,3 +35,6 @@ logging:
   level:
     root: INFO
 
+
+directory:
+  watch: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/pending

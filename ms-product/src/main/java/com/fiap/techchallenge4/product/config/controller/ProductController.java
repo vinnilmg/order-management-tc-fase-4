@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.product.config.controller;
 
+import com.fiap.techchallenge4.product.service.ProcessBatchService;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,23 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ProductController {
 
-    private final JobLauncher jobLauncher;
-    private final Job productJob;
+    private final ProcessBatchService processBatchService;
 
     @PostMapping("/process")
     public ResponseEntity<String> processBatch() {
-        try {
-            JobParameters jobParameters = new JobParametersBuilder()
-                    .addLong("startAt", System.currentTimeMillis())
-                    .toJobParameters();
-
-            jobLauncher.run(productJob, jobParameters);
-            return ResponseEntity.ok("Batch process started successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to start batch process: " + e.getMessage());
-        }
-
+        processBatchService.execute();
+        return ResponseEntity.ok("Batch process started successfully.");
     }
-
 }
