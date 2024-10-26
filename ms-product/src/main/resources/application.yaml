@@ -9,6 +9,10 @@ spring:
     jdbc-url: jdbc:h2:mem:testdb
     username: root
     password: root
+  batch:
+    job:
+      enabled: false
+
 
   h2:
     console:
@@ -30,3 +34,4 @@ server:
 logging:
   level:
     root: INFO
+

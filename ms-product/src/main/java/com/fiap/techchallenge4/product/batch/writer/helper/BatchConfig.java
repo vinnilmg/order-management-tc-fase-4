@@ -32,7 +32,9 @@ public class BatchConfig {
 
     @Bean
     public Job job(JobRepository jobRepository, Step step) {
-        return new JobBuilder("job", jobRepository).start(step).build();
+        return new JobBuilder("job", jobRepository)
+                .start(step)
+                .build();
     }
 
     @Bean
