@@ -6,6 +6,7 @@ import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGat
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.FindProductGateway;
+import com.fiap.techchallenge4.order.application.gateways.shipping.SimulateShippingGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.CreateOrderUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.FindAllOrdersUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.FindOrderByIdUseCase;
@@ -43,14 +44,16 @@ public class BeansConfig {
             final FindProductGateway findProductGateway,
             final OrderKafkaRepositoryGateway orderKafkaRepositoryGateway,
             final DecreaseStockGateway decreaseStockGateway,
-            final FindCustomerByCpfGateway findCustomerByCpfGateway
-            ) {
+            final FindCustomerByCpfGateway findCustomerByCpfGateway,
+            final SimulateShippingGateway simulateShippingGateway
+    ) {
         return new CreateOrderUseCaseImpl(
                 orderRepositoryGateway,
                 findProductGateway,
                 orderKafkaRepositoryGateway,
                 decreaseStockGateway,
-                findCustomerByCpfGateway
+                findCustomerByCpfGateway,
+                simulateShippingGateway
         );
     }
 }

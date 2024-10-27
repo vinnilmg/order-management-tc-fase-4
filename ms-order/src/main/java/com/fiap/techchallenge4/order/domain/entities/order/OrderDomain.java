@@ -1,8 +1,9 @@
 package com.fiap.techchallenge4.order.domain.entities.order;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
-import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
+import com.fiap.techchallenge4.order.domain.entities.shipping.Shipping;
 import com.fiap.techchallenge4.order.domain.enums.OrderStatusEnum;
+import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,6 +13,7 @@ import java.util.List;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatCpf;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatRealBrasileiro;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
@@ -19,10 +21,11 @@ public class OrderDomain implements Order {
     private Long id;
     private String cpf;
     private OrderStatusEnum status;
-    private BigDecimal total;
     private LocalDateTime creationDate;
     private LocalDateTime completionDate;
     private List<Product> products;
+    private Shipping shipping;
+    private BigDecimal total;
 
     public static Order of(
             final Long id,
@@ -31,7 +34,8 @@ public class OrderDomain implements Order {
             final BigDecimal total,
             final LocalDateTime creationDate,
             final LocalDateTime completionDate,
-            final List<Product> products
+            final List<Product> products,
+            final Shipping shipping
     ) {
         return new OrderDomain(
                 id,
@@ -40,7 +44,8 @@ public class OrderDomain implements Order {
                 total,
                 creationDate,
                 completionDate,
-                products
+                products,
+                shipping
         );
     }
 
@@ -80,7 +85,8 @@ public class OrderDomain implements Order {
             final BigDecimal total,
             final LocalDateTime creationDate,
             final LocalDateTime completionDate,
-            final List<Product> products
+            final List<Product> products,
+            final Shipping shipping
     ) {
         this.id = requireNonNull(id, "Order Id cannot be null");
         this.cpf = cpfValidation(cpf);
@@ -90,6 +96,8 @@ public class OrderDomain implements Order {
 
         if (isNull(total) || total.signum() < 1) throw CustomValidationException.of("Order Total", "is invalid");
         this.total = total;
+
+        this.shipping = requireNonNull(shipping);
 
         if (this.status.equals(OrderStatusEnum.FINALIZADO)) {
             if (isNull(completionDate)) throw CustomValidationException.of("Order Completion Date", "cannot be null");
@@ -139,8 +147,30 @@ public class OrderDomain implements Order {
     }
 
     @Override
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    @Override
     public String getFormattedTotal() {
         return formatRealBrasileiro(total);
+    }
+
+    @Override
+    public String getFormattedTotalWithShipping() {
+        return formatRealBrasileiro(getTotalWithShipping());
+    }
+
+    @Override
+    public BigDecimal getTotalWithShipping() {
+        return nonNull(shipping)
+                ? total.add(shipping.getPrice()).setScale(2, RoundingMode.HALF_UP)
+                : total;
+    }
+
+    @Override
+    public void updateShippingInfo(final Shipping shipping) {
+        this.shipping = shipping;
     }
 
     private static String cpfValidation(final String cpf) {

@@ -13,4 +13,6 @@ ms:
   product:
     host: http://localhost:8082
   customer:
-      host: http://localhost:8082
+    host: http://localhost:8082
+  shipping:
+    host: http://localhost:8082

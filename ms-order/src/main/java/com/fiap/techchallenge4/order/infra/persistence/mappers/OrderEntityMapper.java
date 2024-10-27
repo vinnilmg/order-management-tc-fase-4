@@ -14,7 +14,7 @@ import static org.mapstruct.factory.Mappers.getMapper;
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = {ProductEntityMapper.class}
+        uses = {ProductEntityMapper.class, ShippingEntityMapper.class}
 )
 public interface OrderEntityMapper {
 
@@ -26,7 +26,8 @@ public interface OrderEntityMapper {
                 order.getTotal(),
                 order.getOrderCreationDate(),
                 order.getOrderCompletionDate(),
-                getMapper(ProductEntityMapper.class).toDomains(order.getProducts())
+                getMapper(ProductEntityMapper.class).toDomains(order.getProducts()),
+                getMapper(ShippingEntityMapper.class).toDomain(order.getShipping())
         );
     }
 
@@ -37,5 +38,6 @@ public interface OrderEntityMapper {
     @Mapping(target = "total", source = "total")
     @Mapping(target = "orderCreationDate", source = "creationDate")
     @Mapping(target = "products", source = "products")
+    @Mapping(target = "shipping", source = "shipping")
     OrderEntity toEntity(Order order);
 }

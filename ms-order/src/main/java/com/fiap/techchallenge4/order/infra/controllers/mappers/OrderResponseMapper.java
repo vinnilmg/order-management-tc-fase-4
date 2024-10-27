@@ -11,17 +11,19 @@ import java.util.List;
 @Mapper(
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = ProductResponseMapper.class
+        uses = {ProductResponseMapper.class, ShippingResponseMapper.class}
 )
 public interface OrderResponseMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "cpf", source = "maskedCpf")
     @Mapping(target = "status", source = "status")
-    @Mapping(target = "total", source = "formattedTotal")
     @Mapping(target = "creationDate", source = "creationDate")
     @Mapping(target = "completionDate", source = "completionDate")
     @Mapping(target = "products", source = "products")
+    @Mapping(target = "shipping", source = "shipping")
+    @Mapping(target = "subtotal", source = "formattedTotal")
+    @Mapping(target = "total", source = "formattedTotalWithShipping")
     OrderResponse toResponse(Order order);
 
     List<OrderResponse> toResponses(List<Order> orders);

@@ -20,6 +20,7 @@ server:
 logging:
   level:
     root: INFO
+    org.apache.kafka: ERROR
 
 kafka:
   topics:

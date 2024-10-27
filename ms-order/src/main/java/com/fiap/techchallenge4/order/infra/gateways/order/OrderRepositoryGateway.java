@@ -54,8 +54,8 @@ public class OrderRepositoryGateway implements
         log.info("Criando pedido na base...");
         final var entity = orderEntityMapper.toEntity(order);
 
-        entity.getProducts()
-                .forEach(product -> product.setOrder(entity));
+        entity.getProducts().forEach(product -> product.setOrder(entity));
+        entity.getShipping().setOrder(entity);
 
         final var createdOrder = orderRepository.save(entity);
         return orderEntityMapper.toDomain(createdOrder);

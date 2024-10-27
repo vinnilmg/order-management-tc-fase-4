@@ -4,6 +4,7 @@ import com.fiap.techchallenge4.order.application.gateways.customer.FindCustomerB
 import com.fiap.techchallenge4.order.application.gateways.order.CreateOrderGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.FindProductGateway;
+import com.fiap.techchallenge4.order.application.gateways.shipping.SimulateShippingGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.CreateOrderUseCase;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
@@ -17,19 +18,22 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
     private final CreateOrderGateway createOrderKafkaGateway;
     private final DecreaseStockGateway decreaseStockGateway;
     private final FindCustomerByCpfGateway findCustomerByCpfGateway;
+    private final SimulateShippingGateway simulateShippingGateway;
 
     public CreateOrderUseCaseImpl(
             OrderRepositoryGateway createOrderDatabaseGateway,
             FindProductGateway findProductGateway,
             OrderKafkaRepositoryGateway createOrderKafkaGateway,
             DecreaseStockGateway decreaseStockGateway,
-            FindCustomerByCpfGateway findCustomerByCpfGateway
+            FindCustomerByCpfGateway findCustomerByCpfGateway,
+            SimulateShippingGateway simulateShippingGateway
     ) {
         this.createOrderDatabaseGateway = createOrderDatabaseGateway;
         this.findProductGateway = findProductGateway;
         this.createOrderKafkaGateway = createOrderKafkaGateway;
         this.decreaseStockGateway = decreaseStockGateway;
         this.findCustomerByCpfGateway = findCustomerByCpfGateway;
+        this.simulateShippingGateway = simulateShippingGateway;
     }
 
     @Override
@@ -56,7 +60,9 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
                     decreaseStockGateway.execute(product.getSku(), product.getQuantity());
                 });
 
-        // Deve calcular o frete?
+        // Busca o valor de frete para o CEP do cliente
+        final var shipping = simulateShippingGateway.simulate(customer.getAddress().getPostalCode());
+        order.updateShippingInfo(shipping);
 
         // Cria o pedido na base
         final var createdOrder = createOrderDatabaseGateway.create(order);
