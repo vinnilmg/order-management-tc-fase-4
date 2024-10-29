@@ -2,16 +2,24 @@ spring:
   sql:
     init:
       mode: always
+
   application:
     name: ms-product
+
   datasource:
     driver-class-name: org.h2.Driver
     jdbc-url: jdbc:h2:mem:testdb
     username: root
     password: root
+
   batch:
     job:
       enabled: false
+    initialize-schema: always
+
+  transaction:
+    management:
+      enabled: true
 
 
   h2:
@@ -27,6 +35,7 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+      show_sql: true
 
 server:
   port: 8092
@@ -34,7 +43,12 @@ server:
 logging:
   level:
     root: INFO
-
+    hibernate: TRACE
+    org.springframework.transaction: DEBUG
 
 directory:
   watch: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/pending
+  move: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/loaded
+  waiting: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/waiting
+
+

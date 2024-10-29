@@ -1,6 +1,7 @@
 package com.fiap.techchallenge4.product.config.controller;
 
-import com.fiap.techchallenge4.product.batch.writer.helper.FileWatcherToProcess;
+import com.fiap.techchallenge4.product.repository.model.CsvLoader;
+import com.fiap.techchallenge4.product.service.CsvLoaderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,11 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 public class FilesResourcesController {
 
-    @GetMapping(value = "/files-to-load", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<String>> findFilesToLoad() {
+    private final CsvLoaderService csvLoaderService;
 
-        var files = FileWatcherToProcess.getFileNames();
+    @GetMapping(value = "/pending", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CsvLoader>> findFilesToLoad() {
 
-        return new ResponseEntity<>(files, HttpStatus.OK);
+        return new ResponseEntity<>(csvLoaderService.findAllByStatusPending(), HttpStatus.OK);
     }
 }

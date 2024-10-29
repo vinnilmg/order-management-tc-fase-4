@@ -1,37 +1,40 @@
-package com.fiap.techchallenge4.product.batch.writer.helper;
+package com.fiap.techchallenge4.product.config;
 
 import com.fiap.techchallenge4.product.repository.model.Product;
+import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobScope;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
+import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
 @Configuration
+@AllArgsConstructor
 public class BatchConfig {
 
-    @Autowired
     @Qualifier("transactionManager")
-    private PlatformTransactionManager transactionManager;
+    @Autowired
+    private final PlatformTransactionManager transactionManager;
 
     @Bean
     public Job job(JobRepository jobRepository, Step step) {
@@ -51,17 +54,35 @@ public class BatchConfig {
 
 
     @Bean
-    @JobScope
-    public ItemReader<Product> reader(@Value("#{jobParameters[fileNames]}") String fileNames) {
-        return new FlatFileItemReaderBuilder<Product>().name("reader")
-                .resource(new FileSystemResource(FileWatcherToProcess.directoryPathWithFileName(fileNames)))
-                .comments("--")
-                .delimited()
-                .delimiter(";")
-                .names("name", "description", "price", "estoque")
-                .targetType(Product.class)
-                .linesToSkip(1)
-                .build();
+    @StepScope
+    public FlatFileItemReader<Product> productItemReader(@Value("#{jobParameters['pathWithFileName']}") String filePath) {
+        FlatFileItemReader<Product> reader = new FlatFileItemReader<>();
+        reader.setResource(new FileSystemResource(filePath));
+        reader.setLinesToSkip(1);
+
+        DefaultLineMapper<Product> lineMapper = new DefaultLineMapper<>();
+        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+        tokenizer.setDelimiter(";");
+        tokenizer.setStrict(false);
+        tokenizer.setNames("name", "description", "price", "estoque");
+
+        BeanWrapperFieldSetMapper<Product> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(Product.class);
+
+        lineMapper.setLineTokenizer(tokenizer);
+        lineMapper.setFieldSetMapper(fieldSetMapper);
+        reader.setLineMapper(lineMapper);
+
+
+/*
+        reader.setLineMapper(new DefaultLineMapper<Product>() {{
+            setLineTokenizer(new DelimitedLineTokenizer() {{
+                setNames("name", "description", "price", "estoque");
+            }});
+            setFieldSetMapper(new ProductFieldSetMapper());
+        }});
+        */
+        return reader;
     }
 
     @Bean
