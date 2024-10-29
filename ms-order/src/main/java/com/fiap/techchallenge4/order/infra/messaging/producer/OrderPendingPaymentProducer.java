@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.order.infra.messaging;
+package com.fiap.techchallenge4.order.infra.messaging.producer;
 
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 @RequiredArgsConstructor
 @Component
-public class CreatedOrderProducer {
-    @Value("${kafka.topics.created-order}")
+public class OrderPendingPaymentProducer {
+    @Value("${kafka.topics.pending-payment}")
     private String topicName;
     private final KafkaTemplate<String, Serializable> kafkaTemplate;
 
