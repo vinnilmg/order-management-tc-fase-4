@@ -124,7 +124,12 @@ public class OrderDomain implements Order {
 
     @Override
     public String getStatus() {
-        return status.toString();
+        return status.name();
+    }
+
+    @Override
+    public OrderStatusEnum getStatusEnum() {
+        return status;
     }
 
     @Override
@@ -192,6 +197,17 @@ public class OrderDomain implements Order {
     @Override
     public void updateToCanceled() {
         status = OrderStatusEnum.CANCELADO;
+    }
+
+    @Override
+    public void updateToDeliveryRoute() {
+        status = OrderStatusEnum.EM_ROTA_DE_ENTREGA;
+    }
+
+    @Override
+    public void finish() {
+        completionDate = LocalDateTime.now();
+        status = OrderStatusEnum.FINALIZADO;
     }
 
     private static String cpfValidation(final String cpf) {

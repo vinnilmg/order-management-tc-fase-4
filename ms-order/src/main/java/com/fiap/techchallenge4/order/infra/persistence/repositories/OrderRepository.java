@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
@@ -16,4 +17,13 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Modifying
     @Query("update OrderEntity set status = :status where id = :id")
     void updateStatus(@Param(value = "id") Long id, @Param(value = "status") String status);
+
+    @Transactional
+    @Modifying
+    @Query("update OrderEntity set status = :status, orderCompletionDate = :completionDate where id = :id")
+    void updateStatusAndCompletionDate(
+            @Param(value = "id") Long id,
+            @Param(value = "status") String status,
+            @Param(value = "completionDate") LocalDateTime completionDate
+    );
 }

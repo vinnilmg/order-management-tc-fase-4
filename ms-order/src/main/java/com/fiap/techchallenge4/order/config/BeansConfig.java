@@ -5,6 +5,7 @@ import com.fiap.techchallenge4.order.application.gateways.customer.FindPaymentIn
 import com.fiap.techchallenge4.order.application.gateways.order.FindAllOrdersGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
+import com.fiap.techchallenge4.order.application.gateways.order.FinishOrderGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatusGateway;
 import com.fiap.techchallenge4.order.application.gateways.payment.ProcessPaymentGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
@@ -15,15 +16,19 @@ import com.fiap.techchallenge4.order.application.usecases.order.CreateOrderUseCa
 import com.fiap.techchallenge4.order.application.usecases.order.FindAllOrdersUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.FindOrderByIdUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.FindOrdersByCpfUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.FinishOrderUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderPaymentUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderShippingUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.UpdateOrderShippingInfoUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.ValidateOrderUseCase;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.CreateOrderUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.FindAllOrdersUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.FindOrderByIdUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.FindOrdersByCpfUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.FinishOrderUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.ProcessOrderPaymentUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.ProcessOrderShippingUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.UpdateOrderShippingInfoUseCaseImpl;
 import com.fiap.techchallenge4.order.application.usecases.order.impl.ValidateOrderUseCaseImpl;
 import com.fiap.techchallenge4.order.infra.gateways.order.CreateOrderKafkaRepositoryGateway;
 import com.fiap.techchallenge4.order.infra.gateways.order.CreateOrderPendingPaymentKafkaRepositoryGateway;
@@ -83,7 +88,7 @@ public class BeansConfig {
             final UpdateOrderStatusGateway updateOrderStatusGateway,
             final CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaRepositoryGateway,
             final ProcessPaymentGateway processPaymentGateway
-            ) {
+    ) {
         return new ProcessOrderPaymentUseCaseImpl(
                 findPaymentInfoByCpfGateway,
                 updateOrderStatusGateway,
@@ -102,6 +107,28 @@ public class BeansConfig {
                 findCustomerByCpfGateway,
                 createShippingGateway,
                 updateOrderStatusGateway
+        );
+    }
+
+    @Bean
+    public UpdateOrderShippingInfoUseCase updateOrderShippingInfoUseCase(
+            final FindOrderByIdUseCase findOrderByIdUseCase,
+            final UpdateOrderStatusGateway updateOrderStatusGateway
+    ) {
+        return new UpdateOrderShippingInfoUseCaseImpl(
+                findOrderByIdUseCase,
+                updateOrderStatusGateway
+        );
+    }
+
+    @Bean
+    public FinishOrderUseCase finishOrderUseCase(
+            final FindOrderByIdUseCase findOrderByIdUseCase,
+            final FinishOrderGateway finishOrderGateway
+    ) {
+        return new FinishOrderUseCaseImpl(
+                findOrderByIdUseCase,
+                finishOrderGateway
         );
     }
 }
