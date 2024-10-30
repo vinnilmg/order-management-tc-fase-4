@@ -16,3 +16,5 @@ ms:
     host: http://localhost:8082
   shipping:
     host: http://localhost:8082
+  payment:
+    host: http://localhost:9090

@@ -36,4 +36,10 @@ public interface Order extends Serializable {
     void updateShippingInfo(Shipping shipping);
 
     void updateToPendingPayment();
+
+    void updateToProcessed();
+
+    void updateToWaitShipping();
+
+    void updateToCanceled();
 }

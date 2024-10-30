@@ -12,7 +12,9 @@ import java.util.List;
 
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatCpf;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatRealBrasileiro;
-import static java.util.Objects.*;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 public class OrderDomain implements Order {
@@ -175,6 +177,21 @@ public class OrderDomain implements Order {
     @Override
     public void updateToPendingPayment() {
         status = OrderStatusEnum.PENDENTE_PAGAMENTO;
+    }
+
+    @Override
+    public void updateToProcessed() {
+        status = OrderStatusEnum.PROCESSADO;
+    }
+
+    @Override
+    public void updateToWaitShipping() {
+        status = OrderStatusEnum.AGUARDANDO_ENVIO;
+    }
+
+    @Override
+    public void updateToCanceled() {
+        status = OrderStatusEnum.CANCELADO;
     }
 
     private static String cpfValidation(final String cpf) {

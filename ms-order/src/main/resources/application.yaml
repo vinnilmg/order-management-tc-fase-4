@@ -26,3 +26,4 @@ kafka:
   topics:
     created-order: created-order-topic
     pending-payment: pending-payment-topic
+    processed-order: processed-order-topic

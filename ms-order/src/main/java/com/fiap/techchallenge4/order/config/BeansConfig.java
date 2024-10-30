@@ -6,13 +6,28 @@ import com.fiap.techchallenge4.order.application.gateways.order.FindAllOrdersGat
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatusGateway;
+import com.fiap.techchallenge4.order.application.gateways.payment.ProcessPaymentGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.FindProductGateway;
+import com.fiap.techchallenge4.order.application.gateways.shipping.CreateShippingGateway;
 import com.fiap.techchallenge4.order.application.gateways.shipping.SimulateShippingGateway;
-import com.fiap.techchallenge4.order.application.usecases.order.*;
-import com.fiap.techchallenge4.order.application.usecases.order.impl.*;
+import com.fiap.techchallenge4.order.application.usecases.order.CreateOrderUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.FindAllOrdersUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.FindOrderByIdUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.FindOrdersByCpfUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderPaymentUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderShippingUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.ValidateOrderUseCase;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.CreateOrderUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.FindAllOrdersUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.FindOrderByIdUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.FindOrdersByCpfUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.ProcessOrderPaymentUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.ProcessOrderShippingUseCaseImpl;
+import com.fiap.techchallenge4.order.application.usecases.order.impl.ValidateOrderUseCaseImpl;
 import com.fiap.techchallenge4.order.infra.gateways.order.CreateOrderKafkaRepositoryGateway;
 import com.fiap.techchallenge4.order.infra.gateways.order.CreateOrderPendingPaymentKafkaRepositoryGateway;
+import com.fiap.techchallenge4.order.infra.gateways.order.CreateProcessedOrderKafkaRepositoryGateway;
 import com.fiap.techchallenge4.order.infra.gateways.order.OrderRepositoryGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,7 +78,30 @@ public class BeansConfig {
     }
 
     @Bean
-    public ProcessOrderPaymentUseCase processOrderPaymentUseCase(FindPaymentInfoByCpfGateway findPaymentInfoByCpfGateway) {
-        return new ProcessOrderPaymentUseCaseImpl(findPaymentInfoByCpfGateway);
+    public ProcessOrderPaymentUseCase processOrderPaymentUseCase(
+            final FindPaymentInfoByCpfGateway findPaymentInfoByCpfGateway,
+            final UpdateOrderStatusGateway updateOrderStatusGateway,
+            final CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaRepositoryGateway,
+            final ProcessPaymentGateway processPaymentGateway
+            ) {
+        return new ProcessOrderPaymentUseCaseImpl(
+                findPaymentInfoByCpfGateway,
+                updateOrderStatusGateway,
+                createProcessedOrderKafkaRepositoryGateway,
+                processPaymentGateway
+        );
+    }
+
+    @Bean
+    public ProcessOrderShippingUseCase processOrderShippingUseCase(
+            final FindCustomerByCpfGateway findCustomerByCpfGateway,
+            final CreateShippingGateway createShippingGateway,
+            final UpdateOrderStatusGateway updateOrderStatusGateway
+    ) {
+        return new ProcessOrderShippingUseCaseImpl(
+                findCustomerByCpfGateway,
+                createShippingGateway,
+                updateOrderStatusGateway
+        );
     }
 }

@@ -6,8 +6,10 @@ public enum OrderStatusEnum {
     CRIADO,
     PENDENTE_PAGAMENTO,
     PROCESSADO,
-    EM_ROTA_ENTREGA,
-    FINALIZADO;
+    AGUARDANDO_ENVIO,
+    EM_ROTA_DE_ENTREGA,
+    FINALIZADO,
+    CANCELADO;
 
     public static OrderStatusEnum of(final String status) {
         return Arrays.stream(values())

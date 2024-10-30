@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.order.infra.client;
 
+import com.fiap.techchallenge4.order.infra.client.request.CreateShippingRequest;
 import com.fiap.techchallenge4.order.infra.client.request.SimulateShippingRequest;
 import com.fiap.techchallenge4.order.infra.client.response.ProviderShippingResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -11,4 +12,7 @@ public interface ShippingClient {
 
     @PostMapping(value = "/simulate", produces = "application/json")
     ProviderShippingResponse simulateShipping(@RequestBody SimulateShippingRequest request);
+
+    @PostMapping(produces = "application/json")
+    void createShipping(@RequestBody CreateShippingRequest request);
 }

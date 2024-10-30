@@ -7,5 +7,4 @@ import java.util.Optional;
 @FunctionalInterface
 public interface FindPaymentInfoByCpfGateway {
     Optional<Payment> find(String cpf);
-
 }
