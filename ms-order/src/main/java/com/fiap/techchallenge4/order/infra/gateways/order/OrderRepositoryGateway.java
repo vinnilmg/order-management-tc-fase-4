@@ -1,9 +1,6 @@
 package com.fiap.techchallenge4.order.infra.gateways.order;
 
-import com.fiap.techchallenge4.order.application.gateways.order.CreateOrderGateway;
-import com.fiap.techchallenge4.order.application.gateways.order.FindAllOrdersGateway;
-import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGateway;
-import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
+import com.fiap.techchallenge4.order.application.gateways.order.*;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.infra.persistence.mappers.OrderEntityMapper;
 import com.fiap.techchallenge4.order.infra.persistence.repositories.OrderRepository;
@@ -19,7 +16,8 @@ public class OrderRepositoryGateway implements
         FindAllOrdersGateway,
         FindOrderByIdGateway,
         FindOrdersByCpfGateway,
-        CreateOrderGateway {
+        CreateOrderGateway,
+        UpdateOrderStatusGateway {
     private final OrderRepository orderRepository;
     private final OrderEntityMapper orderEntityMapper;
 
@@ -59,5 +57,12 @@ public class OrderRepositoryGateway implements
 
         final var createdOrder = orderRepository.save(entity);
         return orderEntityMapper.toDomain(createdOrder);
+    }
+
+    @Override
+    public Order update(final Order order) {
+        log.info("Atualizando status do pedido na base...");
+        orderRepository.updateStatus(order.getId(), order.getStatus());
+        return order;
     }
 }

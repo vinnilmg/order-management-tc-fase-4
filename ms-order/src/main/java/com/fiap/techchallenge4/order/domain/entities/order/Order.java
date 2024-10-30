@@ -34,4 +34,6 @@ public interface Order extends Serializable {
     BigDecimal getTotalWithShipping();
 
     void updateShippingInfo(Shipping shipping);
+
+    void updateToPendingPayment();
 }

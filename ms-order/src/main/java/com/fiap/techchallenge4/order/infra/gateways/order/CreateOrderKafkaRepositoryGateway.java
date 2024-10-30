@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class OrderKafkaRepositoryGateway implements CreateOrderGateway {
+public class CreateOrderKafkaRepositoryGateway implements CreateOrderGateway {
     private final CreatedOrderProducer createdOrderProducer;
 
-    public OrderKafkaRepositoryGateway(CreatedOrderProducer createdOrderProducer) {
+    public CreateOrderKafkaRepositoryGateway(CreatedOrderProducer createdOrderProducer) {
         this.createdOrderProducer = createdOrderProducer;
     }
 

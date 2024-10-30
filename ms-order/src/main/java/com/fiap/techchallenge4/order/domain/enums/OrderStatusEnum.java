@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public enum OrderStatusEnum {
     CRIADO,
-    PROCESSADO,
     PENDENTE_PAGAMENTO,
+    PROCESSADO,
     EM_ROTA_ENTREGA,
     FINALIZADO;
 

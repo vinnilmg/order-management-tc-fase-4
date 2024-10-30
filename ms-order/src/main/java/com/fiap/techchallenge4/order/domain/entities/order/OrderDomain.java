@@ -12,9 +12,7 @@ import java.util.List;
 
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatCpf;
 import static com.fiap.techchallenge4.order.utils.FormatterUtils.formatRealBrasileiro;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-import static java.util.Objects.requireNonNull;
+import static java.util.Objects.*;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 
 public class OrderDomain implements Order {
@@ -101,7 +99,8 @@ public class OrderDomain implements Order {
 
         if (this.status.equals(OrderStatusEnum.FINALIZADO)) {
             if (isNull(completionDate)) throw CustomValidationException.of("Order Completion Date", "cannot be null");
-            if (creationDate.isAfter(completionDate)) throw CustomValidationException.of("Order Completion Date", "is before to creation date");
+            if (creationDate.isAfter(completionDate))
+                throw CustomValidationException.of("Order Completion Date", "is before to creation date");
             this.completionDate = completionDate;
         }
     }
@@ -171,6 +170,11 @@ public class OrderDomain implements Order {
     @Override
     public void updateShippingInfo(final Shipping shipping) {
         this.shipping = shipping;
+    }
+
+    @Override
+    public void updateToPendingPayment() {
+        status = OrderStatusEnum.PENDENTE_PAGAMENTO;
     }
 
     private static String cpfValidation(final String cpf) {

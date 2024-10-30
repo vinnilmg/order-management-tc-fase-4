@@ -36,4 +36,8 @@ public class NotFoundException extends RuntimeException {
     public static NotFoundException ofOrder() {
         return of("Order");
     }
+
+    public static NotFoundException ofPayment() {
+        return of("Payment");
+    }
 }
