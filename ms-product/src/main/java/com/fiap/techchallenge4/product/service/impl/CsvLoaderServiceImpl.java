@@ -1,10 +1,10 @@
 package com.fiap.techchallenge4.product.service.impl;
 
-import com.fiap.techchallenge4.product.config.controller.mapper.CsvLoaderMapper;
+import com.fiap.techchallenge4.product.controller.mapper.CsvLoaderMapper;
 import com.fiap.techchallenge4.product.repository.CsvLoaderRepository;
-import com.fiap.techchallenge4.product.repository.entity.CsvLoaderData;
-import com.fiap.techchallenge4.product.repository.enums.StatusCsv;
-import com.fiap.techchallenge4.product.repository.model.CsvLoader;
+import com.fiap.techchallenge4.product.entity.CsvLoaderData;
+import com.fiap.techchallenge4.product.enums.StatusCsv;
+import com.fiap.techchallenge4.product.model.CsvLoader;
 import com.fiap.techchallenge4.product.service.CsvLoaderService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

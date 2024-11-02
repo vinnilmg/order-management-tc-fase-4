@@ -1,6 +1,6 @@
 package com.fiap.techchallenge4.product.config;
 
-import com.fiap.techchallenge4.product.repository.model.Product;
+import com.fiap.techchallenge4.product.model.Product;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
@@ -14,7 +14,7 @@ public class ProductFieldSetMapper implements FieldSetMapper<Product> {
         product.setName(fieldSet.readString("name"));
         product.setDescription(fieldSet.readString("description"));
         product.setPrice(new BigDecimal(fieldSet.readString("price")));
-        product.setEstoque(fieldSet.readInt("estoque"));
+        product.setStock(fieldSet.readInt("stock"));
         return product;
     }
 }

@@ -1,7 +1,6 @@
 package com.fiap.techchallenge4.product.service.impl;
 
-import com.fiap.techchallenge4.product.config.FileWatcherToProcessComponent;
-import com.fiap.techchallenge4.product.repository.model.CsvLoader;
+import com.fiap.techchallenge4.product.model.CsvLoader;
 import com.fiap.techchallenge4.product.service.CsvLoaderService;
 import com.fiap.techchallenge4.product.service.ProcessBatchService;
 import lombok.AllArgsConstructor;

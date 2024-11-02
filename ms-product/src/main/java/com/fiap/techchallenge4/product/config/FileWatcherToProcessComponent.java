@@ -1,7 +1,8 @@
 package com.fiap.techchallenge4.product.config;
 
-import com.fiap.techchallenge4.product.repository.enums.StatusCsv;
-import com.fiap.techchallenge4.product.repository.model.CsvLoader;
+import com.fiap.techchallenge4.product.enums.StatusCsv;
+import com.fiap.techchallenge4.product.model.CsvLoader;
+import com.fiap.techchallenge4.product.service.CsvLoaderService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

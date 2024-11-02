@@ -1,7 +1,7 @@
 package com.fiap.techchallenge4.product.repository;
 
-import com.fiap.techchallenge4.product.repository.entity.CsvLoaderData;
-import com.fiap.techchallenge4.product.repository.enums.StatusCsv;
+import com.fiap.techchallenge4.product.entity.CsvLoaderData;
+import com.fiap.techchallenge4.product.enums.StatusCsv;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

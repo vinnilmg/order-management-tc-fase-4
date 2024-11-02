@@ -1,10 +1,9 @@
 package com.fiap.techchallenge4.product.config;
 
-import com.fiap.techchallenge4.product.repository.model.Product;
+import com.fiap.techchallenge4.product.model.Product;
 import lombok.AllArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -14,7 +13,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -62,9 +60,10 @@ public class BatchConfig {
 
         DefaultLineMapper<Product> lineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+        
         tokenizer.setDelimiter(";");
         tokenizer.setStrict(false);
-        tokenizer.setNames("name", "description", "price", "estoque");
+        tokenizer.setNames("name", "description", "price", "stock");
 
         BeanWrapperFieldSetMapper<Product> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(Product.class);
@@ -88,8 +87,8 @@ public class BatchConfig {
     @Bean
     public ItemWriter<Product> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Product>().dataSource(dataSource).sql(""" 
-                        INSERT INTO product  (name, description, price, estoque)
-                VALUES (:name, :description, :price, :estoque);
+                        INSERT INTO product  (name, description, price, stock)
+                VALUES (:name, :description, :price, :stock);
                
                 """)
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
