@@ -17,10 +17,6 @@ VALUES
     ('PEDRO', 'CENTRO_OESTE', 'AVAILABLE');
 
 INSERT INTO DELIVERY
-    (latitude, longitude, courier_id, order_id, status)
-VALUES
-    ('0', '0', 1, 1, 'WAITING_FOR_DELIVERY'),
-    ('1', '1', 2, 2, 'WAITING_FOR_DELIVERY'),
-    ('2', '2', 3, 3, 'WAITING_FOR_DELIVERY'),
-    ('3', '3', 4, 4, 'WAITING_FOR_DELIVERY'),
-    ('4', '4', 5, 5, 'WAITING_FOR_DELIVERY');
+     ( courier_id, order_id, status)
+ VALUES
+     (1, 1, 'WAITING_FOR_DELIVERY');

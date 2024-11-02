@@ -19,7 +19,6 @@ public class ShippingController {
 
     @GetMapping("/shippings/{cep}")
     public ResponseEntity<ShippingDto> getShipping(@PathVariable String cep) {
-
         return ResponseEntity.ok(shippingService.getShippingByCep(cep));
     }
 }

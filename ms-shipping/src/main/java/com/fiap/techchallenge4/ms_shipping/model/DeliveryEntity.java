@@ -23,9 +23,11 @@ public class DeliveryEntity {
     private ShippingStatusEnum status;
 
     @NotNull
+    @Column(columnDefinition = "int default 0")
     private int latitude = 0;
 
     @NotNull
+    @Column(columnDefinition = "int default 0")
     private int longitude = 0;
 
     @Nullable
