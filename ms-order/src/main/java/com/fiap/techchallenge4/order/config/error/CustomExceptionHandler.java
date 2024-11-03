@@ -13,8 +13,16 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler({CustomValidationException.class})
-    public ResponseEntity<ApiErrorResponse> handleValidationError(Exception e, WebRequest request) {
+    @ExceptionHandler(CustomValidationException.class)
+    public ResponseEntity<ApiErrorResponse> handleValidationError(CustomValidationException e, WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiErrorResponse.of(e.getClass().getSimpleName(), e.getMessage()));
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ApiErrorResponse> handleValidationError(NullPointerException e, WebRequest request) {
+        log.error(e.getMessage(), e);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(ApiErrorResponse.of(e.getClass().getSimpleName(), e.getMessage()));

@@ -1,15 +1,13 @@
 package com.fiap.techchallenge4.order.infra.persistence.entities;
 
-import com.fiap.techchallenge4.order.infra.persistence.entities.enums.OrderStatusEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -31,10 +29,7 @@ public class OrderEntity implements Serializable {
     private String cpf;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private OrderStatusEnum status;
-
-    // TODO: Id entrega
+    private String status;
 
     @NotNull
     private BigDecimal total;
@@ -44,6 +39,9 @@ public class OrderEntity implements Serializable {
 
     private LocalDateTime orderCompletionDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
     private List<ProductEntity> products;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
+    private ShippingEntity shipping;
 }

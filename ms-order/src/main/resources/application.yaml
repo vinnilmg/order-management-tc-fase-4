@@ -1,16 +1,10 @@
 spring:
+  application:
+    name: ms-order
   sql:
     init:
       mode: always
-  application:
-    name: ms-order
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: root
-    password: root
-  h2:
-    console:
-      enabled: true
+
   jpa:
     show: true
     defer-datasource-initialization: true
@@ -26,4 +20,10 @@ server:
 logging:
   level:
     root: INFO
+    org.apache.kafka: ERROR
 
+kafka:
+  topics:
+    created-order: created-order-topic
+    pending-payment: pending-payment-topic
+    processed-order: processed-order-topic

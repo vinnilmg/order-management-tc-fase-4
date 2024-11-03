@@ -12,4 +12,6 @@ public interface Product {
     BigDecimal getValue();
 
     String getFormattedValue();
+
+    BigDecimal getTotal();
 }
