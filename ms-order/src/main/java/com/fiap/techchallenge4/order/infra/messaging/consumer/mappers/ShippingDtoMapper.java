@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface ShippingModelMapper {
+public interface ShippingDtoMapper {
 
     default Shipping toDomain(final ShippingDto shipping) {
         return ShippingDomain.of(

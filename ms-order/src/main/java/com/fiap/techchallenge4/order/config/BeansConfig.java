@@ -8,6 +8,7 @@ import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfG
 import com.fiap.techchallenge4.order.application.gateways.order.FinishOrderGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatusGateway;
 import com.fiap.techchallenge4.order.application.gateways.payment.ProcessPaymentGateway;
+import com.fiap.techchallenge4.order.application.gateways.product.AddStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.FindProductGateway;
 import com.fiap.techchallenge4.order.application.gateways.shipping.CreateShippingGateway;
@@ -87,13 +88,15 @@ public class BeansConfig {
             final FindPaymentInfoByCpfGateway findPaymentInfoByCpfGateway,
             final UpdateOrderStatusGateway updateOrderStatusGateway,
             final CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaRepositoryGateway,
-            final ProcessPaymentGateway processPaymentGateway
-    ) {
+            final ProcessPaymentGateway processPaymentGateway,
+            final AddStockGateway addStockGateway
+            ) {
         return new ProcessOrderPaymentUseCaseImpl(
                 findPaymentInfoByCpfGateway,
                 updateOrderStatusGateway,
                 createProcessedOrderKafkaRepositoryGateway,
-                processPaymentGateway
+                processPaymentGateway,
+                addStockGateway
         );
     }
 

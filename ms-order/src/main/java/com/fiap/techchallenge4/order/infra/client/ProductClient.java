@@ -14,6 +14,9 @@ public interface ProductClient {
     @GetMapping(value = "/{sku}", produces = "application/json")
     ProviderProductResponse getProductById(@PathVariable("sku") Long sku);
 
-    @PutMapping(value = "/{sku}/stock/decrease")
+    @PutMapping(value = "/{sku}/decrease-stock")
     void decreaseStock(@PathVariable("sku") Long sku, @RequestBody UpdateProductStockRequest request);
+
+    @PutMapping(value = "/{sku}/additional-stock")
+    void addStock(@PathVariable("sku") Long sku, @RequestBody UpdateProductStockRequest request);
 }

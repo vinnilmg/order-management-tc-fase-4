@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface ProductModelMapper {
+public interface ProductDtoMapper {
 
     default Product toDomain(final ProductDto product) {
         return ProductDomain.of(

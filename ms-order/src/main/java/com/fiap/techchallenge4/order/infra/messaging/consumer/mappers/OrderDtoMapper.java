@@ -11,15 +11,15 @@ import org.mapstruct.factory.Mappers;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface OrderModelMapper {
+public interface OrderDtoMapper {
 
     default Order toDomain(final OrderDto order) {
         final var products = order.getProducts().
                 stream()
-                .map(p -> Mappers.getMapper(ProductModelMapper.class).toDomain(p))
+                .map(p -> Mappers.getMapper(ProductDtoMapper.class).toDomain(p))
                 .toList();
 
-        final var shipping = Mappers.getMapper(ShippingModelMapper.class).toDomain(order.getShipping());
+        final var shipping = Mappers.getMapper(ShippingDtoMapper.class).toDomain(order.getShipping());
 
         return OrderDomain.of(
                 order.getId(),

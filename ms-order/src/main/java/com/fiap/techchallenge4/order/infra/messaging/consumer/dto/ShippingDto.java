@@ -1,9 +1,11 @@
 package com.fiap.techchallenge4.order.infra.messaging.consumer.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
+@AllArgsConstructor
 @Data
 public class ShippingDto {
     private String postalCode;

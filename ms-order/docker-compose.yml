@@ -36,6 +36,12 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
 
+  ms-payment-processor:
+    image: 'ms-payment-processor:latest'
+    build: ../ms-payment-processor
+    ports:
+      - "9090:9090"
+
 networks:
   order-network:
     driver: bridge

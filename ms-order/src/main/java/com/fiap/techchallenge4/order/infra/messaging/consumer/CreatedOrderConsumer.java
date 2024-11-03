@@ -2,7 +2,7 @@ package com.fiap.techchallenge4.order.infra.messaging.consumer;
 
 import com.fiap.techchallenge4.order.application.usecases.order.ValidateOrderUseCase;
 import com.fiap.techchallenge4.order.infra.messaging.consumer.dto.OrderDto;
-import com.fiap.techchallenge4.order.infra.messaging.consumer.mappers.OrderModelMapper;
+import com.fiap.techchallenge4.order.infra.messaging.consumer.mappers.OrderDtoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreatedOrderConsumer {
     private final ValidateOrderUseCase validateOrderUseCase;
-    private final OrderModelMapper orderModelMapper;
+    private final OrderDtoMapper orderDtoMapper;
 
-    public CreatedOrderConsumer(ValidateOrderUseCase validateOrderUseCase, OrderModelMapper orderModelMapper) {
+    public CreatedOrderConsumer(ValidateOrderUseCase validateOrderUseCase, OrderDtoMapper orderDtoMapper) {
         this.validateOrderUseCase = validateOrderUseCase;
-        this.orderModelMapper = orderModelMapper;
+        this.orderDtoMapper = orderDtoMapper;
     }
 
     @KafkaListener(
@@ -26,6 +26,6 @@ public class CreatedOrderConsumer {
     )
     public void orderCreationConsumer(@Payload final OrderDto order) {
         log.info("Novo pedido recebido, ID: {}", order.getId());
-        validateOrderUseCase.validate(orderModelMapper.toDomain(order));
+        validateOrderUseCase.validate(orderDtoMapper.toDomain(order));
     }
 }

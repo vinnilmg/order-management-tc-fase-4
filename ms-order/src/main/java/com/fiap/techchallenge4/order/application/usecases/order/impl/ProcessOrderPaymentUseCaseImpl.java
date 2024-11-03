@@ -4,6 +4,7 @@ import com.fiap.techchallenge4.order.application.gateways.customer.FindPaymentIn
 import com.fiap.techchallenge4.order.application.gateways.order.CreateOrderGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatusGateway;
 import com.fiap.techchallenge4.order.application.gateways.payment.ProcessPaymentGateway;
+import com.fiap.techchallenge4.order.application.gateways.product.AddStockGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderPaymentUseCase;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.exceptions.NotFoundException;
@@ -16,16 +17,19 @@ public class ProcessOrderPaymentUseCaseImpl implements ProcessOrderPaymentUseCas
     private final UpdateOrderStatusGateway updateOrderStatusGateway;
     private final CreateOrderGateway createProcessedOrderKafkaGateway;
     private final ProcessPaymentGateway processPaymentGateway;
+    private final AddStockGateway addStockGateway;
 
     public ProcessOrderPaymentUseCaseImpl(
             FindPaymentInfoByCpfGateway findPaymentInfoByCpfGateway,
             UpdateOrderStatusGateway updateOrderStatusGateway,
-            CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaGateway, ProcessPaymentGateway processPaymentGateway
+            CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaGateway,
+            ProcessPaymentGateway processPaymentGateway, AddStockGateway addStockGateway
     ) {
         this.findPaymentInfoByCpfGateway = findPaymentInfoByCpfGateway;
         this.updateOrderStatusGateway = updateOrderStatusGateway;
         this.createProcessedOrderKafkaGateway = createProcessedOrderKafkaGateway;
         this.processPaymentGateway = processPaymentGateway;
+        this.addStockGateway = addStockGateway;
     }
 
     @Override
@@ -39,6 +43,10 @@ public class ProcessOrderPaymentUseCaseImpl implements ProcessOrderPaymentUseCas
             order.updateToProcessed();
         } else {
             log.info("Pagamento não aprovado, o pedido será cancelado.");
+
+            order.getProducts()
+                    .forEach(product -> addStockGateway.add(product.getSku(), product.getQuantity()));
+
             order.updateToCanceled();
         }
 

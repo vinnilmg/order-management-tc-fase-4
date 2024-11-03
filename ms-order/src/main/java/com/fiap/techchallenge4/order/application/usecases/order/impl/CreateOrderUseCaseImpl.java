@@ -57,7 +57,7 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
                     }
 
                     // Diminui do estoque
-                    decreaseStockGateway.execute(product.getSku(), product.getQuantity());
+                    decreaseStockGateway.decrease(product.getSku(), product.getQuantity());
                 });
 
         // Busca o valor de frete para o CEP do cliente
