@@ -90,7 +90,7 @@ public class BeansConfig {
             final CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaRepositoryGateway,
             final ProcessPaymentGateway processPaymentGateway,
             final AddStockGateway addStockGateway
-            ) {
+    ) {
         return new ProcessOrderPaymentUseCaseImpl(
                 findPaymentInfoByCpfGateway,
                 updateOrderStatusGateway,
