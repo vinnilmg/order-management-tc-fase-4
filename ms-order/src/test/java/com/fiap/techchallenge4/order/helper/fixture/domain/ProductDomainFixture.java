@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.order.utils.fixture.domain;
+package com.fiap.techchallenge4.order.helper.fixture.domain;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.entities.product.ProductDomain;

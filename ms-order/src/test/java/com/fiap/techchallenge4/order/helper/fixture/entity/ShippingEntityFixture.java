@@ -1,11 +1,11 @@
-package com.fiap.techchallenge4.order.utils.fixture.entity;
+package com.fiap.techchallenge4.order.helper.fixture.entity;
 
 import com.fiap.techchallenge4.order.infra.persistence.entities.OrderEntity;
 import com.fiap.techchallenge4.order.infra.persistence.entities.ShippingEntity;
 
 import java.math.BigDecimal;
 
-import static com.fiap.techchallenge4.order.utils.constants.AddressConstants.POSTAL_CODE;
+import static com.fiap.techchallenge4.order.helper.constants.AddressConstants.POSTAL_CODE;
 
 public class ShippingEntityFixture {
 

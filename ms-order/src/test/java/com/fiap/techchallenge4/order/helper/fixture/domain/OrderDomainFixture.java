@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.order.utils.fixture.domain;
+package com.fiap.techchallenge4.order.helper.fixture.domain;
 
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.entities.order.OrderDomain;
@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.fiap.techchallenge4.order.utils.constants.OrderConstants.CPF;
+import static com.fiap.techchallenge4.order.helper.constants.OrderConstants.CPF;
 
 public class OrderDomainFixture {
 

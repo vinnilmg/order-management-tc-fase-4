@@ -1,10 +1,10 @@
-package com.fiap.techchallenge4.order.utils.fixture.dto;
+package com.fiap.techchallenge4.order.helper.fixture.dto;
 
 import com.fiap.techchallenge4.order.infra.messaging.consumer.dto.ShippingDto;
 
 import java.math.BigDecimal;
 
-import static com.fiap.techchallenge4.order.utils.constants.AddressConstants.POSTAL_CODE;
+import static com.fiap.techchallenge4.order.helper.constants.AddressConstants.POSTAL_CODE;
 
 public class ShippingDtoFixture {
 

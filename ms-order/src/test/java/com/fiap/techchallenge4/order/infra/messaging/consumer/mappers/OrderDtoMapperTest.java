@@ -3,7 +3,7 @@ package com.fiap.techchallenge4.order.infra.messaging.consumer.mappers;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.entities.shipping.Shipping;
-import com.fiap.techchallenge4.order.utils.fixture.dto.OrderDtoFixture;
+import com.fiap.techchallenge4.order.helper.fixture.dto.OrderDtoFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +30,7 @@ class OrderDtoMapperTest {
                         Order::getCreationDate,
                         Order::getTotal,
                         Order::getCompletionDate
-                )
-                .containsExactly(
+                ).containsExactly(
                         order.getId(),
                         order.getCpf(),
                         order.getStatus(),

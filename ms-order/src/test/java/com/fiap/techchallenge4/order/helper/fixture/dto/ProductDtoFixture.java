@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.order.utils.fixture.dto;
+package com.fiap.techchallenge4.order.helper.fixture.dto;
 
 import com.fiap.techchallenge4.order.infra.messaging.consumer.dto.ProductDto;
 

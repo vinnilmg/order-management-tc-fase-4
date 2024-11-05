@@ -3,7 +3,7 @@ package com.fiap.techchallenge4.order.infra.messaging.consumer;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderPaymentUseCase;
 import com.fiap.techchallenge4.order.domain.entities.order.OrderDomain;
 import com.fiap.techchallenge4.order.infra.messaging.consumer.mappers.OrderDtoMapper;
-import com.fiap.techchallenge4.order.utils.fixture.dto.OrderDtoFixture;
+import com.fiap.techchallenge4.order.helper.fixture.dto.OrderDtoFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
