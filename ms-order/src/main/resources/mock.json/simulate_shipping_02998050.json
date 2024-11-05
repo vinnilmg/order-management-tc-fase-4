@@ -1,19 +1,7 @@
 {
   "request": {
-    "method": "POST",
-    "url": "/api/shippings/simulate",
-    "headers": {
-      "Content-Type": {
-        "contains": "application/json"
-      }
-    },
-    "bodyPatterns": [
-      {
-        "equalToJson": "{\n  \"postalCode\": \"02998050\" \n}",
-        "ignoreArrayOrder": true,
-        "ignoreExtraElements": true
-      }
-    ]
+    "method": "GET",
+    "url": "/api/shippings/02998050"
   },
   "response": {
     "status": 200,
