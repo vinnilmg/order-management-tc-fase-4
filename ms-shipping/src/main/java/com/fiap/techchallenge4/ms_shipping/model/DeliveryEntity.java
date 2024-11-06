@@ -16,7 +16,7 @@ public class DeliveryEntity {
     private Long id;
 
     @NotNull
-    private Long order_id;
+    private Long orderId;
 
     @NotNull
     @Enumerated(EnumType.STRING)

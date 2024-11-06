@@ -24,6 +24,12 @@ public class ShippingService {
         if (shippingEntity.isEmpty()) {
             throw new NotFoundExpection(String.format("CEP %s", cep));
         }
-        return modelMapper.map(shippingEntity.get(), ShippingDto.class);
+        return convertToDto(shippingEntity.get(), cep);
+    }
+
+    public ShippingDto convertToDto(ShippingEntity shippingEntity, String cep){
+        ShippingDto dto = modelMapper.map(shippingEntity, ShippingDto.class);
+        dto.setPostalCode(cep);
+        return dto;
     }
 }

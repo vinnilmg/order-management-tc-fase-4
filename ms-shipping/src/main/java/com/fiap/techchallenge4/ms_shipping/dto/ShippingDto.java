@@ -12,4 +12,5 @@ public class ShippingDto {
 
     private String daysToDelivery;
     private BigDecimal deliveryPrice;
+    private String postalCode;
 }
