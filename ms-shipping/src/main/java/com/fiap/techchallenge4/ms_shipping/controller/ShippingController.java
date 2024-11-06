@@ -2,6 +2,7 @@ package com.fiap.techchallenge4.ms_shipping.controller;
 
 import com.fiap.techchallenge4.ms_shipping.dto.ShippingDto;
 import com.fiap.techchallenge4.ms_shipping.service.ShippingService;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class ShippingController {
 
 
     @GetMapping("/shippings/{cep}")
-    public ResponseEntity<ShippingDto> getShipping(@PathVariable String cep) {
+    public ResponseEntity<ShippingDto> getShipping(@PathVariable @Size(min = 8,max = 8) String cep) {
         return ResponseEntity.ok(shippingService.getShippingByCep(cep));
     }
 }
