@@ -1,8 +1,11 @@
 package com.fiap.techchallenge4.order.domain.exceptions;
 
+import lombok.Getter;
+
 import static java.text.MessageFormat.format;
 
 public class CustomValidationException extends RuntimeException {
+    @Getter
     private final String field;
     private final String message;
 
@@ -10,10 +13,6 @@ public class CustomValidationException extends RuntimeException {
         super(message);
         this.field = field;
         this.message = message;
-    }
-
-    public String getField() {
-        return field;
     }
 
     @Override

@@ -12,6 +12,10 @@ import static com.fiap.techchallenge4.order.helper.constants.OrderConstants.CPF;
 
 public class OrderDomainFixture {
 
+    public static List<Order> ORDERS() {
+        return List.of(CRIADO());
+    }
+
     public static Order CRIADO() {
         return OrderDomain.of(
                 1L,
