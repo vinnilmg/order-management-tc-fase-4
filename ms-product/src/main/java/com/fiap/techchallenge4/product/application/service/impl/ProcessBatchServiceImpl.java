@@ -2,24 +2,24 @@ package com.fiap.techchallenge4.product.application.service.impl;
 
 import com.fiap.techchallenge4.product.application.exception.NotFoundException;
 import com.fiap.techchallenge4.product.application.exception.ValidationException;
+import com.fiap.techchallenge4.product.core.enums.StatusCsv;
 import com.fiap.techchallenge4.product.core.model.CsvLoader;
 import com.fiap.techchallenge4.product.core.model.LogError;
 import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
 import com.fiap.techchallenge4.product.application.service.LogErrorService;
 import com.fiap.techchallenge4.product.application.service.ProcessBatchService;
+import com.fiap.techchallenge4.product.infrasctructure.utils.FileManipulationUtils;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.logging.Logger;
-
 @Service
-@AllArgsConstructor
 @Slf4j
 public class ProcessBatchServiceImpl implements ProcessBatchService {
 
@@ -28,32 +28,60 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
     private final CsvLoaderService csvLoaderService;
     private final LogErrorService logErrorService;
 
+    @Value("${directory.finished}")
+    private String directoryPathToFinished;
+
+    @Value("${directory.waiting}")
+    private String directoryPathToWaiting;
+
+    public ProcessBatchServiceImpl(JobLauncher jobLauncher, Job productJob, CsvLoaderService csvLoaderService, LogErrorService logErrorService) {
+        this.jobLauncher = jobLauncher;
+        this.productJob = productJob;
+        this.csvLoaderService = csvLoaderService;
+        this.logErrorService = logErrorService;
+    }
+
     @Override
     public void execute() {
         var csvLoaderList = csvLoaderService.findAllByStatusWaiting();
         if (csvLoaderList.isEmpty()) {
-            throw NotFoundException.of("CSV");
+            throw NotFoundException.of("Nenhum arquivo CSV com status 'WAITING' encontrado para processamento.");
         }
         csvLoaderList.forEach(this::processBatch);
-
     }
 
-    private void processBatch(CsvLoader csvLoader) {
+    @Transactional
+    public void processBatch(CsvLoader csvLoader) {
         try {
-            log.info("found {} to load ", csvLoader.getFileName());
+            log.info("Iniciando o carregamento do arquivo: {}", csvLoader.getFileName());
             JobParameters jobParameters = new JobParametersBuilder()
                     .addString("pathWithFileName", csvLoader.directoryPathWithFileName())
                     .toJobParameters();
 
             jobLauncher.run(productJob, jobParameters);
-            log.info("file -> {} to load sucessfully ", csvLoader.getFileName());
+            log.info("Arquivo '{}' carregado com sucesso.", csvLoader.getFileName());
+            log.info("Movendo o arquivo CSV '{}' para a pasta de arquivos processados.", csvLoader.getFileName());
+
+            csvLoader.setStatusCsv(StatusCsv.FINISHED);
+            csvLoaderService.save(csvLoader);
+
+            log.info("Status do arquivo CSV '{}' atualizado para FINISHED.", csvLoader.getFileName());
+            log.info("Movendo arquivo'{}' para pasta FINISHED.", csvLoader.getFileName());
+
+            FileManipulationUtils.moveFile(directoryPathToWaiting,directoryPathToFinished,csvLoader.getFileName());
+
         } catch (Exception e) {
-            log.error(e.getMessage());
+            String errorMessage = String.format("Erro ao processar o arquivo CSV '%s': %s", csvLoader.getFileName(), e.getMessage());
+            log.error(errorMessage, e);
+
             logErrorService.save(LogError.builder()
-                    .className(e.getLocalizedMessage())
-                    .error(e.getMessage())
+                    .className(e.getClass().getName())
+                    .error(errorMessage)
                     .build());
-            throw ValidationException.of(String.valueOf(e.getClass()), e.getMessage());
+
+            csvLoader.setStatusCsv(StatusCsv.ERROR);
+            csvLoaderService.save(csvLoader);
+            throw ValidationException.of("Erro durante o processamento do arquivo CSV", e.getMessage());
         }
     }
 }

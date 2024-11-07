@@ -27,7 +27,7 @@ public class ProductController {
             @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
         productService.decreaseStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock decreased successfully"));
+        return ResponseEntity.ok(new ApiErrorResponse("Stock diminuido com Sucesso."));
     }
 
 
@@ -36,7 +36,7 @@ public class ProductController {
             @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
         productService.addStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock additional successfully"));
+        return ResponseEntity.ok(new ApiErrorResponse("Stock adicionado com Sucesso."));
     }
 
     @GetMapping("/{id}")

@@ -36,8 +36,8 @@ public class ProductServiceImpl implements ProductService {
     public Product findBySkuId(Long skuId) {
         return productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
-                .orElseThrow(() ->  NotFoundException.of(
-                        String.format("Product with skuId %s",skuId))
+                .orElseThrow(() -> NotFoundException.of(
+                        String.format("Produto com SKU ID %d não encontrado", skuId))
                 );
     }
 
@@ -45,14 +45,14 @@ public class ProductServiceImpl implements ProductService {
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toModel)
-                .orElseThrow(() ->  NotFoundException.of(
-                        String.format("Product with id %s",id))
+                .orElseThrow(() -> NotFoundException.of(
+                        String.format("Produto com ID %d não encontrado", id))
                 );
     }
 
     @Override
-    public void saveAll(List<Product> productToSave) {
-        productRepository.saveAllAndFlush(productToSave.stream()
+    public void saveAll(List<Product> productsToSave) {
+        productRepository.saveAllAndFlush(productsToSave.stream()
                 .map(productMapper::toEntity)
                 .toList());
     }
@@ -63,34 +63,35 @@ public class ProductServiceImpl implements ProductService {
         Product product = productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
                 .orElseThrow(() -> NotFoundException.of(
-                        String.format("Product with skuId %s",skuId))
+                        String.format("Produto com SKU ID %d não encontrado", skuId))
                 );
 
         if (product.getStock() < quantity) {
-            throw new ValidationException(String.format("%s skuId product",skuId)
-                    ,"has insufficient stock to decrease");
+            throw new ValidationException(
+                    String.format("Produto com SKU ID %d", skuId),
+                    "estoque insuficiente para realizar a diminuição");
         }
 
         product.setStock(product.getStock() - quantity);
-
         productRepository.save(productMapper.toEntity(product));
     }
 
     @Override
     @Transactional
     public void addStock(Long skuId, Integer quantity) {
-
         Product product = productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
                 .orElseThrow(() -> NotFoundException.of(
-                        String.format("Product with skuId %s",skuId)));
+                        String.format("Produto com SKU ID %d não encontrado", skuId))
+                );
 
         if (quantity <= 0) {
-            throw new ValidationException(String.format("%s skuId product",skuId),
-                    "Quantity cannot equals or less 0");
+            throw new ValidationException(
+                    String.format("Produto com SKU ID %d", skuId),
+                    "a quantidade para adicionar deve ser maior que zero");
         }
+
         product.setStock(product.getStock() + quantity);
         productRepository.save(productMapper.toEntity(product));
-
     }
 }

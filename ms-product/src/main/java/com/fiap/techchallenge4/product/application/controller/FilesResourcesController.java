@@ -21,7 +21,6 @@ public class FilesResourcesController {
 
     @GetMapping(value = "/pending", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CsvLoader>> findFilesToLoad() {
-
         return new ResponseEntity<>(csvLoaderService.findAllByStatusPending(), HttpStatus.OK);
     }
 }

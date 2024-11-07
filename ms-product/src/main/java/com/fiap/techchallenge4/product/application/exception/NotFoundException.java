@@ -1,14 +1,11 @@
 package com.fiap.techchallenge4.product.application.exception;
 
-import static java.lang.String.format;
-
 public class NotFoundException extends RuntimeException {
-    private static final String DEFAULT_MSG = "not found";
 
     private final String resource;
 
     public NotFoundException(final String resource) {
-        super(DEFAULT_MSG);
+        super(resource);
         this.resource = resource;
     }
 
@@ -18,7 +15,7 @@ public class NotFoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return format("%s %s", resource, super.getMessage());
+        return this.resource;
     }
 
     public static NotFoundException of(final String resource) {

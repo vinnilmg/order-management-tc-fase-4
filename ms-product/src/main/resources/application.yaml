@@ -47,8 +47,8 @@ logging:
     org.springframework.transaction: DEBUG
 
 directory:
-  watch: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/pending
-  move: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/loaded
+  pending: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/pending
+  finished: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/finished
   waiting: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/waiting
 
 

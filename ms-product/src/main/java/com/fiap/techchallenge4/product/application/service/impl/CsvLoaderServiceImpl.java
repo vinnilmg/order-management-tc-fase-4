@@ -24,20 +24,18 @@ public class CsvLoaderServiceImpl implements CsvLoaderService {
 
     @Override
     public List<CsvLoader> findAllByStatusPending() {
-        return Optional.of(csvLoaderRepository.findAllByStatusCsv(StatusCsv.PENDING)
+        return csvLoaderRepository.findAllByStatusCsv(StatusCsv.PENDING)
                 .stream()
                 .map(csvLoaderMapper::toModel)
-                .toList())
-                .orElseThrow(() -> NotFoundException.of("Csv with status pending"));
+                .toList();
     }
 
     @Override
     public List<CsvLoader> findAllByStatusWaiting() {
-        return Optional.of(csvLoaderRepository.findAllByStatusCsv(StatusCsv.WAITING)
+        return csvLoaderRepository.findAllByStatusCsv(StatusCsv.WAITING)
                 .stream()
                 .map(csvLoaderMapper::toModel)
-                .toList())
-                .orElseThrow(() ->  NotFoundException.of("Csv with status waiting"));
+                .toList();
     }
 
     @Override
