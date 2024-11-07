@@ -1,6 +1,6 @@
-package com.fiap.techchallenge4.ms_shipping.repository.entities;
+package com.fiap.techchallenge4.ms_shipping.model;
 
-import com.fiap.techchallenge4.ms_shipping.repository.entities.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,16 +16,18 @@ public class DeliveryEntity {
     private Long id;
 
     @NotNull
-    private Long order_id;
+    private Long orderId;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private ShippingStatusEnum status;
 
     @NotNull
+    @Column(columnDefinition = "int default 0")
     private int latitude = 0;
 
     @NotNull
+    @Column(columnDefinition = "int default 0")
     private int longitude = 0;
 
     @Nullable

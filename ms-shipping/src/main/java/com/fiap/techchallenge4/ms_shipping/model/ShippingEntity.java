@@ -1,8 +1,10 @@
-package com.fiap.techchallenge4.ms_shipping.repository.entities;
+package com.fiap.techchallenge4.ms_shipping.model;
 
-import com.fiap.techchallenge4.ms_shipping.repository.entities.enums.RegionEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -21,10 +23,12 @@ public class ShippingEntity {
     private RegionEnum region;
 
     @NotNull
-    private String CEP_Start;
+    @Size(min= 8, max = 8, message = "CEP must have 8 characters")
+    private String cepStart;
 
     @NotNull
-    private String CEP_End;
+    @Size(min= 8, max = 8, message = "CEP must have 8 characters")
+    private String cepEnd;
 
     @NotNull
     private String daysToDelivery;
