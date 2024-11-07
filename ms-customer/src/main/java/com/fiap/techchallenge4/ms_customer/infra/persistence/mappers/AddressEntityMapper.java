@@ -6,6 +6,8 @@ import com.fiap.techchallenge4.ms_customer.infra.persistence.entities.AddressEnt
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import java.util.List;
+
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AddressEntityMapper {
@@ -29,6 +31,12 @@ public interface AddressEntityMapper {
                 entity.getState(),
                 entity.getCep()
         );
+    }
+
+    default List<Address> toDomains(final List<AddressEntity> entities) {
+        return entities.stream()
+                .map(this::toDomain)
+                .toList();
     }
 
 }

@@ -34,11 +34,13 @@ public class CustomerDomain implements Customer {
     public CustomerDomain(
             final String cpf,
             final String name,
-            final LocalDate birthDate
+            final Address address,
+            final String birthDate
     ) {
         this.cpf = cpfValidation(cpf);
         this.name = nameValidation(name);
-        this.birthDate = birthDateValidation(birthDate);
+        this.address = addressValidation(address);
+        this.birthDate = birthDateValidation(LocalDate.parse(birthDate));
     }
 
     private CustomerDomain(
@@ -78,6 +80,11 @@ public class CustomerDomain implements Customer {
     @Override
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    @Override
+    public void setId(Long customerId) {
+        this.id = customerId;
     }
 
     private static Long idValidation(final Long id) {
