@@ -11,9 +11,8 @@ import org.springframework.context.annotation.Configuration;
 public class BeansConfig {
 
     @Bean
-    public CreateCustomerUseCase createCustomerUseCase(CustomerGateway customerGateway,
-                                                       AddressGateway addressGateway) {
-        return new CreateCustomerUseCaseImpl(customerGateway, addressGateway);
+    public CreateCustomerUseCase createCustomerUseCase(CustomerGateway customerGateway) {
+        return new CreateCustomerUseCaseImpl(customerGateway);
     }
 
     @Bean
@@ -38,10 +37,8 @@ public class BeansConfig {
         return new FindCustomerByCpfUseCaseImpl(customerGateway);
     }
 
-    @Bean UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway,
-                                                      AddressGateway addressGateway,
-                                                      FindCustomerByIdUseCase findCustomerByIdUseCase) {
-        return new UpdateCustomerUseCaseImpl(customerGateway, addressGateway, findCustomerByIdUseCase);
+    @Bean UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway) {
+        return new UpdateCustomerUseCaseImpl(customerGateway);
     }
 
 
