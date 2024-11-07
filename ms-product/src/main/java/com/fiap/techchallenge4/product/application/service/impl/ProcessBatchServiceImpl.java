@@ -1,5 +1,7 @@
 package com.fiap.techchallenge4.product.application.service.impl;
 
+import com.fiap.techchallenge4.product.application.exception.NotFoundException;
+import com.fiap.techchallenge4.product.application.exception.ValidationException;
 import com.fiap.techchallenge4.product.core.model.CsvLoader;
 import com.fiap.techchallenge4.product.core.model.LogError;
 import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
@@ -13,6 +15,7 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -28,10 +31,11 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
     @Override
     public void execute() {
         var csvLoaderList = csvLoaderService.findAllByStatusWaiting();
-
-        if (!csvLoaderList.isEmpty()) {
-            csvLoaderList.forEach(this::processBatch);
+        if (csvLoaderList.isEmpty()) {
+            throw NotFoundException.of("CSV");
         }
+        csvLoaderList.forEach(this::processBatch);
+
     }
 
     private void processBatch(CsvLoader csvLoader) {
@@ -49,8 +53,7 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
                     .className(e.getLocalizedMessage())
                     .error(e.getMessage())
                     .build());
-
+            throw ValidationException.of(String.valueOf(e.getClass()), e.getMessage());
         }
-
     }
 }

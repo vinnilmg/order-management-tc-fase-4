@@ -1,13 +1,15 @@
 package com.fiap.techchallenge4.product.infrasctructure.config;
 
-import jakarta.validation.ValidationException;
+import com.fiap.techchallenge4.product.application.dto.ApiErrorResponse;
+import com.fiap.techchallenge4.product.application.exception.NotFoundException;
+import com.fiap.techchallenge4.product.application.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -20,8 +22,8 @@ public class CustomExceptionHandler {
                 .body(new ApiErrorResponse(e.getMessage()));
     }
 
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleNotFoundError(ChangeSetPersister.NotFoundException e, WebRequest request) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleNotFoundError(NotFoundException e, WebRequest request) {
         log.error(e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
@@ -42,4 +44,5 @@ public class CustomExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiErrorResponse("Erro interno"));
     }
+
 }

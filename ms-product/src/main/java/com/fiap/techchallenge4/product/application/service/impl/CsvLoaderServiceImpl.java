@@ -1,6 +1,7 @@
 package com.fiap.techchallenge4.product.application.service.impl;
 
 import com.fiap.techchallenge4.product.application.controller.mapper.CsvLoaderMapper;
+import com.fiap.techchallenge4.product.application.exception.NotFoundException;
 import com.fiap.techchallenge4.product.core.repository.CsvLoaderRepository;
 import com.fiap.techchallenge4.product.core.entity.CsvLoaderData;
 import com.fiap.techchallenge4.product.core.enums.StatusCsv;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,18 +24,20 @@ public class CsvLoaderServiceImpl implements CsvLoaderService {
 
     @Override
     public List<CsvLoader> findAllByStatusPending() {
-        return csvLoaderRepository.findAllByStatusCsv(StatusCsv.PENDING)
+        return Optional.of(csvLoaderRepository.findAllByStatusCsv(StatusCsv.PENDING)
                 .stream()
                 .map(csvLoaderMapper::toModel)
-                .toList();
+                .toList())
+                .orElseThrow(() -> NotFoundException.of("Csv with status pending"));
     }
 
     @Override
     public List<CsvLoader> findAllByStatusWaiting() {
-        return csvLoaderRepository.findAllByStatusCsv(StatusCsv.WAITING)
+        return Optional.of(csvLoaderRepository.findAllByStatusCsv(StatusCsv.WAITING)
                 .stream()
                 .map(csvLoaderMapper::toModel)
-                .toList();
+                .toList())
+                .orElseThrow(() ->  NotFoundException.of("Csv with status waiting"));
     }
 
     @Override
@@ -50,7 +54,7 @@ public class CsvLoaderServiceImpl implements CsvLoaderService {
     @Transactional
     public CsvLoader save(CsvLoader csvLoader) {
         CsvLoaderData entity = csvLoaderMapper.toEntity(csvLoader);
-        CsvLoaderData savedEntity = csvLoaderRepository.saveAndFlush(entity); // Use save() if flush isn't needed
+        CsvLoaderData savedEntity = csvLoaderRepository.saveAndFlush(entity);
         return csvLoaderMapper.toModel(savedEntity);
     }
 }

@@ -1,6 +1,8 @@
 package com.fiap.techchallenge4.product.application.service.impl;
 
 import com.fiap.techchallenge4.product.application.controller.mapper.ProductMapper;
+import com.fiap.techchallenge4.product.application.exception.NotFoundException;
+import com.fiap.techchallenge4.product.application.exception.ValidationException;
 import com.fiap.techchallenge4.product.core.repository.ProductRepository;
 import com.fiap.techchallenge4.product.core.model.Product;
 import com.fiap.techchallenge4.product.application.service.ProductService;
@@ -34,14 +36,18 @@ public class ProductServiceImpl implements ProductService {
     public Product findBySkuId(Long skuId) {
         return productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
-                .orElseThrow();
+                .orElseThrow(() ->  NotFoundException.of(
+                        String.format("Product with skuId %s",skuId))
+                );
     }
 
     @Override
     public Product findById(Long id) {
         return productRepository.findById(id)
                 .map(productMapper::toModel)
-                .orElseThrow();
+                .orElseThrow(() ->  NotFoundException.of(
+                        String.format("Product with id %s",id))
+                );
     }
 
     @Override
@@ -53,13 +59,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void decreaseStock(Long id, Integer quantity) {
-        Product product = productRepository.findById(id)
+    public void decreaseStock(Long skuId, Integer quantity) {
+        Product product = productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
-                .orElseThrow(() -> new RuntimeException("error"));
+                .orElseThrow(() -> NotFoundException.of(
+                        String.format("Product with skuId %s",skuId))
+                );
 
         if (product.getStock() < quantity) {
-            throw new RuntimeException("Insufficient stock");
+            throw new ValidationException(String.format("%s skuId product",skuId)
+                    ,"has insufficient stock to decrease");
         }
 
         product.setStock(product.getStock() - quantity);
@@ -69,18 +78,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void addStock(Long id, Integer quantity) {
+    public void addStock(Long skuId, Integer quantity) {
 
-        Product product = productRepository.findById(id)
+        Product product = productRepository.findBySkuId(skuId)
                 .map(productMapper::toModel)
-                .orElseThrow(() -> new RuntimeException("error"));
+                .orElseThrow(() -> NotFoundException.of(
+                        String.format("Product with skuId %s",skuId)));
 
         if (quantity <= 0) {
-            throw new RuntimeException("Quantity cannot equals or less 0");
+            throw new ValidationException(String.format("%s skuId product",skuId),
+                    "Quantity cannot equals or less 0");
         }
-
         product.setStock(product.getStock() + quantity);
-
         productRepository.save(productMapper.toEntity(product));
 
     }

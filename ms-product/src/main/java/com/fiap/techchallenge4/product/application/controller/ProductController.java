@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.product.application.controller;
 
+import com.fiap.techchallenge4.product.application.dto.ApiErrorResponse;
 import com.fiap.techchallenge4.product.application.dto.ProductQuantityDTO;
 import com.fiap.techchallenge4.product.core.model.Product;
 import com.fiap.techchallenge4.product.application.service.ProcessBatchService;
@@ -19,49 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ProductController {
 
-    private final ProcessBatchService processBatchService;
-
     private final ProductService productService;
 
-    @PostMapping("/process")
-    public ResponseEntity<String> processBatch() {
-        processBatchService.execute();
-        return ResponseEntity.ok("Batch process started successfully.");
-    }
-
     @PutMapping("/{skuId}/decrease-stock")
-    public ResponseEntity<String> decreaseStock(
-            @PathVariable Long id,
+    public ResponseEntity<ApiErrorResponse> decreaseStock(
+            @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
-        productService.decreaseStock(id, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok("Stock decreased successfully");
-        /*
-        try {
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        } catch (InsufficientStockException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient stock");
-        }
-
-         */
+        productService.decreaseStock(skuId, productQuantityDTO.getQuantity());
+        return ResponseEntity.ok(new ApiErrorResponse("Stock decreased successfully"));
     }
 
 
     @PutMapping("/{skuId}/additional-stock")
-    public ResponseEntity<String> additionalStock(
-            @PathVariable Long id,
+    public ResponseEntity<ApiErrorResponse> additionalStock(
+            @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
-        productService.addStock(id, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok("Stock additional successfully");
-        /*
-        try {
-        } catch (ProductNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        } catch (InsufficientStockException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient stock");
-        }
-
-         */
+        productService.addStock(skuId, productQuantityDTO.getQuantity());
+        return ResponseEntity.ok(new ApiErrorResponse("Stock additional successfully"));
     }
 
     @GetMapping("/{id}")

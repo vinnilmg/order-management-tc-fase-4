@@ -33,13 +33,11 @@ public class FileWatcherToProcessComponent {
     @Value("${directory.waiting}")
     private String directoryPathToWaiting;
 
-
     private final DataSource dataSource;
 
     public FileWatcherToProcessComponent(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
 
     @Scheduled(fixedDelay = 10000)
     @Transactional
@@ -61,7 +59,6 @@ public class FileWatcherToProcessComponent {
                         csvLoaderList.add(csvToSave);
 
                         moveFilesToWaitingirectory(csvToSave);
-
                     }
                 }
             }
@@ -86,14 +83,13 @@ public class FileWatcherToProcessComponent {
     public void inserirCsvLoaderData(CsvLoader csvLoader) {
         String sql = "INSERT INTO csv_loader (file_name, path, status_csv, created_date) VALUES (?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            preparedStatement.setString(1, csvLoader.getFileName());
-            preparedStatement.setString(2, csvLoader.getPath());
-            preparedStatement.setString(3, csvLoader.getStatusCsv().name());
-            preparedStatement.setObject(4, LocalDateTime.now());
-
-            preparedStatement.executeUpdate();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+            ) {
+                preparedStatement.setString(1, csvLoader.getFileName());
+                preparedStatement.setString(2, csvLoader.getPath());
+                preparedStatement.setString(3, csvLoader.getStatusCsv().name());
+                preparedStatement.setObject(4, LocalDateTime.now());
+                preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             log.error("Error to save csv in csv_loader: fileName : {} , error: {} ", csvLoader.getFileName(), e.getMessage());
