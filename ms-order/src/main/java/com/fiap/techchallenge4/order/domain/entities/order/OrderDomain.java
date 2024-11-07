@@ -210,6 +210,21 @@ public class OrderDomain implements Order {
         status = OrderStatusEnum.FINALIZADO;
     }
 
+    @Override
+    public boolean isPendingPayment() {
+        return status.equals(OrderStatusEnum.PENDENTE_PAGAMENTO);
+    }
+
+    @Override
+    public boolean isDeliveryRoute() {
+        return status.equals(OrderStatusEnum.EM_ROTA_DE_ENTREGA);
+    }
+
+    @Override
+    public boolean isProcessed() {
+        return status.equals(OrderStatusEnum.PROCESSADO);
+    }
+
     private static String cpfValidation(final String cpf) {
         if (isNull(cpf)) throw CustomValidationException.of("Customer CPF", "cannot be null");
         if (cpf.length() < 11) throw CustomValidationException.of("Customer CPF", "must be 11 positions");

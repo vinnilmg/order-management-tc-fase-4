@@ -49,4 +49,10 @@ public interface Order extends Serializable {
     void updateToDeliveryRoute();
 
     void finish();
+
+    boolean isPendingPayment();
+
+    boolean isDeliveryRoute();
+
+    boolean isProcessed();
 }

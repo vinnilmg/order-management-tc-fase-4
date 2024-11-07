@@ -7,6 +7,7 @@ import com.fiap.techchallenge4.order.application.gateways.payment.ProcessPayment
 import com.fiap.techchallenge4.order.application.gateways.product.AddStockGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderPaymentUseCase;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
+import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 import com.fiap.techchallenge4.order.domain.exceptions.NotFoundException;
 import com.fiap.techchallenge4.order.infra.gateways.order.CreateProcessedOrderKafkaRepositoryGateway;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,8 @@ public class ProcessOrderPaymentUseCaseImpl implements ProcessOrderPaymentUseCas
             FindPaymentInfoByCpfGateway findPaymentInfoByCpfGateway,
             UpdateOrderStatusGateway updateOrderStatusGateway,
             CreateProcessedOrderKafkaRepositoryGateway createProcessedOrderKafkaGateway,
-            ProcessPaymentGateway processPaymentGateway, AddStockGateway addStockGateway
+            ProcessPaymentGateway processPaymentGateway,
+            AddStockGateway addStockGateway
     ) {
         this.findPaymentInfoByCpfGateway = findPaymentInfoByCpfGateway;
         this.updateOrderStatusGateway = updateOrderStatusGateway;
@@ -34,6 +36,10 @@ public class ProcessOrderPaymentUseCaseImpl implements ProcessOrderPaymentUseCas
 
     @Override
     public void process(final Order order) {
+        if (!order.isPendingPayment()) {
+            throw CustomValidationException.of("Order", "is in invalid status to process payment");
+        }
+
         final var payment = findPaymentInfoByCpfGateway.find(order.getCpf())
                 .orElseThrow(NotFoundException::ofPayment);
 

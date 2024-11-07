@@ -5,6 +5,7 @@ import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatu
 import com.fiap.techchallenge4.order.application.gateways.shipping.CreateShippingGateway;
 import com.fiap.techchallenge4.order.application.usecases.order.ProcessOrderShippingUseCase;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
+import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 import com.fiap.techchallenge4.order.domain.exceptions.NotFoundException;
 
 public class ProcessOrderShippingUseCaseImpl implements ProcessOrderShippingUseCase {
@@ -24,6 +25,10 @@ public class ProcessOrderShippingUseCaseImpl implements ProcessOrderShippingUseC
 
     @Override
     public void process(final Order order) {
+        if (!order.isProcessed()) {
+            throw CustomValidationException.of("Order", "is in invalid status to process shipping");
+        }
+
         final var customer = findCustomerByCpfGateway.find(order.getCpf())
                 .orElseThrow(NotFoundException::ofCustomer);
 

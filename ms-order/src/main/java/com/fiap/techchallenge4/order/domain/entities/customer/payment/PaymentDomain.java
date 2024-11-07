@@ -26,7 +26,7 @@ public class PaymentDomain implements Payment {
             throw CustomValidationException.of("Expiration Date", "must be a future date");
 
         requireNonNull(code, "Code cannot be null");
-        if (code.length() < 3 && code.length() > 4) throw CustomValidationException.of("Code", "is invalid");
+        if (code.length() < 3 || code.length() > 4) throw CustomValidationException.of("Code", "is invalid");
 
         this.cardNumber = cardNumber;
         this.expirationDate = formattedExpirationDate;
