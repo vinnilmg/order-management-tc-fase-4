@@ -33,4 +33,7 @@ public class DeliveryEntity {
     @Nullable
     @ManyToOne
     private CourierEntity courier;
+
+    @ManyToOne
+    private ShippingEntity region;
 }
