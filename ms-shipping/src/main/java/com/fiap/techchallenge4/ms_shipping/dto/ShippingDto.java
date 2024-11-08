@@ -1,6 +1,5 @@
 package com.fiap.techchallenge4.ms_shipping.dto;
 
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;

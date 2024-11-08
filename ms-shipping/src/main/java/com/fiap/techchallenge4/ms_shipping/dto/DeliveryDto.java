@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeliveryDto {
 
-    private Long order_id;
+    private Long orderId;
     private ShippingStatusEnum status;
     private int latitude;
     private int longitude;

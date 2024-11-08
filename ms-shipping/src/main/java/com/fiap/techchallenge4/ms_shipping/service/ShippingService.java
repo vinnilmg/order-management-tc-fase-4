@@ -13,11 +13,14 @@ import java.util.Optional;
 @Service
 public class ShippingService {
 
-    @Autowired
-    private ShippingRepository shippingRepository;
+    private final ShippingRepository shippingRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ShippingService(ShippingRepository shippingRepository, ModelMapper modelMapper) {
+        this.shippingRepository = shippingRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public ShippingDto getShippingByCep(String cep) {
         Optional<ShippingEntity> shippingEntity = shippingRepository.findByCepWithinRange(cep);

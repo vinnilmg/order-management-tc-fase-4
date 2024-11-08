@@ -16,6 +16,7 @@ public class DeliveryEntity {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private Long orderId;
 
     @NotNull
