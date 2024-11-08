@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "PUT",
-    "url": "/api/products/3000/stock/decrease",
+    "url": "/api/products/3000/decrease-stock",
     "headers": {
       "Content-Type": {
         "contains": "application/json"

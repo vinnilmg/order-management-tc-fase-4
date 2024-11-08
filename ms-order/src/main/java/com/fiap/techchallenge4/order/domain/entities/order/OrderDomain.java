@@ -101,7 +101,8 @@ public class OrderDomain implements Order {
 
         if (this.status.equals(OrderStatusEnum.FINALIZADO)) {
             if (isNull(completionDate)) throw CustomValidationException.of("Order Completion Date", "cannot be null");
-            if (creationDate.isAfter(completionDate)) throw CustomValidationException.of("Order Completion Date", "is before to creation date");
+            if (creationDate.isAfter(completionDate))
+                throw CustomValidationException.of("Order Completion Date", "is before to creation date");
             this.completionDate = completionDate;
         }
     }
@@ -123,7 +124,12 @@ public class OrderDomain implements Order {
 
     @Override
     public String getStatus() {
-        return status.toString();
+        return status.name();
+    }
+
+    @Override
+    public OrderStatusEnum getStatusEnum() {
+        return status;
     }
 
     @Override
@@ -171,6 +177,52 @@ public class OrderDomain implements Order {
     @Override
     public void updateShippingInfo(final Shipping shipping) {
         this.shipping = shipping;
+    }
+
+    @Override
+    public void updateToPendingPayment() {
+        status = OrderStatusEnum.PENDENTE_PAGAMENTO;
+    }
+
+    @Override
+    public void updateToProcessed() {
+        status = OrderStatusEnum.PROCESSADO;
+    }
+
+    @Override
+    public void updateToWaitShipping() {
+        status = OrderStatusEnum.AGUARDANDO_ENVIO;
+    }
+
+    @Override
+    public void updateToCanceled() {
+        status = OrderStatusEnum.CANCELADO;
+    }
+
+    @Override
+    public void updateToDeliveryRoute() {
+        status = OrderStatusEnum.EM_ROTA_DE_ENTREGA;
+    }
+
+    @Override
+    public void finish() {
+        completionDate = LocalDateTime.now();
+        status = OrderStatusEnum.FINALIZADO;
+    }
+
+    @Override
+    public boolean isPendingPayment() {
+        return status.equals(OrderStatusEnum.PENDENTE_PAGAMENTO);
+    }
+
+    @Override
+    public boolean isDeliveryRoute() {
+        return status.equals(OrderStatusEnum.EM_ROTA_DE_ENTREGA);
+    }
+
+    @Override
+    public boolean isProcessed() {
+        return status.equals(OrderStatusEnum.PROCESSADO);
     }
 
     private static String cpfValidation(final String cpf) {

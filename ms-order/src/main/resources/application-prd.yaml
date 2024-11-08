@@ -1,10 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: root
-    password: root
-  h2:
-    console:
-      enabled: true
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123456
   kafka:
-    bootstrap-servers: ${KAFKA_HOST}
+    bootstrap-servers: ${KAFKA_HOST:localhost:9092}
+
+ms:
+  product:
+    host: http://localhost:8082
+  customer:
+    host: http://localhost:8082
+  shipping:
+    host: http://localhost:8082
+  payment:
+    host: http://localhost:9090

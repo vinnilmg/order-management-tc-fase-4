@@ -21,8 +21,7 @@ public class CustomerEntity implements Serializable {
     @NotNull
     private String name;
 
-    @NotNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private AddressEntity address;
 

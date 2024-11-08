@@ -2,6 +2,7 @@ package com.fiap.techchallenge4.order.domain.entities.order;
 
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.entities.shipping.Shipping;
+import com.fiap.techchallenge4.order.domain.enums.OrderStatusEnum;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +17,8 @@ public interface Order extends Serializable {
     String getMaskedCpf();
 
     String getStatus();
+
+    OrderStatusEnum getStatusEnum();
 
     LocalDateTime getCreationDate();
 
@@ -34,4 +37,22 @@ public interface Order extends Serializable {
     BigDecimal getTotalWithShipping();
 
     void updateShippingInfo(Shipping shipping);
+
+    void updateToPendingPayment();
+
+    void updateToProcessed();
+
+    void updateToWaitShipping();
+
+    void updateToCanceled();
+
+    void updateToDeliveryRoute();
+
+    void finish();
+
+    boolean isPendingPayment();
+
+    boolean isDeliveryRoute();
+
+    boolean isProcessed();
 }

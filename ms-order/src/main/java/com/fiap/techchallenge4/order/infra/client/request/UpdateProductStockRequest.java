@@ -4,5 +4,7 @@ public record UpdateProductStockRequest(Integer quantity) {
 
     public static UpdateProductStockRequest of(final Integer quantity) {
         return new UpdateProductStockRequest(quantity);
-    };
+    }
+
+    ;
 }

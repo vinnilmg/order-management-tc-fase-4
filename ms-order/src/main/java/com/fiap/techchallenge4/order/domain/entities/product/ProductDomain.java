@@ -85,17 +85,20 @@ public class ProductDomain implements Product {
     }
 
     private static Long skuValidation(final Long sku) {
-        if (isNull(sku) || sku < 1) throw new CustomValidationException("Product Sku", "cannot be null, zero or negative");
+        if (isNull(sku) || sku < 1)
+            throw new CustomValidationException("Product Sku", "cannot be null, zero or negative");
         return sku;
     }
 
     private static Integer quantityValidation(final Integer quantity) {
-        if (isNull(quantity) || quantity < 1) throw new CustomValidationException("Product Quantity", "cannot be null, zero or negative");
+        if (isNull(quantity) || quantity < 1)
+            throw new CustomValidationException("Product Quantity", "cannot be null, zero or negative");
         return quantity;
     }
 
     private static BigDecimal valueValidation(final BigDecimal value) {
-        if (isNull(value) || value.signum() < 1) throw new CustomValidationException("Product Value", "cannot be null, zero or negative");
+        if (isNull(value) || value.signum() < 1)
+            throw new CustomValidationException("Product Value", "cannot be null, zero or negative");
         return value;
     }
 }

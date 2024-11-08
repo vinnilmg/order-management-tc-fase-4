@@ -10,4 +10,5 @@ public interface Customer {
     String getName();
     Address getAddress();
     LocalDate getBirthDate();
+    void setId(Long customerId);
 }

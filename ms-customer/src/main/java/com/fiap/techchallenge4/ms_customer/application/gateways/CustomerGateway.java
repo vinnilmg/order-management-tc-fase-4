@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface CustomerGateway {
     Customer create(Customer customer);
 
-    List<Customer> getAllOrders();
+    List<Customer> findAllCustomers();
 
     Optional<Customer> findCustomerById(Long id);
 

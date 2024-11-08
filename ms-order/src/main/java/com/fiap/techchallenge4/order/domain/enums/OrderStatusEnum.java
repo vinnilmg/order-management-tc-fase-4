@@ -4,10 +4,12 @@ import java.util.Arrays;
 
 public enum OrderStatusEnum {
     CRIADO,
-    PROCESSADO,
     PENDENTE_PAGAMENTO,
-    EM_ROTA_ENTREGA,
-    FINALIZADO;
+    PROCESSADO,
+    AGUARDANDO_ENVIO,
+    EM_ROTA_DE_ENTREGA,
+    FINALIZADO,
+    CANCELADO;
 
     public static OrderStatusEnum of(final String status) {
         return Arrays.stream(values())

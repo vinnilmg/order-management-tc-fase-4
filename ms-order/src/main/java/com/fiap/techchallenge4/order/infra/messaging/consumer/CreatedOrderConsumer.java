@@ -1,6 +1,8 @@
 package com.fiap.techchallenge4.order.infra.messaging.consumer;
 
-import com.fiap.techchallenge4.order.infra.messaging.consumer.model.OrderModel;
+import com.fiap.techchallenge4.order.application.usecases.order.ValidateOrderUseCase;
+import com.fiap.techchallenge4.order.infra.messaging.consumer.dto.OrderDto;
+import com.fiap.techchallenge4.order.infra.messaging.consumer.mappers.OrderDtoMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -9,23 +11,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class CreatedOrderConsumer {
+    private final ValidateOrderUseCase validateOrderUseCase;
+    private final OrderDtoMapper orderDtoMapper;
+
+    public CreatedOrderConsumer(ValidateOrderUseCase validateOrderUseCase, OrderDtoMapper orderDtoMapper) {
+        this.validateOrderUseCase = validateOrderUseCase;
+        this.orderDtoMapper = orderDtoMapper;
+    }
 
     @KafkaListener(
             topics = "${kafka.topics.created-order}",
             groupId = "order-creation-group",
             containerFactory = "orderContainerFactory"
     )
-    public void orderCreationConsumer(@Payload final OrderModel order) {
-        log.info("Novo pedido recebido: {}", order.getId());
-
-        log.info("Validando pedido...");
-        final var isValid = order.validate();
-
-        if (isValid) {
-            log.info("Pedido válido, enviando para fila de pagamento...");
-            // TODO: Envia para a fila de pagamento
-        } else {
-            log.info("Pedido inválido, o mesmo não será processado.");
-        }
+    public void orderCreationConsumer(@Payload final OrderDto order) {
+        log.info("Novo pedido recebido, ID: {}", order.getId());
+        validateOrderUseCase.validate(orderDtoMapper.toDomain(order));
     }
 }

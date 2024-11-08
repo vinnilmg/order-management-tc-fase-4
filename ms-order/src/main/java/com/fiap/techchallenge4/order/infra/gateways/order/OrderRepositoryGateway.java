@@ -4,6 +4,8 @@ import com.fiap.techchallenge4.order.application.gateways.order.CreateOrderGatew
 import com.fiap.techchallenge4.order.application.gateways.order.FindAllOrdersGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrderByIdGateway;
 import com.fiap.techchallenge4.order.application.gateways.order.FindOrdersByCpfGateway;
+import com.fiap.techchallenge4.order.application.gateways.order.FinishOrderGateway;
+import com.fiap.techchallenge4.order.application.gateways.order.UpdateOrderStatusGateway;
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.infra.persistence.mappers.OrderEntityMapper;
 import com.fiap.techchallenge4.order.infra.persistence.repositories.OrderRepository;
@@ -19,7 +21,9 @@ public class OrderRepositoryGateway implements
         FindAllOrdersGateway,
         FindOrderByIdGateway,
         FindOrdersByCpfGateway,
-        CreateOrderGateway {
+        CreateOrderGateway,
+        UpdateOrderStatusGateway,
+        FinishOrderGateway {
     private final OrderRepository orderRepository;
     private final OrderEntityMapper orderEntityMapper;
 
@@ -59,5 +63,18 @@ public class OrderRepositoryGateway implements
 
         final var createdOrder = orderRepository.save(entity);
         return orderEntityMapper.toDomain(createdOrder);
+    }
+
+    @Override
+    public Order update(final Order order) {
+        log.info("Atualizando status do pedido na base...");
+        orderRepository.updateStatus(order.getId(), order.getStatus());
+        return order;
+    }
+
+    @Override
+    public void finish(final Order order) {
+        log.info("Finalizando pedido na base...");
+        orderRepository.updateStatusAndCompletionDate(order.getId(), order.getStatus(), order.getCompletionDate());
     }
 }

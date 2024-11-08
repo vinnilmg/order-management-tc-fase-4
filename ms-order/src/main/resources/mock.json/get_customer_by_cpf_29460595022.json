@@ -18,10 +18,10 @@
         "street": "Rua Not Found",
         "number": 7,
         "complement": "",
-        "neighborhood": "Vila dos javeiros",
+        "district": "Vila dos javeiros",
         "city": "Miraval",
         "state": "SP",
-        "postalCode": "02998050"
+        "cep": "02998050"
       }
     }
   }

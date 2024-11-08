@@ -3,9 +3,6 @@ spring:
     url: jdbc:h2:mem:testdb
     username: root
     password: root
-  h2:
-    console:
-      enabled: true
   kafka:
     bootstrap-servers: localhost:9092
 
@@ -16,3 +13,5 @@ ms:
     host: http://localhost:8082
   shipping:
     host: http://localhost:8082
+  payment:
+    host: http://localhost:9090

@@ -33,6 +33,7 @@ public interface OrderEntityMapper {
 
     List<Order> toDomains(final List<OrderEntity> entities);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "cpf", source = "cpf")
     @Mapping(target = "status", source = "status")
     @Mapping(target = "total", source = "total")

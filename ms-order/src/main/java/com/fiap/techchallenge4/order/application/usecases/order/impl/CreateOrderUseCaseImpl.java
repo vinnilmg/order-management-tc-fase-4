@@ -9,7 +9,7 @@ import com.fiap.techchallenge4.order.application.usecases.order.CreateOrderUseCa
 import com.fiap.techchallenge4.order.domain.entities.order.Order;
 import com.fiap.techchallenge4.order.domain.exceptions.CustomValidationException;
 import com.fiap.techchallenge4.order.domain.exceptions.NotFoundException;
-import com.fiap.techchallenge4.order.infra.gateways.order.OrderKafkaRepositoryGateway;
+import com.fiap.techchallenge4.order.infra.gateways.order.CreateOrderKafkaRepositoryGateway;
 import com.fiap.techchallenge4.order.infra.gateways.order.OrderRepositoryGateway;
 
 public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
@@ -23,7 +23,7 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
     public CreateOrderUseCaseImpl(
             OrderRepositoryGateway createOrderDatabaseGateway,
             FindProductGateway findProductGateway,
-            OrderKafkaRepositoryGateway createOrderKafkaGateway,
+            CreateOrderKafkaRepositoryGateway createOrderKafkaGateway,
             DecreaseStockGateway decreaseStockGateway,
             FindCustomerByCpfGateway findCustomerByCpfGateway,
             SimulateShippingGateway simulateShippingGateway
@@ -57,7 +57,7 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
                     }
 
                     // Diminui do estoque
-                    decreaseStockGateway.execute(product.getSku(), product.getQuantity());
+                    decreaseStockGateway.decrease(product.getSku(), product.getQuantity());
                 });
 
         // Busca o valor de frete para o CEP do cliente

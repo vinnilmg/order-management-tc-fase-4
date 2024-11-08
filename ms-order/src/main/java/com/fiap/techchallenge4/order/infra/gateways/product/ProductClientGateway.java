@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.order.infra.gateways.product;
 
+import com.fiap.techchallenge4.order.application.gateways.product.AddStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.DecreaseStockGateway;
 import com.fiap.techchallenge4.order.application.gateways.product.FindProductGateway;
 import com.fiap.techchallenge4.order.domain.entities.product.Product;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-public class ProductClientGateway implements FindProductGateway, DecreaseStockGateway {
+public class ProductClientGateway implements FindProductGateway, DecreaseStockGateway, AddStockGateway {
     private final ProductClient productClient;
     private final ProviderProductResponseMapper providerProductResponseMapper;
 
@@ -39,8 +40,14 @@ public class ProductClientGateway implements FindProductGateway, DecreaseStockGa
     }
 
     @Override
-    public void execute(final Long sku, final Integer quantity) {
+    public void decrease(final Long sku, final Integer quantity) {
         log.info("Diminuindo estoque do produto no microsserviço...");
         productClient.decreaseStock(sku, UpdateProductStockRequest.of(quantity));
+    }
+
+    @Override
+    public void add(final Long sku, final Integer quantity) {
+        log.info("Adicionando estoque do produto no microsserviço...");
+        productClient.addStock(sku, UpdateProductStockRequest.of(quantity));
     }
 }

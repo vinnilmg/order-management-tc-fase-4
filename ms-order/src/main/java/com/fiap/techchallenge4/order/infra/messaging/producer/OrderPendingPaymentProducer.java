@@ -13,6 +13,7 @@ import java.io.Serializable;
 public class OrderPendingPaymentProducer {
     @Value("${kafka.topics.pending-payment}")
     private String topicName;
+
     private final KafkaTemplate<String, Serializable> kafkaTemplate;
 
     public void create(final Order order) {
