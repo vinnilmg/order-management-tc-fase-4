@@ -14,7 +14,7 @@ public class LogError {
 
     private String className;
 
-    private String methodName;
+    private Long idEntity;
 
     private String error;
 

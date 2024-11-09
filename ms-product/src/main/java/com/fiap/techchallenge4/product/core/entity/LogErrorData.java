@@ -28,7 +28,7 @@ public class LogErrorData {
 
     private String className;
 
-    private String methodName;
+    private Long idEntity;
 
     @Column(name = "error", columnDefinition = "TEXT")
     private String error;

@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.product.infrasctructure.config;
 
+import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
 import com.fiap.techchallenge4.product.core.enums.StatusCsv;
 import com.fiap.techchallenge4.product.core.model.CsvLoader;
 import com.fiap.techchallenge4.product.infrasctructure.utils.FileManipulationUtils;
@@ -35,14 +36,13 @@ public class FileWatcherToProcessComponent {
     @Value("${directory.waiting}")
     private String directoryPathToWaiting;
 
-    private final DataSource dataSource;
+    private final CsvLoaderService csvLoaderService;
 
-    public FileWatcherToProcessComponent(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public FileWatcherToProcessComponent(CsvLoaderService csvLoaderService) {
+        this.csvLoaderService = csvLoaderService;
     }
 
     @Scheduled(fixedDelay = 10000)
-    @Transactional
     public void watchDirectory() throws IOException {
         List<CsvLoader> csvLoaderList = new ArrayList<>();
         if (directoryPathPending != null) {
@@ -65,25 +65,10 @@ public class FileWatcherToProcessComponent {
                 }
             }
             if (!csvLoaderList.isEmpty()) {
-                csvLoaderList.forEach(this::inserirCsvLoaderData);
+                csvLoaderService.saveAll(csvLoaderList);
             }
         }
     }
 
-    public void inserirCsvLoaderData(CsvLoader csvLoader) {
-        String sql = "INSERT INTO csv_loader (file_name, path, status_csv, created_date) VALUES (?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
-        ) {
-            preparedStatement.setString(1, csvLoader.getFileName());
-            preparedStatement.setString(2, csvLoader.getPath());
-            preparedStatement.setString(3, csvLoader.getStatusCsv().name());
-            preparedStatement.setObject(4, LocalDateTime.now());
-            preparedStatement.executeUpdate();
-            log.info("O arquivo {} foi persistido com sucesso no banco de dados.", csvLoader.getFileName());
-        } catch (SQLException e) {
-            log.error("Erro ao salvar dados do arquivo {} na tabela 'csv_loader': {}", csvLoader.getFileName(), e.getMessage());
-        }
-    }
 
 }
