@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        uses = AddressResponseMapper.class)
+        uses = {AddressResponseMapper.class, PaymentRequestMapper.class})
 public interface CustomerResponseMapper {
 
     @Mapping(target = "id", source = "id")
@@ -18,6 +18,7 @@ public interface CustomerResponseMapper {
     @Mapping(target = "name", source = "name")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "birthDate", source = "birthDate")
+    @Mapping(target = "payment", source = "payment")
     CustomerResponse toResponse(Customer customer);
 
     List<CustomerResponse> toResponses(List<Customer> customers);

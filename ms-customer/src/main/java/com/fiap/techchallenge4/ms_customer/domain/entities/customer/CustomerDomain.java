@@ -1,6 +1,7 @@
 package com.fiap.techchallenge4.ms_customer.domain.entities.customer;
 
 import com.fiap.techchallenge4.ms_customer.domain.entities.address.Address;
+import com.fiap.techchallenge4.ms_customer.domain.entities.payment.Payment;
 import com.fiap.techchallenge4.ms_customer.domain.exceptions.CustomValidationException;
 
 import java.time.LocalDate;
@@ -14,20 +15,23 @@ public class CustomerDomain implements Customer {
     private String name;
     private Address address;
     private LocalDate birthDate;
+    private Payment payment;
 
     public static Customer of(
             final Long id,
             final String cpf,
             final String name,
             final Address address,
-            final LocalDate birthDate
+            final LocalDate birthDate,
+            final Payment payment
     ) {
         return new CustomerDomain(
                 id,
                 cpf,
                 name,
                 address,
-                birthDate
+                birthDate,
+                payment
         );
     }
 
@@ -35,12 +39,14 @@ public class CustomerDomain implements Customer {
             final String cpf,
             final String name,
             final Address address,
-            final String birthDate
+            final String birthDate,
+            final Payment payment
     ) {
         this.cpf = cpfValidation(cpf);
         this.name = nameValidation(name);
         this.address = addressValidation(address);
         this.birthDate = birthDateValidation(LocalDate.parse(birthDate));
+        this.payment = paymentValidation(payment);
     }
 
     private CustomerDomain(
@@ -48,13 +54,15 @@ public class CustomerDomain implements Customer {
             final String cpf,
             final String name,
             final Address address,
-            final LocalDate birthDate
+            final LocalDate birthDate,
+            final Payment payment
     ) {
         this.id = idValidation(id);
         this.cpf = cpfValidation(cpf);
         this.name = nameValidation(name);
         this.address = addressValidation(address);
         this.birthDate = birthDateValidation(birthDate);
+        this.payment = paymentValidation(payment);
     }
 
     @Override
@@ -80,6 +88,11 @@ public class CustomerDomain implements Customer {
     @Override
     public LocalDate getBirthDate() {
         return birthDate;
+    }
+
+    @Override
+    public Payment getPayment() {
+        return payment;
     }
 
     @Override
@@ -116,5 +129,10 @@ public class CustomerDomain implements Customer {
         if (!isOfLegalAge) throw
                 CustomValidationException.of("Customer Birth Date", "must be at least 18 years ago");
         return birthDate;
+    }
+
+    private static Payment paymentValidation(final Payment payment) {
+        if (isNull(payment)) throw CustomValidationException.of("Customer Payment", "cannot be null");
+        return payment;
     }
 }

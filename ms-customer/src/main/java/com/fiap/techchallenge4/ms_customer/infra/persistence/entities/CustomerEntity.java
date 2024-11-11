@@ -28,4 +28,8 @@ public class CustomerEntity implements Serializable {
     @NotNull
     private LocalDate birthDate;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private PaymentEntity payment;
+
 }

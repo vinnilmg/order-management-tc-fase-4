@@ -11,6 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AddressEntityMapper {
+
     @Mapping(target = "street", source = "street")
     @Mapping(target = "number", source = "number")
     @Mapping(target = "complement", source = "complement")
