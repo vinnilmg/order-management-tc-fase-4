@@ -2,8 +2,12 @@ package com.fiap.techchallenge4.ms_shipping.service;
 
 import com.fiap.techchallenge4.ms_shipping.config.exception.NotFoundExpection;
 import com.fiap.techchallenge4.ms_shipping.dto.DeliveryDto;
+import com.fiap.techchallenge4.ms_shipping.dto.request.DeliveryRequestDto;
 import com.fiap.techchallenge4.ms_shipping.model.DeliveryEntity;
+import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
+import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
 import com.fiap.techchallenge4.ms_shipping.repository.DeliveryRepository;
+import com.fiap.techchallenge4.ms_shipping.repository.ShippingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +19,18 @@ import java.util.Optional;
 @Slf4j
 public class DeliveryService {
 
-    @Autowired
-    private DeliveryRepository deliveryRepository;
+    private final DeliveryRepository deliveryRepository;
+
+    private final ShippingRepository shippingRepository;
+
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ModelMapper modelMapper;
+    public DeliveryService(DeliveryRepository deliveryRepository, ShippingRepository shippingRepository, ModelMapper modelMapper) {
+        this.deliveryRepository = deliveryRepository;
+        this.shippingRepository = shippingRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public DeliveryDto getDeliveryByOrderId(Long orderId) {
         Optional<DeliveryEntity> deliveryEntity = deliveryRepository.findByOrderId(orderId);
@@ -29,5 +40,27 @@ public class DeliveryService {
             throw new NotFoundExpection(String.format("OrderId %s", orderId));
         }
         return modelMapper.map(deliveryEntity.get(), DeliveryDto.class);
+    }
+
+    public DeliveryDto createDeliveryByOrderId(DeliveryRequestDto deliveryRequestDto) {
+        //pegando id do cep e verificando se ele está dentro do range
+        log.info("searching for postalCode: {}", deliveryRequestDto.getPostalCode());
+        final var postalCode = deliveryRequestDto.getPostalCode();
+        ShippingEntity shipping = shippingRepository.findByCepWithinRange(postalCode)
+                .orElseThrow(() -> new NotFoundExpection(String.format("PostalCode %s", postalCode)));
+
+        //verificando se order id ja existe no banco
+        final var orderIdRequest = deliveryRequestDto.getOrderId();
+        if (deliveryRepository.findByOrderId(orderIdRequest).isPresent()) {
+            log.error("OrderId already exists: {}", orderIdRequest);
+            throw new NotFoundExpection(String.format("OrderId already exists:  %s", orderIdRequest));
+            //TODO: Criar a classe de exceção correta
+        }
+        //criando delivery
+        DeliveryEntity delivery = new DeliveryEntity();
+        delivery.setOrderId(deliveryRequestDto.getOrderId());
+        delivery.setStatus(ShippingStatusEnum.WAITING_FOR_DELIVERY);
+        delivery.setRegion(shipping);
+        return modelMapper.map(deliveryRepository.save(delivery), DeliveryDto.class);
     }
 }
