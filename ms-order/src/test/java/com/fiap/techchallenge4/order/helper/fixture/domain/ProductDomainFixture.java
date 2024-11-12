@@ -15,4 +15,31 @@ public class ProductDomainFixture {
                 new BigDecimal(50)
         );
     }
+
+    public static Product WITH_ONE_QUANTITY() {
+        return ProductDomain.of(
+                1L,
+                3000L,
+                1,
+                new BigDecimal(50)
+        );
+    }
+
+    public static Product WITH_TWO_QUANTITY() {
+        return ProductDomain.of(
+                1L,
+                3000L,
+                2,
+                new BigDecimal(50)
+        );
+    }
+
+    public static Product SKU_3001() {
+        return ProductDomain.of(
+                1L,
+                3001L,
+                1,
+                new BigDecimal(100)
+        );
+    }
 }
