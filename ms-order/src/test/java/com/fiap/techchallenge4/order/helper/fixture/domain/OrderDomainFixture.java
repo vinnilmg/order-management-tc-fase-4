@@ -29,6 +29,19 @@ public class OrderDomainFixture {
         );
     }
 
+    public static Order CRIADO_WITH_TWO_QUANTITY_PRODUCT() {
+        return OrderDomain.of(
+                1L,
+                CPF,
+                OrderStatusEnum.CRIADO.name(),
+                new BigDecimal("50"),
+                LocalDateTime.now(),
+                null,
+                List.of(ProductDomainFixture.WITH_TWO_QUANTITY()),
+                ShippingDomainFixture.FULL()
+        );
+    }
+
     public static Order EM_ROTA_DE_ENTREGA() {
         return OrderDomain.of(
                 1L,
