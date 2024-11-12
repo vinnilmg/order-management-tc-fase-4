@@ -23,6 +23,9 @@ public class CourierEntity {
     private AvaialableCourierEnum status;
 
     @NotNull
+    private String phone;
+
+    @NotNull
     @Enumerated(EnumType.STRING)
     private RegionEnum region;
 }

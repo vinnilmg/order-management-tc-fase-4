@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.model;
 
+import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
 import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -33,4 +34,8 @@ public class DeliveryEntity {
     @Nullable
     @ManyToOne
     private CourierEntity courier;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private RegionEnum region;
 }

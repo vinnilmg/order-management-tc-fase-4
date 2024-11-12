@@ -8,15 +8,17 @@ VALUES
 ('CENTRO_OESTE', '70000000', '79999999', '10', 20.0);
 
 INSERT INTO courier
-    (name, region, status)
+    (name, region, status, phone)
 VALUES
-    ('JOSE', 'SUDESTE', 'AVAILABLE'),
-    ('MARIA', 'SUL', 'AVAILABLE'),
-    ('CARLOS', 'NORDESTE', 'AVAILABLE'),
-    ('ANA', 'NORTE', 'AVAILABLE'),
-    ('PEDRO', 'CENTRO_OESTE', 'AVAILABLE');
+    ('JOSE', 'SUDESTE', 'AVAILABLE', '11985212021'),
+    ('MARIA', 'SUL', 'AVAILABLE', '11965201101'),
+    ('CARLOS', 'NORDESTE', 'AVAILABLE', '11988771120'),
+    ('ANA', 'NORTE', 'ON_DELIVERY_ROUTE', '11998524578'),
+    ('PEDRO', 'SUL', 'AVAILABLE', '1192102125');
 
 INSERT INTO DELIVERY
-     ( courier_id, order_id, status)
+     ( order_id, status, region)
  VALUES
-     (1, 1, 'WAITING_FOR_DELIVERY');
+     ( 1, 'WAITING_FOR_DELIVERY', 'SUL'),
+     ( 2, 'WAITING_FOR_DELIVERY', 'SUL'),
+     ( 3, 'WAITING_FOR_DELIVERY', 'NORTE');
