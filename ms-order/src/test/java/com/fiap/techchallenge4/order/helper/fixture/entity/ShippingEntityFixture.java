@@ -19,4 +19,15 @@ public class ShippingEntityFixture {
         result.setTimeUnit("DAY");
         return result;
     }
+
+    public static ShippingEntity FULL() {
+        final var result = new ShippingEntity();
+        result.setId(1L);
+        result.setOrder(OrderEntityFixture.CRIADO());
+        result.setPrice(new BigDecimal(5));
+        result.setPostalCode(POSTAL_CODE);
+        result.setEstimate(3);
+        result.setTimeUnit("DAY");
+        return result;
+    }
 }

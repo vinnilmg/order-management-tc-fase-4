@@ -12,4 +12,6 @@ public interface Shipping {
     String getFormattedPrice();
 
     String getEstimate();
+
+    String getTimeUnit();
 }

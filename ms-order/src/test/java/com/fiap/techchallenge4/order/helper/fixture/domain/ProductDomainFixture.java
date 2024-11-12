@@ -4,6 +4,7 @@ import com.fiap.techchallenge4.order.domain.entities.product.Product;
 import com.fiap.techchallenge4.order.domain.entities.product.ProductDomain;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductDomainFixture {
 
@@ -41,5 +42,9 @@ public class ProductDomainFixture {
                 1,
                 new BigDecimal(100)
         );
+    }
+
+    public static List<Product> PRODUCTS() {
+        return List.of(FULL());
     }
 }
