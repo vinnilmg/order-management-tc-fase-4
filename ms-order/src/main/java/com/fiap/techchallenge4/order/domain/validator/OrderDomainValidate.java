@@ -16,8 +16,7 @@ public class OrderDomainValidate {
 
         if (isNull(domain.getId())) isValid = false;
         if (isNull(domain.getCpf())) isValid = false;
-        if (isNull(domain.getStatus()) || !domain.getStatus().equalsIgnoreCase(OrderStatusEnum.CRIADO.name()))
-            isValid = false;
+        if (isNull(domain.getStatusEnum()) || !domain.getStatusEnum().equals(OrderStatusEnum.CRIADO)) isValid = false;
         if (isNull(domain.getCreationDate())) isValid = false;
         if (isNull(domain.getTotal()) || domain.getTotal().compareTo(BigDecimal.ZERO) < 1) isValid = false;
         if (isNull(domain.getTotalWithShipping()) || domain.getTotalWithShipping().compareTo(BigDecimal.ZERO) < 1)
