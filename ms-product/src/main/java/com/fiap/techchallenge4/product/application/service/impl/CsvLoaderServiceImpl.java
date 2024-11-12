@@ -40,12 +40,10 @@ public class CsvLoaderServiceImpl implements CsvLoaderService {
 
     @Override
     public void saveAll(List<CsvLoader> csvLoaderList) {
-
-        var csvLoaderToSave = csvLoaderList.stream()
+        csvLoaderRepository.saveAllAndFlush(csvLoaderList.stream()
                 .map(csvLoaderMapper::toEntity)
-                .toList();
-
-        csvLoaderRepository.saveAndFlush(csvLoaderToSave.get(0));
+                .toList()
+        );
     }
 
     @Override

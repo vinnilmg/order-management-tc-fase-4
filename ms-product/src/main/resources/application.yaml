@@ -8,7 +8,7 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    jdbc-url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb
     username: root
     password: root
 
@@ -47,8 +47,17 @@ logging:
     org.springframework.transaction: DEBUG
 
 directory:
-  pending: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/pending
-  finished: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/finished
-  waiting: /home/lobaoff/Desktop/repositories/order-management-tc-fase-4/ms-product/src/main/resources/imports/waiting
+  pending:  ${user.dir}/ms-product/src/main/resources/imports/pending
+  finished: ${user.dir}/ms-product/src/main/resources/imports/finished
+  waiting:  ${user.dir}/ms-product/src/main/resources/imports/waiting
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+
 
 

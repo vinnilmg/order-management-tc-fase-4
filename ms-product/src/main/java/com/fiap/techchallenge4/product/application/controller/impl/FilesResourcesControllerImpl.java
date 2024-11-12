@@ -1,5 +1,6 @@
-package com.fiap.techchallenge4.product.application.controller;
+package com.fiap.techchallenge4.product.application.controller.impl;
 
+import com.fiap.techchallenge4.product.application.controller.FileResourcesController;
 import com.fiap.techchallenge4.product.core.model.CsvLoader;
 import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
 import lombok.AllArgsConstructor;
@@ -15,10 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/files")
 @AllArgsConstructor
-public class FilesResourcesController {
+public class FilesResourcesControllerImpl implements FileResourcesController {
 
     private final CsvLoaderService csvLoaderService;
 
+    @Override
     @GetMapping(value = "/pending", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CsvLoader>> findFilesToLoad() {
         return new ResponseEntity<>(csvLoaderService.findAllByStatusPending(), HttpStatus.OK);

@@ -3,51 +3,63 @@ package com.fiap.techchallenge4.product.application.controller;
 import com.fiap.techchallenge4.product.application.dto.ApiErrorResponse;
 import com.fiap.techchallenge4.product.application.dto.ProductQuantityDTO;
 import com.fiap.techchallenge4.product.core.model.Product;
-import com.fiap.techchallenge4.product.application.service.ProcessBatchService;
-import com.fiap.techchallenge4.product.application.service.ProductService;
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/products")
-@AllArgsConstructor
-public class ProductController {
+@Tag(name = "Produto", description = "API de Produto")
+public interface ProductController {
 
-    private final ProductService productService;
+    @Operation(summary = "Diminuir o estoque de um produto", description = "Diminui o estoque de um produto por uma quantidade especificada.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estoque diminuído com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Estoque insuficiente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @PutMapping("/{skuId}/diminuir-estoque")
+    ResponseEntity<ApiErrorResponse> decreaseStock(
+            @Parameter(description = "ID SKU do produto", required = true) @PathVariable Long skuId,
+            @RequestBody ProductQuantityDTO productQuantityDTO
+    );
 
-    @PutMapping("/{skuId}/decrease-stock")
-    public ResponseEntity<ApiErrorResponse> decreaseStock(
-            @PathVariable Long skuId,
-            @RequestBody ProductQuantityDTO productQuantityDTO) {
-        productService.decreaseStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock diminuido com Sucesso."));
-    }
+    @Operation(summary = "Adicionar estoque a um produto", description = "Aumenta o estoque de um produto por uma quantidade especificada.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Estoque adicionado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Quantidade inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
+    @PutMapping("/{skuId}/adicionar-estoque")
+    ResponseEntity<ApiErrorResponse> additionalStock(
+            @Parameter(description = "ID SKU do produto", required = true) @PathVariable Long skuId,
+            @RequestBody ProductQuantityDTO productQuantityDTO
+    );
 
-
-    @PutMapping("/{skuId}/additional-stock")
-    public ResponseEntity<ApiErrorResponse> additionalStock(
-            @PathVariable Long skuId,
-            @RequestBody ProductQuantityDTO productQuantityDTO) {
-        productService.addStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock adicionado com Sucesso."));
-    }
-
+    @Operation(summary = "Buscar produto por ID", description = "Recupera um produto pelo seu ID único.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findProductById(
-            @PathVariable Long id) {
-        return ResponseEntity.ok(productService.findById(id));
-    }
+    ResponseEntity<Product> findProductById(
+            @Parameter(description = "ID do produto", required = true) @PathVariable Long id
+    );
 
+    @Operation(summary = "Buscar produto por SKU ID", description = "Recupera um produto pelo seu ID SKU.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
+    })
     @GetMapping("/skuId/{skuId}")
-    public ResponseEntity<Product> findProductBySkuId(
-            @PathVariable Long skuId) {
-        return ResponseEntity.ok(productService.findBySkuId(skuId));
-    }
+    ResponseEntity<Product> findProductBySkuId(
+            @Parameter(description = "ID SKU do produto", required = true) @PathVariable Long skuId
+    );
 }

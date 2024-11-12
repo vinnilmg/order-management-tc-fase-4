@@ -77,6 +77,7 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
             logErrorService.save(LogError.builder()
                     .className(e.getClass().getName())
                     .error(errorMessage)
+                    .idEntity(csvLoader.getId())
                     .build());
 
             csvLoader.setStatusCsv(StatusCsv.ERROR);
