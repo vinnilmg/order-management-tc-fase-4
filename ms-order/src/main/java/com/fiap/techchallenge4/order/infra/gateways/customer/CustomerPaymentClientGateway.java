@@ -17,7 +17,10 @@ public class CustomerPaymentClientGateway implements FindPaymentInfoByCpfGateway
     private final CustomerClient customerClient;
     private final ProviderPaymentInfoResponseMapper providerPaymentInfoResponseMapper;
 
-    public CustomerPaymentClientGateway(CustomerClient customerClient, ProviderPaymentInfoResponseMapper providerPaymentInfoResponseMapper) {
+    public CustomerPaymentClientGateway(
+            CustomerClient customerClient,
+            ProviderPaymentInfoResponseMapper providerPaymentInfoResponseMapper
+    ) {
         this.customerClient = customerClient;
         this.providerPaymentInfoResponseMapper = providerPaymentInfoResponseMapper;
     }

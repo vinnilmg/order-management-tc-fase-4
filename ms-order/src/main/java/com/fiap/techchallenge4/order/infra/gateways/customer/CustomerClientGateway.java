@@ -17,7 +17,10 @@ public class CustomerClientGateway implements FindCustomerByCpfGateway {
     private final CustomerClient customerClient;
     private final ProviderCustomerResponseMapper providerCustomerResponseMapper;
 
-    public CustomerClientGateway(CustomerClient customerClient, ProviderCustomerResponseMapper providerCustomerResponseMapper) {
+    public CustomerClientGateway(
+            CustomerClient customerClient,
+            ProviderCustomerResponseMapper providerCustomerResponseMapper
+    ) {
         this.customerClient = customerClient;
         this.providerCustomerResponseMapper = providerCustomerResponseMapper;
     }

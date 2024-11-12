@@ -27,7 +27,10 @@ public class OrderRepositoryGateway implements
     private final OrderRepository orderRepository;
     private final OrderEntityMapper orderEntityMapper;
 
-    public OrderRepositoryGateway(OrderRepository orderRepository, OrderEntityMapper orderEntityMapper) {
+    public OrderRepositoryGateway(
+            OrderRepository orderRepository,
+            OrderEntityMapper orderEntityMapper
+    ) {
         this.orderRepository = orderRepository;
         this.orderEntityMapper = orderEntityMapper;
     }
@@ -75,6 +78,10 @@ public class OrderRepositoryGateway implements
     @Override
     public void finish(final Order order) {
         log.info("Finalizando pedido na base...");
-        orderRepository.updateStatusAndCompletionDate(order.getId(), order.getStatus(), order.getCompletionDate());
+        orderRepository.updateStatusAndCompletionDate(
+                order.getId(),
+                order.getStatus(),
+                order.getCompletionDate()
+        );
     }
 }

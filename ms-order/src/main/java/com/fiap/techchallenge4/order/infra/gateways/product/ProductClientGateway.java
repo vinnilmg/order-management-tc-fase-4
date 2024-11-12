@@ -20,7 +20,10 @@ public class ProductClientGateway implements FindProductGateway, DecreaseStockGa
     private final ProductClient productClient;
     private final ProviderProductResponseMapper providerProductResponseMapper;
 
-    public ProductClientGateway(ProductClient productClient, ProviderProductResponseMapper providerProductResponseMapper) {
+    public ProductClientGateway(
+            ProductClient productClient,
+            ProviderProductResponseMapper providerProductResponseMapper
+    ) {
         this.productClient = productClient;
         this.providerProductResponseMapper = providerProductResponseMapper;
     }
@@ -29,7 +32,7 @@ public class ProductClientGateway implements FindProductGateway, DecreaseStockGa
     public Optional<Product> find(final Long sku) {
         log.info("Buscando produto no microsserviço...");
         try {
-            return Optional.ofNullable(productClient.getProductById(sku))
+            return Optional.ofNullable(productClient.getProductBySku(sku))
                     .map(providerProductResponseMapper::toProductDomain);
         } catch (FeignException e) {
             if (e.status() != HttpStatus.NOT_FOUND.value()) {
