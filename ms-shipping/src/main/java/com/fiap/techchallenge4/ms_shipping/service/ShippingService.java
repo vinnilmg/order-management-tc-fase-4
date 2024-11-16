@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,4 +36,11 @@ public class ShippingService {
         dto.setPostalCode(cep);
         return dto;
     }
+
+    public List<ShippingEntity> getAllRegion() {
+        var shippingEntity = shippingRepository.findAll();
+
+        return shippingEntity;
+    }
+
 }

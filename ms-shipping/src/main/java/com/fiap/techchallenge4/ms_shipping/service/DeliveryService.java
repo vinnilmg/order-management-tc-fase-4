@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,4 +64,34 @@ public class DeliveryService {
         delivery.setRegion(shipping);
         return modelMapper.map(deliveryRepository.save(delivery), DeliveryDto.class);
     }
+
+    public Optional<List<DeliveryEntity>> findByCourier(Long id) {
+        var courier = deliveryRepository.findByCourierId(id);
+        //Optional<DeliveryEntity> delivery = Optional.empty();
+        if (!courier.isEmpty()) {
+            return courier;
+        }
+        if (courier.isEmpty()) throw new NotFoundExpection(String.format("Delivery for Courier %s", id));
+        return Optional.empty();
+    }
+
+    public List<DeliveryEntity> findByStatusAndRegionId(ShippingStatusEnum shippingStatusEnum, Long region) {
+        var delivery = deliveryRepository.findByStatusAndRegionId(shippingStatusEnum, region);
+
+        return delivery;
+    }
+
+    //verificar se posso usar no job direto o repository
+//    public DeliveryEntity updateStatus(Long id, DeliveryUpdateRequest request) {
+//        var deliveryOp = repo.findById(id);
+//        var courier = courierRepository.findById(request.getId());
+//
+//        if (deliveryOp.isEmpty()) throw new NotFoundExpection("delivery não encontrado");
+//        if (courier.isEmpty()) throw new NotFoundExpection("courier não encontrado");
+//
+//        var delivery = deliveryOp.get();
+//        delivery.setStatus(request.getStatus());
+//        delivery.setCourier(courier.get());
+//        return repo.save(delivery);
+//    }
 }
