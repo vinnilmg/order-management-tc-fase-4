@@ -14,18 +14,27 @@ import java.util.Optional;
 @Service
 public class ShippingService {
 
-    @Autowired
-    private ShippingRepository shippingRepository;
+    private final ShippingRepository shippingRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ShippingService(ShippingRepository shippingRepository, ModelMapper modelMapper) {
+        this.shippingRepository = shippingRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public ShippingDto getShippingByCep(String cep) {
         Optional<ShippingEntity> shippingEntity = shippingRepository.findByCepWithinRange(cep);
         if (shippingEntity.isEmpty()) {
             throw new NotFoundExpection(String.format("CEP %s", cep));
         }
-        return modelMapper.map(shippingEntity.get(), ShippingDto.class);
+        return convertToDto(shippingEntity.get(), cep);
+    }
+
+    public ShippingDto convertToDto(ShippingEntity shippingEntity, String cep){
+        ShippingDto dto = modelMapper.map(shippingEntity, ShippingDto.class);
+        dto.setPostalCode(cep);
+        return dto;
     }
 
     public List<ShippingEntity> getAllRegion() {

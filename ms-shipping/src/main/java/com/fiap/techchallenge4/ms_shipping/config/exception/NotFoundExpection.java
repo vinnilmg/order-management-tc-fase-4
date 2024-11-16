@@ -10,6 +10,7 @@ public class NotFoundExpection  extends RuntimeException {
     private static final String DEFAULT_MSG = "not found";
 
     private String resource;
+
     public NotFoundExpection(String resource) {
         super(DEFAULT_MSG);
         this.resource = resource;
@@ -17,7 +18,7 @@ public class NotFoundExpection  extends RuntimeException {
 
     @Override
     public String getMessage(){
-        return format("%s %s", resource, "Not found");
+        return format("%s %s", resource, DEFAULT_MSG);
     }
 
     public static NotFoundExpection of(final String resource) {

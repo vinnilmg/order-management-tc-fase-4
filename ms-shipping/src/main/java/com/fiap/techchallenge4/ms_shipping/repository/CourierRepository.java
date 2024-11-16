@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface CourierRepository extends JpaRepository<CourierEntity, Long> {
 
-    List<CourierEntity> findByStatusAndRegion(AvaialableCourierEnum status, RegionEnum region);
+    List<CourierEntity> findByStatusAndRegionId(AvaialableCourierEnum status, Long region);
 }

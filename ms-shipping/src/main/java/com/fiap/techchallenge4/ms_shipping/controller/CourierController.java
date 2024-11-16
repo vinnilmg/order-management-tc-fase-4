@@ -2,9 +2,11 @@ package com.fiap.techchallenge4.ms_shipping.controller;
 
 import com.fiap.techchallenge4.ms_shipping.controller.request.CourierUpdateRequest;
 import com.fiap.techchallenge4.ms_shipping.model.CourierEntity;
+import com.fiap.techchallenge4.ms_shipping.model.DeliveryEntity;
 import com.fiap.techchallenge4.ms_shipping.model.enums.AvaialableCourierEnum;
 import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
 import com.fiap.techchallenge4.ms_shipping.service.CourierService;
+import com.fiap.techchallenge4.ms_shipping.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class CourierController {
 
     @Autowired
     private CourierService courierService;
+
+    @Autowired
+    private DeliveryService deliveryService;
 
     @GetMapping("courier")
     public ResponseEntity<Collection<CourierEntity>> findAll() {
@@ -47,11 +52,16 @@ public class CourierController {
         return ResponseEntity.ok(courierService.updateStatus(id, courier));
     }
 
-    @GetMapping("courier-available/{region}")
-    public ResponseEntity<List<CourierEntity>> findByStatusAndRegion(@PathVariable RegionEnum region) {
-        var courier = courierService.findByStatusAndRegion(AvaialableCourierEnum.AVAILABLE, region);
-        return ResponseEntity.ok(courier);
-    }
+//    @GetMapping("courier-available/{region}")
+//    public ResponseEntity<List<CourierEntity>> findByStatusAndRegion(@PathVariable RegionEnum region) {
+//        var courier = courierService.findByStatusAndRegion(AvaialableCourierEnum.AVAILABLE, region);
+//        return ResponseEntity.ok(courier);
+//    }
 
+    @GetMapping("delivery-courier/{id}")
+    public ResponseEntity<Optional<List<DeliveryEntity>>> findByCourier(@PathVariable Long id) {
+        var delivery = deliveryService.findByCourier(id);
+        return ResponseEntity.ok(delivery);
+    }
 
 }

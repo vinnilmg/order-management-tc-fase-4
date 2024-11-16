@@ -39,8 +39,8 @@ public class CourierService {
         return courier;
     }
 
-    public List<CourierEntity> findByStatusAndRegion(AvaialableCourierEnum status, RegionEnum region) {
-        var courier = repo.findByStatusAndRegion(status, region);
+    public List<CourierEntity> findByStatusAndRegionId(AvaialableCourierEnum status, Long region) {
+        var courier = repo.findByStatusAndRegionId(status, region);
 
         return courier;
     }

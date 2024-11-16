@@ -25,7 +25,7 @@ public class CourierEntity {
     @NotNull
     private String phone;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private RegionEnum region;
+    @ManyToOne
+    private ShippingEntity region;
+
 }
