@@ -18,9 +18,8 @@ public class BeansConfig {
 
     @Bean
     public DeleteCustomerUseCase deleteCustomerUseCase(CustomerGateway customerGateway,
-                                                       AddressGateway addressGateway,
                                                        FindCustomerByIdUseCase findCustomerByIdUseCase) {
-        return new DeleteCustomerUseCaseImpl(customerGateway, addressGateway, findCustomerByIdUseCase);
+        return new DeleteCustomerUseCaseImpl(customerGateway, findCustomerByIdUseCase);
     }
 
     @Bean

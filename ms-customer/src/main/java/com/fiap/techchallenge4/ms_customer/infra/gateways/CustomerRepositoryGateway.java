@@ -2,7 +2,6 @@ package com.fiap.techchallenge4.ms_customer.infra.gateways;
 
 import com.fiap.techchallenge4.ms_customer.application.gateways.CustomerGateway;
 import com.fiap.techchallenge4.ms_customer.domain.entities.customer.Customer;
-import com.fiap.techchallenge4.ms_customer.domain.entities.payment.Payment;
 import com.fiap.techchallenge4.ms_customer.infra.persistence.mappers.CustomerEntityMapper;
 import com.fiap.techchallenge4.ms_customer.infra.persistence.repositories.CustomerRepository;
 import org.springframework.stereotype.Component;
