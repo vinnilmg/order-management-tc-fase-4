@@ -3,8 +3,10 @@ package com.fiap.techchallenge4.ms_customer.infra.controllers;
 import com.fiap.techchallenge4.ms_customer.application.usecases.*;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.CustomerRequestMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.CustomerResponseMapper;
+import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.PaymentResponseMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.request.CustomerRequest;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.response.CustomerResponse;
+import com.fiap.techchallenge4.ms_customer.infra.controllers.response.PaymentResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,26 +23,32 @@ public class CustomerController {
     private final FindAllCustomersUseCase findAllCustomersUseCase;
     private final FindCustomerByCpfUseCase findCustomerByCpfUseCase;
     private final FindCustomerByIdUseCase findCustomerByIdUseCase;
+    private final FindPaymentByCustomerIdUseCase findPaymentByCustomerIdUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
+    private final PaymentResponseMapper paymentResponseMapper;
 
     public CustomerController(CreateCustomerUseCase createCustomerUseCase,
                               DeleteCustomerUseCase deleteCustomerUseCase,
                               FindAllCustomersUseCase findAllCustomersUseCase,
                               FindCustomerByCpfUseCase findCustomerByCpfUseCase,
                               FindCustomerByIdUseCase findCustomerByIdUseCase,
+                              FindPaymentByCustomerIdUseCase findPaymentByCustomerIdUseCase,
                               UpdateCustomerUseCase updateCustomerUseCase,
                               CustomerRequestMapper customerRequestMapper,
-                              CustomerResponseMapper customerResponseMapper) {
+                              CustomerResponseMapper customerResponseMapper,
+                              PaymentResponseMapper paymentResponseMapper) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.deleteCustomerUseCase = deleteCustomerUseCase;
         this.findAllCustomersUseCase = findAllCustomersUseCase;
         this.findCustomerByCpfUseCase = findCustomerByCpfUseCase;
         this.findCustomerByIdUseCase = findCustomerByIdUseCase;
+        this.findPaymentByCustomerIdUseCase = findPaymentByCustomerIdUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.customerRequestMapper = customerRequestMapper;
         this.customerResponseMapper = customerResponseMapper;
+        this.paymentResponseMapper = paymentResponseMapper;
     }
 
     @GetMapping
@@ -55,6 +63,13 @@ public class CustomerController {
         final var customer = findCustomerByIdUseCase.find(id);
         return ResponseEntity.ok()
                 .body(customerResponseMapper.toResponse(customer));
+    }
+
+    @GetMapping("payment-info/{customerId}")
+    public ResponseEntity<PaymentResponse> findPaymentByCustomerId(@PathVariable final Long customerId) {
+        final var payment = findPaymentByCustomerIdUseCase.find(customerId);
+        return ResponseEntity.ok()
+                .body(paymentResponseMapper.toResponse(payment));
     }
 
     @GetMapping("cpf/{cpf}")

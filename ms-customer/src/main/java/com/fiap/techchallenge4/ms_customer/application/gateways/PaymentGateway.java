@@ -8,6 +8,7 @@ public interface PaymentGateway {
     Payment create(Payment payment);
     List<Payment> findAllPayments();
     Optional<Payment> findPaymentById(Long id);
+    Optional<Payment> findPaymentByCustomerId(Long customerId);
     void update(Payment payment);
     void delete(Long id);
 }
