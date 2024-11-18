@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.ms_customer.config;
 
+import com.fiap.techchallenge4.ms_customer.application.gateways.AddressGateway;
 import com.fiap.techchallenge4.ms_customer.application.gateways.CustomerGateway;
 import com.fiap.techchallenge4.ms_customer.application.gateways.PaymentGateway;
 import com.fiap.techchallenge4.ms_customer.application.usecases.*;
@@ -41,9 +42,16 @@ public class BeansConfig {
         return new FindCustomerByCpfUseCaseImpl(customerGateway);
     }
 
-    @Bean UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway) {
+    @Bean
+    UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway) {
         return new UpdateCustomerUseCaseImpl(customerGateway);
     }
+
+    @Bean
+    public FindAddressByCustomerCpfUseCase findAddressByCustomerCpfUseCase(AddressGateway addressGateway) {
+        return new FindAddressByCustomerCpfUseCaseImpl(addressGateway);
+    }
+
 
 
 }

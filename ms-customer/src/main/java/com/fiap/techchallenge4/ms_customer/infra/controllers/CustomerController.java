@@ -1,10 +1,12 @@
 package com.fiap.techchallenge4.ms_customer.infra.controllers;
 
 import com.fiap.techchallenge4.ms_customer.application.usecases.*;
+import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.AddressResponseMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.CustomerRequestMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.CustomerResponseMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.mappers.PaymentResponseMapper;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.request.CustomerRequest;
+import com.fiap.techchallenge4.ms_customer.infra.controllers.response.AddressResponse;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.response.CustomerResponse;
 import com.fiap.techchallenge4.ms_customer.infra.controllers.response.PaymentResponse;
 import jakarta.validation.Valid;
@@ -24,10 +26,12 @@ public class CustomerController {
     private final FindCustomerByCpfUseCase findCustomerByCpfUseCase;
     private final FindCustomerByIdUseCase findCustomerByIdUseCase;
     private final FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase;
+    private final FindAddressByCustomerCpfUseCase findAddressByCustomerCpfUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
     private final PaymentResponseMapper paymentResponseMapper;
+    private final AddressResponseMapper addressResponseMapper;
 
     public CustomerController(CreateCustomerUseCase createCustomerUseCase,
                               DeleteCustomerUseCase deleteCustomerUseCase,
@@ -35,20 +39,23 @@ public class CustomerController {
                               FindCustomerByCpfUseCase findCustomerByCpfUseCase,
                               FindCustomerByIdUseCase findCustomerByIdUseCase,
                               FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase,
+                              FindAddressByCustomerCpfUseCase findAddressByCustomerCpfUseCase,
                               UpdateCustomerUseCase updateCustomerUseCase,
                               CustomerRequestMapper customerRequestMapper,
                               CustomerResponseMapper customerResponseMapper,
-                              PaymentResponseMapper paymentResponseMapper) {
+                              PaymentResponseMapper paymentResponseMapper, AddressResponseMapper addressResponseMapper) {
         this.createCustomerUseCase = createCustomerUseCase;
         this.deleteCustomerUseCase = deleteCustomerUseCase;
         this.findAllCustomersUseCase = findAllCustomersUseCase;
         this.findCustomerByCpfUseCase = findCustomerByCpfUseCase;
         this.findCustomerByIdUseCase = findCustomerByIdUseCase;
         this.findPaymentByCustomerCpfUseCase = findPaymentByCustomerCpfUseCase;
+        this.findAddressByCustomerCpfUseCase = findAddressByCustomerCpfUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.customerRequestMapper = customerRequestMapper;
         this.customerResponseMapper = customerResponseMapper;
         this.paymentResponseMapper = paymentResponseMapper;
+        this.addressResponseMapper = addressResponseMapper;
     }
 
     @GetMapping
@@ -65,6 +72,13 @@ public class CustomerController {
                 .body(customerResponseMapper.toResponse(customer));
     }
 
+    @GetMapping("cpf/{cpf}")
+    public ResponseEntity<CustomerResponse> findCustomerByCpf(@PathVariable final String cpf) {
+        final var customer = findCustomerByCpfUseCase.find(cpf);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(customerResponseMapper.toResponse(customer));
+    }
+
     @GetMapping("paymentInfo/{cpf}")
     public ResponseEntity<PaymentResponse> findPaymentByCustomerCpf(@PathVariable final String cpf) {
         final var payment = findPaymentByCustomerCpfUseCase.find(cpf);
@@ -72,11 +86,11 @@ public class CustomerController {
                 .body(paymentResponseMapper.toResponse(payment));
     }
 
-    @GetMapping("cpf/{cpf}")
-    public ResponseEntity<CustomerResponse> findCustomerByCpf(@PathVariable final String cpf) {
-        final var customer = findCustomerByCpfUseCase.find(cpf);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(customerResponseMapper.toResponse(customer));
+    @GetMapping("addressInfo/{cpf}")
+    public ResponseEntity<AddressResponse> findAddressByCustomerCpf(@PathVariable final String cpf) {
+        final var address = findAddressByCustomerCpfUseCase.find(cpf);
+        return ResponseEntity.ok()
+                .body(addressResponseMapper.toResponse(address));
     }
 
     @PostMapping

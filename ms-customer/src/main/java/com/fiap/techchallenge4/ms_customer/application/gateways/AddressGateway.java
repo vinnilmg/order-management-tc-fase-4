@@ -10,6 +10,7 @@ public interface AddressGateway {
     List<Address> findAllAddresses();
 
     Optional<Address> findAddressById(Long id);
+    Optional<Address> findAddressByCustomerCpf(String cpf);
 
     void update(Address address);
 

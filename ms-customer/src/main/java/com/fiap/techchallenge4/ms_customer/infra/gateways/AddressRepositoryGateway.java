@@ -40,6 +40,12 @@ public class AddressRepositoryGateway implements AddressGateway {
     }
 
     @Override
+    public Optional<Address> findAddressByCustomerCpf(final String cpf) {
+        return addressRepository.findAddressByCustomerCpf(cpf)
+                .map(addressEntityMapper::toDomain);
+    }
+
+    @Override
     public void update(final Address address) {
         final var entity = addressEntityMapper.toEntity(address);
         addressRepository.save(entity);
