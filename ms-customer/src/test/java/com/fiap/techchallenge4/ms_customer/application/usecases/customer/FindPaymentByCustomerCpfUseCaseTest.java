@@ -1,7 +1,7 @@
 package com.fiap.techchallenge4.ms_customer.application.usecases.customer;
 
 import com.fiap.techchallenge4.ms_customer.application.gateways.PaymentGateway;
-import com.fiap.techchallenge4.ms_customer.application.usecases.impl.FindPaymentByCustomerIdUseCaseImpl;
+import com.fiap.techchallenge4.ms_customer.application.usecases.impl.FindPaymentByCustomerCpfUseCaseImpl;
 import com.fiap.techchallenge4.ms_customer.domain.exceptions.CustomValidationException;
 import com.fiap.techchallenge4.ms_customer.domain.exceptions.NotFoundException;
 import com.fiap.techchallenge4.ms_customer.helper.constants.CustomerConstants;
@@ -18,51 +18,51 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class FindPaymentByCustomerIdUseCaseTest {
+class FindPaymentByCustomerCpfUseCaseTest {
     @Mock
     private PaymentGateway paymentGateway;
 
     @InjectMocks
-    private FindPaymentByCustomerIdUseCaseImpl findPaymentByCustomerIdUseCase;
+    private FindPaymentByCustomerCpfUseCaseImpl findPaymentByCustomerCpfUseCase;
 
     @Test
     void shouldFindPaymentByCustomerId() {
-        final var customerId = 1L;
+        final var cpf = CustomerConstants.DEFAULT_CPF;
         final var payment = CustomerConstants.DEFAULT_PAYMENT_DOMAIN;
 
-        when(paymentGateway.findPaymentByCustomerId(customerId))
+        when(paymentGateway.findPaymentByCustomerCpf(cpf))
                 .thenReturn(Optional.of(payment));
 
-        final var result = findPaymentByCustomerIdUseCase.find(customerId);
+        final var result = findPaymentByCustomerCpfUseCase.find(cpf);
 
         assertThat(result)
                 .isNotNull()
                 .isEqualTo(payment);
 
-        verify(paymentGateway).findPaymentByCustomerId(customerId);
+        verify(paymentGateway).findPaymentByCustomerCpf(cpf);
     }
 
     @Test
     void shouldThrowNotFoundExceptionWhenCustomerPaymentIsNotFound() {
-        final var customerId = 1L;
+        final var cpf = CustomerConstants.DEFAULT_CPF;
 
-        when(paymentGateway.findPaymentByCustomerId(customerId))
+        when(paymentGateway.findPaymentByCustomerCpf(cpf))
                 .thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> findPaymentByCustomerIdUseCase.find(customerId))
+        assertThatThrownBy(() -> findPaymentByCustomerCpfUseCase.find(cpf))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessageContaining("Customer Payment not found");
 
-        verify(paymentGateway).findPaymentByCustomerId(customerId);
+        verify(paymentGateway).findPaymentByCustomerCpf(cpf);
     }
 
     @Test
-    void shouldThrowCustomValidationExceptionWhenIdIsInvalid() {
-        final var customerId = -1L;
+    void shouldThrowCustomValidationExceptionWhenCpfIsInvalid() {
+        final var cpf = "12345";
 
-        assertThatThrownBy(() -> findPaymentByCustomerIdUseCase.find(customerId))
+        assertThatThrownBy(() -> findPaymentByCustomerCpfUseCase.find(cpf))
                 .isInstanceOf(CustomValidationException.class)
-                .hasMessageContaining("Customer Id cannot be null or negative");
+                .hasMessageContaining("Customer CPF invalid");
 
         verifyNoInteractions(paymentGateway);
     }

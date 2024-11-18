@@ -23,7 +23,7 @@ public class CustomerController {
     private final FindAllCustomersUseCase findAllCustomersUseCase;
     private final FindCustomerByCpfUseCase findCustomerByCpfUseCase;
     private final FindCustomerByIdUseCase findCustomerByIdUseCase;
-    private final FindPaymentByCustomerIdUseCase findPaymentByCustomerIdUseCase;
+    private final FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase;
     private final UpdateCustomerUseCase updateCustomerUseCase;
     private final CustomerRequestMapper customerRequestMapper;
     private final CustomerResponseMapper customerResponseMapper;
@@ -34,7 +34,7 @@ public class CustomerController {
                               FindAllCustomersUseCase findAllCustomersUseCase,
                               FindCustomerByCpfUseCase findCustomerByCpfUseCase,
                               FindCustomerByIdUseCase findCustomerByIdUseCase,
-                              FindPaymentByCustomerIdUseCase findPaymentByCustomerIdUseCase,
+                              FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase,
                               UpdateCustomerUseCase updateCustomerUseCase,
                               CustomerRequestMapper customerRequestMapper,
                               CustomerResponseMapper customerResponseMapper,
@@ -44,7 +44,7 @@ public class CustomerController {
         this.findAllCustomersUseCase = findAllCustomersUseCase;
         this.findCustomerByCpfUseCase = findCustomerByCpfUseCase;
         this.findCustomerByIdUseCase = findCustomerByIdUseCase;
-        this.findPaymentByCustomerIdUseCase = findPaymentByCustomerIdUseCase;
+        this.findPaymentByCustomerCpfUseCase = findPaymentByCustomerCpfUseCase;
         this.updateCustomerUseCase = updateCustomerUseCase;
         this.customerRequestMapper = customerRequestMapper;
         this.customerResponseMapper = customerResponseMapper;
@@ -65,9 +65,9 @@ public class CustomerController {
                 .body(customerResponseMapper.toResponse(customer));
     }
 
-    @GetMapping("payment-info/{customerId}")
-    public ResponseEntity<PaymentResponse> findPaymentByCustomerId(@PathVariable final Long customerId) {
-        final var payment = findPaymentByCustomerIdUseCase.find(customerId);
+    @GetMapping("paymentInfo/{cpf}")
+    public ResponseEntity<PaymentResponse> findPaymentByCustomerCpf(@PathVariable final String cpf) {
+        final var payment = findPaymentByCustomerCpfUseCase.find(cpf);
         return ResponseEntity.ok()
                 .body(paymentResponseMapper.toResponse(payment));
     }

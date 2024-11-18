@@ -40,8 +40,8 @@ public class PaymentRepositoryGateway implements PaymentGateway {
     }
 
     @Override
-    public Optional<Payment> findPaymentByCustomerId(Long customerId) {
-        return paymentRepository.findPaymentByCustomerId(customerId)
+    public Optional<Payment> findPaymentByCustomerCpf(String cpf) {
+        return paymentRepository.findPaymentByCustomerCpf(cpf)
                 .map(paymentEntityMapper::toDomain);
     }
 

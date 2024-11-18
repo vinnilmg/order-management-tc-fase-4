@@ -1,6 +1,5 @@
 package com.fiap.techchallenge4.ms_customer.config;
 
-import com.fiap.techchallenge4.ms_customer.application.gateways.AddressGateway;
 import com.fiap.techchallenge4.ms_customer.application.gateways.CustomerGateway;
 import com.fiap.techchallenge4.ms_customer.application.gateways.PaymentGateway;
 import com.fiap.techchallenge4.ms_customer.application.usecases.*;
@@ -33,8 +32,8 @@ public class BeansConfig {
     }
 
     @Bean
-    public FindPaymentByCustomerIdUseCase findPaymentByCustomerIdUseCase(PaymentGateway paymentGateway) {
-        return new FindPaymentByCustomerIdUseCaseImpl(paymentGateway);
+    public FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase(PaymentGateway paymentGateway) {
+        return new FindPaymentByCustomerCpfUseCaseImpl(paymentGateway);
     }
 
     @Bean
