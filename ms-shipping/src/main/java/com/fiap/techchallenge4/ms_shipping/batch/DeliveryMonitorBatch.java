@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@ConditionalOnProperty(name = "job.enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(name = "job.delivery.enabled", havingValue = "true", matchIfMissing = false)
 public class DeliveryMonitorBatch {
 
     private final DeliveryRepository deliveryRepository;
