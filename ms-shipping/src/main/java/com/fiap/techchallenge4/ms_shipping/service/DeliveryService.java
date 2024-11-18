@@ -5,7 +5,7 @@ import com.fiap.techchallenge4.ms_shipping.dto.DeliveryDto;
 import com.fiap.techchallenge4.ms_shipping.dto.request.DeliveryRequestDto;
 import com.fiap.techchallenge4.ms_shipping.model.DeliveryEntity;
 import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
-import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.DeliveryStatusEnum;
 import com.fiap.techchallenge4.ms_shipping.repository.DeliveryRepository;
 import com.fiap.techchallenge4.ms_shipping.repository.ShippingRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +60,7 @@ public class DeliveryService {
         //criando delivery
         DeliveryEntity delivery = new DeliveryEntity();
         delivery.setOrderId(deliveryRequestDto.getOrderId());
-        delivery.setStatus(ShippingStatusEnum.WAITING_FOR_DELIVERY);
+        delivery.setStatus(DeliveryStatusEnum.WAITING_FOR_DELIVERY);
         delivery.setRegion(shipping);
         return modelMapper.map(deliveryRepository.save(delivery), DeliveryDto.class);
     }
@@ -75,8 +75,8 @@ public class DeliveryService {
         return Optional.empty();
     }
 
-    public List<DeliveryEntity> findByStatusAndRegionId(ShippingStatusEnum shippingStatusEnum, Long region) {
-        var delivery = deliveryRepository.findByStatusAndRegionId(shippingStatusEnum, region);
+    public List<DeliveryEntity> findByStatusAndRegionId(DeliveryStatusEnum deliveryStatusEnum, Long region) {
+        var delivery = deliveryRepository.findByStatusAndRegionId(deliveryStatusEnum, region);
 
         return delivery;
     }

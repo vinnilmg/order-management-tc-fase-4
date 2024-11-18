@@ -1,7 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.controller.request;
 
-import com.fiap.techchallenge4.ms_shipping.model.CourierEntity;
-import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.DeliveryStatusEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +8,10 @@ import lombok.Setter;
 @Setter
 public class DeliveryUpdateRequest {
 
-    private ShippingStatusEnum status;
+    private DeliveryStatusEnum status;
     private Long id;
 
-    public DeliveryUpdateRequest(ShippingStatusEnum status, Long id) {
+    public DeliveryUpdateRequest(DeliveryStatusEnum status, Long id) {
         this.status = status;
         this.id = id;
     }

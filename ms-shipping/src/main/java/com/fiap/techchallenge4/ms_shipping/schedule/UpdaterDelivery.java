@@ -6,8 +6,7 @@ import com.fiap.techchallenge4.ms_shipping.model.CourierEntity;
 import com.fiap.techchallenge4.ms_shipping.model.DeliveryEntity;
 import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
 import com.fiap.techchallenge4.ms_shipping.model.enums.AvaialableCourierEnum;
-import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
-import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.DeliveryStatusEnum;
 import com.fiap.techchallenge4.ms_shipping.repository.DeliveryRepository;
 import com.fiap.techchallenge4.ms_shipping.service.CourierService;
 import com.fiap.techchallenge4.ms_shipping.service.DeliveryService;
@@ -18,9 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -48,7 +45,7 @@ public class UpdaterDelivery {
             log.info("a região atual é {}", s.getId());
 
             //Pegando os pedidos da região atual
-            List<DeliveryEntity> listDelivery = this.deliveryService.findByStatusAndRegionId(ShippingStatusEnum.WAITING_FOR_DELIVERY, s.getId());
+            List<DeliveryEntity> listDelivery = this.deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, s.getId());
             if (listDelivery.isEmpty()) {
                 //system.out.println("não achou pedido para região "+ s.getId());
                 log.info("não achou pedido para região {}", s.getId());
@@ -77,10 +74,10 @@ public class UpdaterDelivery {
                         //System.out.println("id do pedido atual: " + delivery.getId());
                         log.info("id do pedido atual sendo atualizado {}", delivery.getId());
                         //ATUALIZAR O LIST DE PEDIDO COM NÚMERO DO ENTREGADOR E STATUS PARA EM ROTA(ShippingStatusEnum.ON_DELIVERY_ROUTE)
-                        DeliveryUpdateRequest reqDelivery = new DeliveryUpdateRequest(ShippingStatusEnum.ON_DELIVERY_ROUTE, courier.getId());
+                        DeliveryUpdateRequest reqDelivery = new DeliveryUpdateRequest(DeliveryStatusEnum.ON_DELIVERY_ROUTE, courier.getId());
                         //this.deliveryService.updateStatus(delivery.getId(), reqDelivery);
                         delivery.setCourier(courier);
-                        delivery.setStatus(ShippingStatusEnum.ON_DELIVERY_ROUTE);
+                        delivery.setStatus(DeliveryStatusEnum.ON_DELIVERY_ROUTE);
                         deliveryRepository.save(delivery);
                     }
 
