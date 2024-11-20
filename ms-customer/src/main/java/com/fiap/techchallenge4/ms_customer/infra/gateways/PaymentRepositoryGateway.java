@@ -40,6 +40,12 @@ public class PaymentRepositoryGateway implements PaymentGateway {
     }
 
     @Override
+    public Optional<Payment> findPaymentByCustomerCpf(String cpf) {
+        return paymentRepository.findPaymentByCustomerCpf(cpf)
+                .map(paymentEntityMapper::toDomain);
+    }
+
+    @Override
     public void update(final Payment payment) {
         final var entity = paymentEntityMapper.toEntity(payment);
         paymentRepository.save(entity);
