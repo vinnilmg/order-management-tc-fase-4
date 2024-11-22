@@ -59,7 +59,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponse>> findAllCustomer() {
+    public ResponseEntity<List<CustomerResponse>> findAllCustomers() {
         final var customers = findAllCustomersUseCase.find();
         return ResponseEntity.ok()
                 .body(customerResponseMapper.toResponses(customers));
