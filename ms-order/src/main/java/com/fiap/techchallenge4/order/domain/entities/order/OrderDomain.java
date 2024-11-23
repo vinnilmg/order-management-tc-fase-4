@@ -94,15 +94,20 @@ public class OrderDomain implements Order {
         this.status = statusValidation(status);
         this.creationDate = creationDateValidation(creationDate);
 
-        if (isNull(total) || total.signum() < 1) throw CustomValidationException.of("Order Total", "is invalid");
+        if (isNull(total) || total.signum() < 1) {
+            throw CustomValidationException.of("Order Total", "is invalid");
+        }
         this.total = total;
 
         this.shipping = requireNonNull(shipping);
 
         if (this.status.equals(OrderStatusEnum.FINALIZADO)) {
-            if (isNull(completionDate)) throw CustomValidationException.of("Order Completion Date", "cannot be null");
-            if (creationDate.isAfter(completionDate))
+            if (isNull(completionDate)) {
+                throw CustomValidationException.of("Order Completion Date", "cannot be null");
+            }
+            if (creationDate.isAfter(completionDate)) {
                 throw CustomValidationException.of("Order Completion Date", "is before to creation date");
+            }
             this.completionDate = completionDate;
         }
     }

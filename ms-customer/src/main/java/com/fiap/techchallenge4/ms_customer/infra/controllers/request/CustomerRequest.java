@@ -4,6 +4,7 @@ public record CustomerRequest(
         String cpf,
         String name,
         AddressRequest address,
-        String birthDate
+        String birthDate,
+        PaymentRequest payment
 ) {
 }

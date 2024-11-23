@@ -26,6 +26,6 @@ public interface ShippingEntityMapper {
     @Mapping(target = "postalCode", source = "postalCode")
     @Mapping(target = "price", source = "price")
     @Mapping(target = "estimate", source = "daysForDelivery")
-    @Mapping(target = "timeUnit", constant = "DAY")
+    @Mapping(target = "timeUnit", source = "timeUnit")
     ShippingEntity toEntity(Shipping shipping);
 }

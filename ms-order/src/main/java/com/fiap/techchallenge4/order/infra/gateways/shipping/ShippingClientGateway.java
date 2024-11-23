@@ -15,7 +15,10 @@ public class ShippingClientGateway implements SimulateShippingGateway, CreateShi
     private final ShippingClient shippingClient;
     private final ProviderShippingResponseMapper providerShippingResponseMapper;
 
-    public ShippingClientGateway(ShippingClient shippingClient, ProviderShippingResponseMapper providerShippingResponseMapper) {
+    public ShippingClientGateway(
+            ShippingClient shippingClient,
+            ProviderShippingResponseMapper providerShippingResponseMapper
+    ) {
         this.shippingClient = shippingClient;
         this.providerShippingResponseMapper = providerShippingResponseMapper;
     }

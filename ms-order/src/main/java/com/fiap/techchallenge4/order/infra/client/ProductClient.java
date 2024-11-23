@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface ProductClient {
 
     @GetMapping(value = "/{sku}", produces = "application/json")
-    ProviderProductResponse getProductById(@PathVariable("sku") Long sku);
+    ProviderProductResponse getProductBySku(@PathVariable("sku") Long sku);
 
     @PutMapping(value = "/{sku}/decrease-stock")
     void decreaseStock(@PathVariable("sku") Long sku, @RequestBody UpdateProductStockRequest request);

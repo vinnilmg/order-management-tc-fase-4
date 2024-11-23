@@ -2,6 +2,7 @@ package com.fiap.techchallenge4.ms_customer.config;
 
 import com.fiap.techchallenge4.ms_customer.application.gateways.AddressGateway;
 import com.fiap.techchallenge4.ms_customer.application.gateways.CustomerGateway;
+import com.fiap.techchallenge4.ms_customer.application.gateways.PaymentGateway;
 import com.fiap.techchallenge4.ms_customer.application.usecases.*;
 import com.fiap.techchallenge4.ms_customer.application.usecases.impl.*;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +18,8 @@ public class BeansConfig {
 
     @Bean
     public DeleteCustomerUseCase deleteCustomerUseCase(CustomerGateway customerGateway,
-                                                       AddressGateway addressGateway,
                                                        FindCustomerByIdUseCase findCustomerByIdUseCase) {
-        return new DeleteCustomerUseCaseImpl(customerGateway, addressGateway, findCustomerByIdUseCase);
+        return new DeleteCustomerUseCaseImpl(customerGateway, findCustomerByIdUseCase);
     }
 
     @Bean
@@ -33,13 +33,25 @@ public class BeansConfig {
     }
 
     @Bean
+    public FindPaymentByCustomerCpfUseCase findPaymentByCustomerCpfUseCase(PaymentGateway paymentGateway) {
+        return new FindPaymentByCustomerCpfUseCaseImpl(paymentGateway);
+    }
+
+    @Bean
     public FindCustomerByCpfUseCase findCustomerByCpfUseCase(CustomerGateway customerGateway) {
         return new FindCustomerByCpfUseCaseImpl(customerGateway);
     }
 
-    @Bean UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway) {
+    @Bean
+    UpdateCustomerUseCase updateCustomerUseCase(CustomerGateway customerGateway) {
         return new UpdateCustomerUseCaseImpl(customerGateway);
     }
+
+    @Bean
+    public FindAddressByCustomerCpfUseCase findAddressByCustomerCpfUseCase(AddressGateway addressGateway) {
+        return new FindAddressByCustomerCpfUseCaseImpl(addressGateway);
+    }
+
 
 
 }
