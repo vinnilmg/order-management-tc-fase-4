@@ -23,21 +23,21 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @PutMapping("/{skuId}/decrease-stock")
-    public ResponseEntity<ApiErrorResponse> decreaseStock(
+    public ResponseEntity<Void> decreaseStock(
             @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
         productService.decreaseStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock diminuido com Sucesso."));
+        return ResponseEntity.noContent().build();
     }
 
 
     @Override
     @PutMapping("/{skuId}/additional-stock")
-    public ResponseEntity<ApiErrorResponse> additionalStock(
+    public ResponseEntity<Void> additionalStock(
             @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO) {
         productService.addStock(skuId, productQuantityDTO.getQuantity());
-        return ResponseEntity.ok(new ApiErrorResponse("Stock adicionado com Sucesso."));
+        return ResponseEntity.noContent().build();
     }
 
     @Override

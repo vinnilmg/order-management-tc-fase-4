@@ -21,24 +21,24 @@ public interface ProductController {
 
     @Operation(summary = "Diminuir o estoque de um produto", description = "Diminui o estoque de um produto por uma quantidade especificada.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estoque diminuído com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "204", description = "Estoque diminuído com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "400", description = "Estoque insuficiente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     @PutMapping("/{skuId}/diminuir-estoque")
-    ResponseEntity<ApiErrorResponse> decreaseStock(
+    ResponseEntity<Void> decreaseStock(
             @Parameter(description = "ID SKU do produto", required = true) @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO
     );
 
     @Operation(summary = "Adicionar estoque a um produto", description = "Aumenta o estoque de um produto por uma quantidade especificada.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Estoque adicionado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
+            @ApiResponse(responseCode = "204", description = "Estoque adicionado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))),
             @ApiResponse(responseCode = "400", description = "Quantidade inválida", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class)))
     })
     @PutMapping("/{skuId}/adicionar-estoque")
-    ResponseEntity<ApiErrorResponse> additionalStock(
+    ResponseEntity<Void> additionalStock(
             @Parameter(description = "ID SKU do produto", required = true) @PathVariable Long skuId,
             @RequestBody ProductQuantityDTO productQuantityDTO
     );
