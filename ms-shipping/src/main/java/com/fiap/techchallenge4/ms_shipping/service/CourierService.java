@@ -5,17 +5,14 @@ import com.fiap.techchallenge4.ms_shipping.config.exception.NotFoundExpection;
 import com.fiap.techchallenge4.ms_shipping.controller.request.CourierUpdateRequest;
 import com.fiap.techchallenge4.ms_shipping.model.CourierEntity;
 import com.fiap.techchallenge4.ms_shipping.model.enums.AvaialableCourierEnum;
-import com.fiap.techchallenge4.ms_shipping.model.enums.RegionEnum;
 import com.fiap.techchallenge4.ms_shipping.repository.CourierRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.synth.Region;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j
