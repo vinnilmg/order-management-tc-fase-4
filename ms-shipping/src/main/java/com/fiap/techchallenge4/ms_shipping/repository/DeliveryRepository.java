@@ -10,8 +10,6 @@ import java.util.Optional;
 public interface DeliveryRepository extends JpaRepository<DeliveryEntity, Long> {
     Optional<DeliveryEntity> findByOrderId(Long orderId);
 
-    //Optional<List<DeliveryEntity>> findByCourier(Optional<CourierEntity> courier);
-
     List<DeliveryEntity> findByStatusAndRegionId(DeliveryStatusEnum shippingStatusEnum, Long region);
 
     Optional<List<DeliveryEntity>> findByCourierId(Long courierId);

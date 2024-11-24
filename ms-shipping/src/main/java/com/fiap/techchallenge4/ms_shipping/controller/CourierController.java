@@ -52,12 +52,6 @@ public class CourierController {
         return ResponseEntity.ok(courierService.updateStatus(id, courier));
     }
 
-//    @GetMapping("courier-available/{region}")
-//    public ResponseEntity<List<CourierEntity>> findByStatusAndRegion(@PathVariable RegionEnum region) {
-//        var courier = courierService.findByStatusAndRegion(AvaialableCourierEnum.AVAILABLE, region);
-//        return ResponseEntity.ok(courier);
-//    }
-
     @GetMapping("delivery-courier/{id}")
     public ResponseEntity<Optional<List<DeliveryEntity>>> findByCourier(@PathVariable Long id) {
         var delivery = deliveryService.findByCourier(id);

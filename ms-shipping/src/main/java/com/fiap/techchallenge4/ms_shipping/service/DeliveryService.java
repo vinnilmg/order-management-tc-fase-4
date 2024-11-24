@@ -1,5 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.service;
 
+import com.fiap.techchallenge4.ms_shipping.client.OrderServiceClient;
 import com.fiap.techchallenge4.ms_shipping.config.exception.NotFoundExpection;
 import com.fiap.techchallenge4.ms_shipping.dto.DeliveryDto;
 import com.fiap.techchallenge4.ms_shipping.dto.request.DeliveryRequestDto;
@@ -26,11 +27,14 @@ public class DeliveryService {
 
     private final ModelMapper modelMapper;
 
+    private final OrderServiceClient orderServiceClient;
+
     @Autowired
-    public DeliveryService(DeliveryRepository deliveryRepository, ShippingRepository shippingRepository, ModelMapper modelMapper) {
+    public DeliveryService(DeliveryRepository deliveryRepository, ShippingRepository shippingRepository, ModelMapper modelMapper, OrderServiceClient orderServiceClient) {
         this.deliveryRepository = deliveryRepository;
         this.shippingRepository = shippingRepository;
         this.modelMapper = modelMapper;
+        this.orderServiceClient = orderServiceClient;
     }
 
     public DeliveryDto getDeliveryByOrderId(Long orderId) {
@@ -67,31 +71,23 @@ public class DeliveryService {
 
     public Optional<List<DeliveryEntity>> findByCourier(Long id) {
         var courier = deliveryRepository.findByCourierId(id);
-        //Optional<DeliveryEntity> delivery = Optional.empty();
         if (!courier.isEmpty()) {
             return courier;
         }
-        if (courier.isEmpty()) throw new NotFoundExpection(String.format("Delivery for Courier %s", id));
         return Optional.empty();
     }
 
     public List<DeliveryEntity> findByStatusAndRegionId(DeliveryStatusEnum deliveryStatusEnum, Long region) {
-        var delivery = deliveryRepository.findByStatusAndRegionId(deliveryStatusEnum, region);
-
-        return delivery;
+        return deliveryRepository.findByStatusAndRegionId(deliveryStatusEnum, region);
     }
 
-    //verificar se posso usar no job direto o repository
-//    public DeliveryEntity updateStatus(Long id, DeliveryUpdateRequest request) {
-//        var deliveryOp = repo.findById(id);
-//        var courier = courierRepository.findById(request.getId());
-//
-//        if (deliveryOp.isEmpty()) throw new NotFoundExpection("delivery não encontrado");
-//        if (courier.isEmpty()) throw new NotFoundExpection("courier não encontrado");
-//
-//        var delivery = deliveryOp.get();
-//        delivery.setStatus(request.getStatus());
-//        delivery.setCourier(courier.get());
-//        return repo.save(delivery);
-//    }
+    public void finishOrder(Long orderId) {
+        try {
+            orderServiceClient.finishOrder(orderId);
+            log.info("Order finished whith id {}", orderId);
+        }catch (Exception e) {
+            log.error("Error finishing order with id {}", orderId);
+            throw new NotFoundExpection(String.format("Error finishing order with id %s", orderId));
+        }
+    }
 }
