@@ -16,7 +16,7 @@ class CustomerRequestMapperTest {
     }
 
     @Test
-    void shouldMapCustomer() {
+    void shouldMapCustomerRequest() {
         final var customerRequest = CustomerRequestFixture.FULL();
 
         final var result = customerRequestMapper.toCustomer(customerRequest);
