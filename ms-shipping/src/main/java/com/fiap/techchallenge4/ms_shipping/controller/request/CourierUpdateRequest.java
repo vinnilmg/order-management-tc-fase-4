@@ -10,6 +10,8 @@ public class CourierUpdateRequest {
 
     private AvaialableCourierEnum status;
 
+    public CourierUpdateRequest() {}
+
     public CourierUpdateRequest(AvaialableCourierEnum status) {
         this.status = status;
     }
