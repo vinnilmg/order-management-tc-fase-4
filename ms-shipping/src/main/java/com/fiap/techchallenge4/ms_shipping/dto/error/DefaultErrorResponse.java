@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.ms_shipping.dto;
+package com.fiap.techchallenge4.ms_shipping.dto.error;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,7 +16,7 @@ import org.springframework.web.ErrorResponse;
 @JsonIgnoreProperties({"headers", "titleMessageCode", "detailMessageCode", "typeMessageCode"}) // Ignora campos indesejados
 public class DefaultErrorResponse implements ErrorResponse {
     private String message;
-    private String cep;
+    private String field;
 
     @Override
     public HttpStatusCode getStatusCode() {
