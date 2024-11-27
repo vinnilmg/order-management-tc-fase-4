@@ -36,10 +36,9 @@ services:
     environment:
       KAFKA_BROKERCONNECT: ms-order-kafka:29092
 
-  ms-order-postgres:
+  ms-order-db:
     image: postgres:latest
     restart: always
-    container_name: postgres
     networks:
       - order-management-network
     environment:
@@ -52,22 +51,30 @@ services:
       - ./postgres/data:/var/lib/postgresql/data
 
   ms-order-api:
-    image: 'ms-order:latest'
+    image: ms-order:latest
     build: ./ms-order
     networks:
       - order-management-network
     depends_on:
-      - ms-order-postgres
+      - ms-order-db
       - ms-order-kafdrop
     ports:
       - "8091:8091"
     environment:
-      - "SPRING_PROFILES_ACTIVE=prd"
+      SPRING_PROFILES_ACTIVE: prd
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-order-db:5432/order_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
+      KAFKA_HOST: ms-order-kafka:9092
+      MS_PRODUCT_HOST: T
+      MS_CUSTOMER_HOST: T
+      MS_SHIPPING_HOST: T
+      MS_PAYMENT_HOST: ms-payment-processor-api
 
   #################################################################################################################
 
   ms-payment-processor-api:
-    image: 'ms-payment-processor:latest'
+    image: ms-payment-processor:latest
     build: ./ms-payment-processor
     networks:
       - order-management-network

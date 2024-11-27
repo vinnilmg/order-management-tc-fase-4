@@ -1,17 +1,13 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 123456
   kafka:
-    bootstrap-servers: ${KAFKA_HOST:localhost:9092}
+    bootstrap-servers: ${KAFKA_HOST}
 
 ms:
   product:
-    host: http://localhost:8082
+    host: ${MS_PRODUCT_HOST}
   customer:
-    host: http://localhost:8082
+    host: ${MS_CUSTOMER_HOST}
   shipping:
-    host: http://localhost:8082
+    host: ${MS_SHIPPING_HOST}
   payment:
-    host: http://localhost:9090
+    host: ${MS_PAYMENT_HOST}
