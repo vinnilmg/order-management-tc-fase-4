@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(value = "product", url = "${ms.product.host}/api/products")
 public interface ProductClient {
 
-    @GetMapping(value = "/{sku}", produces = "application/json")
+    @GetMapping(value = "/skuId/{sku}", produces = "application/json")
     ProviderProductResponse getProductBySku(@PathVariable("sku") Long sku);
 
     @PutMapping(value = "/{sku}/decrease-stock")
