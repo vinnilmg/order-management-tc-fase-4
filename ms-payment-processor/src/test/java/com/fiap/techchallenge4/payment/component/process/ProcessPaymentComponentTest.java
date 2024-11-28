@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fiap.techchallenge4.payment.controller.PaymentProcessorController;
+import com.fiap.techchallenge4.payment.controller.request.PaymentDataRequest;
 import com.fiap.techchallenge4.payment.helper.fixture.request.PaymentDataRequestFixture;
 import com.fiap.techchallenge4.payment.service.PaymentProcessorServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -46,9 +48,7 @@ class ProcessPaymentComponentTest extends AbstractJUnit4SpringContextTests {
     void shouldApprovePayment() throws Exception {
         final var request = PaymentDataRequestFixture.VALID();
 
-        mockMvc.perform(post(ENDPOINT)
-                .content(toJsonString(request))
-                .headers(headers))
+        perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(JSON_PATH_APPROVED).value(true));
     }
@@ -57,11 +57,15 @@ class ProcessPaymentComponentTest extends AbstractJUnit4SpringContextTests {
     void shouldNotApprovePayment() throws Exception {
         final var request = PaymentDataRequestFixture.UNAPPROVED();
 
-        mockMvc.perform(post(ENDPOINT)
-                        .content(toJsonString(request))
-                        .headers(headers))
+        perform(request)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath(JSON_PATH_APPROVED).value(false));
+    }
+
+    private ResultActions perform(final PaymentDataRequest request) throws Exception {
+        return mockMvc.perform(post(ENDPOINT)
+                .content(toJsonString(request))
+                .headers(headers));
     }
 
     private static String toJsonString(final Object object) throws JsonProcessingException {
