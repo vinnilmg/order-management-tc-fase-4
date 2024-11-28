@@ -1,7 +1,7 @@
-package com.fiap.techchallenge4.ms_payment_processor.service;
+package com.fiap.techchallenge4.payment.service;
 
-import com.fiap.techchallenge4.ms_payment_processor.controller.request.PaymentDataRequest;
-import com.fiap.techchallenge4.ms_payment_processor.controller.response.PaymentProcessorResponse;
+import com.fiap.techchallenge4.payment.controller.request.PaymentDataRequest;
+import com.fiap.techchallenge4.payment.controller.response.PaymentProcessorResponse;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.requireNonNull;

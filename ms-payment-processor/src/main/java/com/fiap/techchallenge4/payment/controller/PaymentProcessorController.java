@@ -1,8 +1,8 @@
-package com.fiap.techchallenge4.ms_payment_processor.controller;
+package com.fiap.techchallenge4.payment.controller;
 
-import com.fiap.techchallenge4.ms_payment_processor.controller.request.PaymentDataRequest;
-import com.fiap.techchallenge4.ms_payment_processor.controller.response.PaymentProcessorResponse;
-import com.fiap.techchallenge4.ms_payment_processor.service.PaymentProcessorService;
+import com.fiap.techchallenge4.payment.controller.request.PaymentDataRequest;
+import com.fiap.techchallenge4.payment.controller.response.PaymentProcessorResponse;
+import com.fiap.techchallenge4.payment.service.PaymentProcessorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

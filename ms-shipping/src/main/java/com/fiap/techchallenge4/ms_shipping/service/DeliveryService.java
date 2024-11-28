@@ -40,7 +40,7 @@ public class DeliveryService {
     public DeliveryDto getDeliveryByOrderId(Long orderId) {
         Optional<DeliveryEntity> deliveryEntity = deliveryRepository.findByOrderId(orderId);
         log.info("Searching for orderId: {}", orderId);
-        if(deliveryEntity.isEmpty()) {
+        if (deliveryEntity.isEmpty()) {
             log.error("OrderId not found: {}", orderId);
             throw new NotFoundExpection(String.format("OrderId %s", orderId));
         }
@@ -85,7 +85,8 @@ public class DeliveryService {
         try {
             orderServiceClient.finishOrder(orderId);
             log.info("Order finished whith id {}", orderId);
-        }catch (Exception e) {
+        } catch (Exception e) {
+            log.error("DEU ERRO: {}", e.getMessage(), e);
             log.error("Error finishing order with id {}", orderId);
             throw new NotFoundExpection(String.format("Error finishing order with id %s", orderId));
         }

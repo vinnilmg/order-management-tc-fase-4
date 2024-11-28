@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.ms_payment_processor.controller.request;
+package com.fiap.techchallenge4.payment.controller.request;
 
 public record PaymentDataRequest(
         String cardNumber,

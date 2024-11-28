@@ -1,4 +1,4 @@
-package com.fiap.techchallenge4.ms_payment_processor.controller.response;
+package com.fiap.techchallenge4.payment.controller.response;
 
 public record PaymentProcessorResponse(boolean approved) {
     public static PaymentProcessorResponse of(final boolean approved) {
