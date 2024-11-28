@@ -89,7 +89,35 @@ services:
 
 ####################################################################################################################
   # ms-shipping-api
+  ms-shipping-api:
+    image: ms-shipping:latest
+    build: ./ms-shipping
+    networks:
+      - order-management-network
+    ports:
+      - "8090:8090"
+    depends_on:
+      - ms-shipping-db
 
+  ms-shipping-db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-shipping
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - order-management-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 1s
+      timeout: 3s
+      retries: 10
 ####################################################################################################################
 
 networks:
