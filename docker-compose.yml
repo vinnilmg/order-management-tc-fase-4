@@ -88,7 +88,6 @@ services:
   # ms-product-api
 
 ####################################################################################################################
-  # ms-shipping-api
   ms-shipping-api:
     image: ms-shipping:latest
     build: ./ms-shipping

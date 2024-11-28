@@ -3,6 +3,7 @@ package com.fiap.techchallenge4.payment.controller;
 import com.fiap.techchallenge4.payment.controller.request.PaymentDataRequest;
 import com.fiap.techchallenge4.payment.controller.response.PaymentProcessorResponse;
 import com.fiap.techchallenge4.payment.service.PaymentProcessorService;
+import com.fiap.techchallenge4.payment.service.PaymentProcessorServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentProcessorController {
     private final PaymentProcessorService paymentProcessorService;
 
-    public PaymentProcessorController(PaymentProcessorService paymentProcessorService) {
+    public PaymentProcessorController(PaymentProcessorServiceImpl paymentProcessorService) {
         this.paymentProcessorService = paymentProcessorService;
     }
 
