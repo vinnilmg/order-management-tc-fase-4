@@ -47,9 +47,9 @@ logging:
     org.springframework.transaction: DEBUG
 
 directory:
-  pending:  ${user.dir}/ms-product/src/main/resources/imports/pending
-  finished: ${user.dir}/ms-product/src/main/resources/imports/finished
-  waiting:  ${user.dir}/ms-product/src/main/resources/imports/waiting
+  pending:  ms-product/src/main/resources/imports/pending
+  finished: ms-product/src/main/resources/imports/finished
+  waiting:  ms-product/src/main/resources/imports/waiting
 
 springdoc:
   api-docs:
