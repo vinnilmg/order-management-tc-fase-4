@@ -20,12 +20,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class UpdateDeliveryBatchTest {
+class UpdateDeliveryBatchTest {
 
     @Mock
     private DeliveryService deliveryService;
@@ -64,12 +66,15 @@ public class UpdateDeliveryBatchTest {
     }
 
     @Test
-    public void testCheckDeliveryWhenNoCourierAvailable() {
+    void testCheckDeliveryWhenNoCourierAvailable() {
         // Preparando o comportamento dos mocks
-        Mockito.when(shippingService.getAllRegion()).thenReturn(Collections.singletonList(shippingEntity));
-        Mockito.when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
+        when(shippingService.getAllRegion())
+                .thenReturn(Collections.singletonList(shippingEntity));
+
+        when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
                 .thenReturn(Collections.singletonList(deliveryEntity));
-        Mockito.when(courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE, shippingEntity.getId()))
+
+        when(courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE, shippingEntity.getId()))
                 .thenReturn(Collections.emptyList());
 
         // Executando o batch
@@ -80,12 +85,15 @@ public class UpdateDeliveryBatchTest {
     }
 
     @Test
-    public void testCheckDeliveryWhenCourierIsAvailable() {
+    void testCheckDeliveryWhenCourierIsAvailable() {
         // Preparando o comportamento dos mocks
-        Mockito.when(shippingService.getAllRegion()).thenReturn(Collections.singletonList(shippingEntity));
-        Mockito.when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
+        when(shippingService.getAllRegion())
+                .thenReturn(Collections.singletonList(shippingEntity));
+
+        when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
                 .thenReturn(Collections.singletonList(deliveryEntity));
-        Mockito.when(courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE, shippingEntity.getId()))
+
+        when(courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE, shippingEntity.getId()))
                 .thenReturn(Arrays.asList(courierEntity));
 
         // Capturador do argumento para o updateStatus
@@ -110,10 +118,12 @@ public class UpdateDeliveryBatchTest {
     }
 
     @Test
-    public void testCheckDeliveryWhenNoDeliveriesFound() {
+    void testCheckDeliveryWhenNoDeliveriesFound() {
         // Preparando o comportamento dos mocks
-        Mockito.when(shippingService.getAllRegion()).thenReturn(Collections.singletonList(shippingEntity));
-        Mockito.when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
+        when(shippingService.getAllRegion())
+                .thenReturn(Collections.singletonList(shippingEntity));
+
+        when(deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, shippingEntity.getId()))
                 .thenReturn(Collections.emptyList());
 
         // Executando o batch
