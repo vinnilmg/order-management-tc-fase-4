@@ -8,16 +8,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ShippingService {
 
-    @Autowired
-    private ShippingRepository shippingRepository;
+    private final ShippingRepository shippingRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+
+    public ShippingService(ShippingRepository shippingRepository, ModelMapper modelMapper) {
+        this.shippingRepository = shippingRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public ShippingDto getShippingByCep(String cep) {
         Optional<ShippingEntity> shippingEntity = shippingRepository.findByCepWithinRange(cep);
@@ -32,4 +36,11 @@ public class ShippingService {
         dto.setPostalCode(cep);
         return dto;
     }
+
+    public List<ShippingEntity> getAllRegion() {
+        var shippingEntity = shippingRepository.findAll();
+
+        return shippingEntity;
+    }
+
 }

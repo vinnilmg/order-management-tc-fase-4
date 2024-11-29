@@ -14,9 +14,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
-server:
-  port: 8091
-
 logging:
   level:
     root: INFO

@@ -15,4 +15,14 @@ public class ProviderProductResponseFixture {
                 5
         );
     }
+
+    public static ProviderProductResponse WITH_PRICE_TEN() {
+        return new ProviderProductResponse(
+                1L,
+                3000L,
+                "Camiseta",
+                new BigDecimal(10),
+                5
+        );
+    }
 }

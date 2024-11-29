@@ -8,10 +8,10 @@ spring:
 
 ms:
   product:
-    host: http://localhost:8082
+    host: http://localhost:8093
   customer:
-    host: http://localhost:8082
+    host: http://localhost:8092
   shipping:
-    host: http://localhost:8082
+    host: http://localhost:8090
   payment:
     host: http://localhost:9090

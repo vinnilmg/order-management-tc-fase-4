@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "shipping", url = "${ms.shipping.host}/api/shippings")
+@FeignClient(value = "shipping", url = "${ms.shipping.host}")
 public interface ShippingClient {
 
-    @GetMapping(value = "/{postalCode}", produces = "application/json")
+    @GetMapping(value = "/api/shippings/{postalCode}", produces = "application/json")
     ProviderShippingResponse simulateShipping(@PathVariable String postalCode);
 
-    @PostMapping
+    @PostMapping(value = "/api/deliveries")
     void createShipping(@RequestBody CreateShippingRequest request);
 }

@@ -1,6 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.dto;
 
-import com.fiap.techchallenge4.ms_shipping.model.enums.ShippingStatusEnum;
+import com.fiap.techchallenge4.ms_shipping.model.enums.DeliveryStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeliveryDto {
 
-    private Long order_id;
-    private ShippingStatusEnum status;
+    private Long orderId;
+    private DeliveryStatusEnum status;
     private int latitude;
     private int longitude;
 }
