@@ -75,6 +75,20 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    void saveAll_deveSalvarProdutoERetornarModelo() {
+        List<Product> model = List.of(Product.builder()
+                .id(1L)
+                .name("Produto 1")
+                .stock(10)
+                .build());
+
+
+        productService.saveAll(model);
+
+        verify(productRepository, times(1)).saveAllAndFlush(anyList());
+    }
+
+    @Test
     void findBySkuId_deveRetornarProdutoExistente() {
         Product model = Product.builder().id(1L).skuId(123L).name("Produto 1").stock(3).build();
         ProductData dataModel = productMapper.toEntity(model);
@@ -176,6 +190,16 @@ public class ProductServiceImplTest {
 
         ValidationException exception = assertThrows(ValidationException.class, () -> productService.addStock(123L, -5));
         assertEquals("Produto com SKU ID 123 a quantidade para adicionar deve ser maior que zero", exception.getMessage());
+        verify(productRepository, times(1)).findBySkuId(123L);
+    }
+
+    @Test
+    void addStock_deveLancarValidationExceptionQuandoNaoEncontraroProduto (){
+
+        when(productRepository.findBySkuId(123L)).thenReturn(Optional.empty());
+
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> productService.addStock(123L, -5));
+        assertEquals("Produto com SKU ID 123 não encontrado", exception.getMessage());
         verify(productRepository, times(1)).findBySkuId(123L);
     }
 }
