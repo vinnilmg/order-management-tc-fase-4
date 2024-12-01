@@ -4,8 +4,10 @@
 
 ## Courier - Entregador
 
-Get  -> http://localhost:8090/api/courier
-Busca todos os entregadores cadastrados
+###Buscar todos os entregadores
+<p>Endpoint responsável por busca todos os entregadores cadastrados</p>
+Endereço: /api/courier
+Método: GET
 
 Get  -> http://localhost:8090/api/courier/{id}
 Busca o entregador do id informado
