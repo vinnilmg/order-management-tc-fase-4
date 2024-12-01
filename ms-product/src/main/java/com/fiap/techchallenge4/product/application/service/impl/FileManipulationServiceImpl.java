@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+
 @Slf4j
 @NoArgsConstructor
 @Service
@@ -19,6 +20,10 @@ public class FileManipulationServiceImpl implements FileManipulationService {
     public void moveFile(String directoryResource, String directoryDestination, String fileName) throws IOException {
         File file = new File(directoryResource + File.separator + fileName);
         Path targetPath = Path.of(directoryDestination + File.separator + fileName);
+
+        if (!fileName.endsWith(".csv")) {
+            return;
+        }
 
         try {
             Files.move(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);

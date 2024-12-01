@@ -3,14 +3,11 @@ spring:
     init:
       mode: always
 
-  profiles:
-    active: local
-
   application:
     name: ms-product
 
   datasource:
-    url: jdbc:postgresql://localhost:5415/ms_product_db
+    url: jdbc:postgresql://localhost:5415/ms-product-dbase
     username: postgres
     password: postgres
     hikari:
