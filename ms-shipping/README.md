@@ -1,5 +1,5 @@
-#MS-SHIPPING
-------------------------------------------------------------------------------------------
+# MS-SHIPPING
+
 <p>Micro Serviço Responsável por gerar as entregas e vincular os entregadores, bem como cálcular frete.</p>
 
 ## Courier - Entregador
