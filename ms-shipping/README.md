@@ -77,7 +77,7 @@ Método: GET <br>
 ### DeliveryMonitorBatch
 
 - Busca todas as entregas que tenham entregador já vinculados, que estejam com status ON_DELIVERY_ROUTE e que tenham latitude e longitude com valores entre 0 e 10;
-- Atualiza a latitude e a longitude com mais 1 para cada até chegar a 10 (simula atualizada de rota de entrega).
+- Atualiza a latitude e a longitude com mais 1 para cada até chegar a 10 (simula atualização de rota de entrega).
 - Ao chegar em 10 na latitude e longitude, muda o status da entrega para DELIVERED, muda o status do entregador para AVAILABLE(se não estiver com mais nenhuma outra entrega em rota) e chama o serviço de pedido (http://localhost:8091/api/{orderId}/finish) para finalizar o pedido.
 
 ### UpdateDeliveryBatch
