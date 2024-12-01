@@ -76,7 +76,7 @@ Regras:
 - Busca o pedido na base
 - Valida se o pedido está no status "EM_ROTA_DE_ENTREGA"
 - Gera data de finalização do pedido
-- Atualiza o status pedido na base
+- Atualiza o status do pedido na base
 
 ### Consumidores (Kafka)
 #### Consumidor para pedidos criados
@@ -100,12 +100,12 @@ Regras:
 - Realiza o processamento do pagamento a partir do serviço de payment
 - Se o pagamento foi aprovado:
   - Atualiza o pedido para o status "PROCESSADO"
-  - Atualiza o status pedido na base
+  - Atualiza o status do pedido na base
   - Envia o pedido para o tópico de pedidos processados
 - Se o pagamento não foi aprovado:
   - Retoma o estoque dos itens no microsserviço de product
   - Atualiza o pedido para o status "CANCELADO"
-  - Atualiza o status pedido na base
+  - Atualiza o status do pedido na base
 
 #### Consumidor para pedidos processados
 <p>Consome o tópico que armazena os pedidos que já foram aprovados.</p>
@@ -117,9 +117,10 @@ Regras:
 - Busca as informações do cliente no microsserviço de customer
 - Cria o pedido no microsserviço de shipping para iniciar a etapa da entrega
 - Atualiza o pedido para o status "AGUARDANDO_ENVIO"
-- Atualiza o status pedido na base
+- Atualiza o status do pedido na base
 
-### Fluxo da geração de um pedido até a finalização
+### Fluxos
+#### Fluxo da geração de um pedido até a finalização
 - Cliente envia as informações do pedido a ser criado
 - Pedido é validado
 - Pedido é postado no tópico de pedidos criados
