@@ -4,16 +4,25 @@
 
 ## Courier - Entregador
 
-###Buscar todos os entregadores
+### Buscar todos os entregadores
 <p>Endpoint responsável por busca todos os entregadores cadastrados</p>
-Endereço: /api/courier
-Método: GET
 
-Get  -> http://localhost:8090/api/courier/{id}
-Busca o entregador do id informado
+Endereço: /api/courier <br>
+Método: GET <br>
 
-Post -> http://localhost:8090/api/courier
-Grava o registro do entregador na base (Campos: name, status, phone e region)
+### Buscar entregador informado
+<p>Endpoint responsável por buscar o entregador do id informado</p>
+
+Endereço: /api/courier/{id} <br>
+Método: GET <br>
+
+### Gravar novo entregador 
+<p>Endpoint responsável por gravar o registro do entregador na base</p>
+
+Endereço: /api/courier <br>
+Método: POST <br>
+
+
 
 Put -> http://localhost:8090/api/updatestatus/{id}
 Atualiza o status do carregar do id informado
