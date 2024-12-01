@@ -1,20 +1,22 @@
-package com.fiap.techchallenge4.product.infrasctructure.utils;
+package com.fiap.techchallenge4.product.application.service.impl;
 
+import com.fiap.techchallenge4.product.application.service.FileManipulationService;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-
 @Slf4j
 @NoArgsConstructor
-public class FileManipulationUtils {
+@Service
+public class FileManipulationServiceImpl implements FileManipulationService {
 
-
-    public static void moveFile(String directoryResource, String directoryDestination, String fileName) throws IOException {
+    @Override
+    public void moveFile(String directoryResource, String directoryDestination, String fileName) throws IOException {
         File file = new File(directoryResource + File.separator + fileName);
         Path targetPath = Path.of(directoryDestination + File.separator + fileName);
 

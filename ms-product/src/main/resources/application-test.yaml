@@ -10,9 +10,6 @@ spring:
     username: sa
     password:
 
-  profiles:
-    active: test
-
   batch:
     job:
       enabled: false
