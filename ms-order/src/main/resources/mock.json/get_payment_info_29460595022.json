@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/customers/29460595022/paymentInfo"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "cardNumber": "5337127191445570",
+      "expirationDate": "2025-11-30",
+      "code": "449"
+    }
+  }
+}

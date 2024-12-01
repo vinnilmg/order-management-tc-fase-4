@@ -36,6 +36,29 @@ services:
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
 
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: postgres
+    networks:
+      - order-network
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: order_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+
+  ms-payment-processor:
+    image: 'ms-payment-processor:latest'
+    build: ../ms-payment-processor
+    networks:
+      - order-network
+    ports:
+      - "9090:9090"
+
 networks:
   order-network:
     driver: bridge

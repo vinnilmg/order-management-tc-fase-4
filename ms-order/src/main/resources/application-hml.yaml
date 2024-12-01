@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123456
+  kafka:
+    bootstrap-servers: localhost:9092
+
+ms:
+  product:
+    host: http://localhost:8093
+  customer:
+    host: http://localhost:8092
+  shipping:
+    host: http://localhost:8090
+  payment:
+    host: http://localhost:9090
+
+server:
+  port: 8091

@@ -1,0 +1,150 @@
+name: order-management
+
+services:
+  ms-order-zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    networks:
+      - order-management-network
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  ms-order-kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - ms-order-zookeeper
+    ports:
+      - "9092:9092"
+    networks:
+      - order-management-network
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: ms-order-zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ms-order-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  ms-order-kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    depends_on:
+      - ms-order-kafka
+    ports:
+      - "19000:9000"
+    networks:
+      - order-management-network
+    environment:
+      KAFKA_BROKERCONNECT: ms-order-kafka:29092
+
+  ms-order-db:
+    image: postgres:latest
+    restart: always
+    networks:
+      - order-management-network
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+      POSTGRES_DB: order_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+
+  ms-order-api:
+    image: ms-order:latest
+    build: ./ms-order
+    networks:
+      - order-management-network
+    depends_on:
+      - ms-order-db
+      - ms-order-kafdrop
+    ports:
+      - "8091:8091"
+    environment:
+      SPRING_PROFILES_ACTIVE: prd
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-order-db:5432/order_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 123456
+      KAFKA_HOST: ms-order-kafka:9092
+      MS_PRODUCT_HOST: T
+      MS_CUSTOMER_HOST: T
+      MS_SHIPPING_HOST: T
+      MS_PAYMENT_HOST: ms-payment-processor-api
+
+###################################################################################################################
+
+  ms-payment-processor-api:
+    image: ms-payment-processor:latest
+    build: ./ms-payment-processor
+    networks:
+      - order-management-network
+    ports:
+      - "9090:9090"
+
+####################################################################################################################
+  # ms-customer-api
+
+####################################################################################################################
+  # ms-product-api
+  ms-product-api:
+    image: ms-product:latest
+    build: ./ms-product
+    networks:
+      - order-management-network
+    ports:
+      - "8093:8093"
+    depends_on:
+      - ms-product-db
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-product-db:5415/ms_product
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  ms-product-db:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: ms_product
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5415:5432"
+    networks:
+      - order-management-network
+
+####################################################################################################################
+  ms-shipping-api:
+    image: ms-shipping:latest
+    build: ./ms-shipping
+    networks:
+      - order-management-network
+    ports:
+      - "8090:8090"
+    depends_on:
+      - ms-shipping-db
+
+  ms-shipping-db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-shipping
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - order-management-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 1s
+      timeout: 3s
+      retries: 10
+####################################################################################################################
+
+networks:
+  order-management-network:
+    driver: bridge

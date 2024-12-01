@@ -8,10 +8,12 @@ public record OrderResponse(
         Long id,
         String cpf,
         String status,
-        String total,
         String creationDate,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String completionDate,
-        List<ProductResponse> products
+        List<ProductResponse> products,
+        ShippingResponse shipping,
+        String subtotal,
+        String total
 ) {
 }

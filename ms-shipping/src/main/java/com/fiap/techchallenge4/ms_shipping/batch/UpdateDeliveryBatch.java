@@ -1,7 +1,6 @@
 package com.fiap.techchallenge4.ms_shipping.batch;
 
 import com.fiap.techchallenge4.ms_shipping.controller.request.CourierUpdateRequest;
-import com.fiap.techchallenge4.ms_shipping.controller.request.DeliveryUpdateRequest;
 import com.fiap.techchallenge4.ms_shipping.model.CourierEntity;
 import com.fiap.techchallenge4.ms_shipping.model.DeliveryEntity;
 import com.fiap.techchallenge4.ms_shipping.model.ShippingEntity;
@@ -40,18 +39,18 @@ public class UpdateDeliveryBatch {
     public void checkDelivery() {
         List<ShippingEntity> shipping = this.shippingService.getAllRegion();
 
-        for (ShippingEntity s:shipping){
+        for (ShippingEntity s : shipping) {
             log.info("a região atual é {}", s.getId());
 
             List<DeliveryEntity> listDelivery = this.deliveryService.findByStatusAndRegionId(DeliveryStatusEnum.WAITING_FOR_DELIVERY, s.getId());
             if (listDelivery.isEmpty()) {
                 log.info("não achou pedido para região {}", s.getId());
             } else {
-                List<CourierEntity> couriers = this.courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE,s.getId());
+                List<CourierEntity> couriers = this.courierService.findByStatusAndRegionId(AvaialableCourierEnum.AVAILABLE, s.getId());
 
                 if (couriers.isEmpty()) {
                     log.info("entregador não disponível para região {}", s.getId());
-                }else {
+                } else {
                     CourierEntity courier = couriers.stream().findFirst().orElse(null);
                     log.info("entregador encontrado na região {}", courier.getId());
                     CourierUpdateRequest req = new CourierUpdateRequest(AvaialableCourierEnum.ON_DELIVERY_ROUTE);
@@ -59,7 +58,7 @@ public class UpdateDeliveryBatch {
 
                     courier.setStatus(AvaialableCourierEnum.ON_DELIVERY_ROUTE);
 
-                    for (DeliveryEntity delivery: listDelivery) {
+                    for (DeliveryEntity delivery : listDelivery) {
                         log.info("id do pedido atual sendo atualizado {}", delivery.getId());
                         delivery.setCourier(courier);
                         delivery.setStatus(DeliveryStatusEnum.ON_DELIVERY_ROUTE);
@@ -67,10 +66,8 @@ public class UpdateDeliveryBatch {
                         log.info("calling ms-order to change order id: {} to ON_DELIVERY_ROUTE", delivery.getOrderId());
                         courierService.updateOrderToDeliveryRoute(delivery.getOrderId());
                     }
-
                 }
             }
         }
-
     }
 }

@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/shippings/02998050"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "postalCode": "02998050",
+      "price": 25.0,
+      "daysForDelivery": 3
+    }
+  }
+}

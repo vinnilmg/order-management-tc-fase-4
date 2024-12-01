@@ -1,7 +1,10 @@
 package com.fiap.techchallenge4.order.domain.exceptions;
 
+import lombok.Getter;
+
 import static java.text.MessageFormat.format;
 
+@Getter
 public class NotFoundException extends RuntimeException {
     private static final String DEFAULT_MSG = "not found";
 
@@ -12,10 +15,6 @@ public class NotFoundException extends RuntimeException {
         this.resource = resource;
     }
 
-    public String getResource() {
-        return resource;
-    }
-
     @Override
     public String getMessage() {
         return format("{0} {1}", resource, super.getMessage());
@@ -23,5 +22,21 @@ public class NotFoundException extends RuntimeException {
 
     public static NotFoundException of(final String resource) {
         return new NotFoundException(resource);
+    }
+
+    public static NotFoundException ofProduct() {
+        return of("Product");
+    }
+
+    public static NotFoundException ofCustomer() {
+        return of("Customer");
+    }
+
+    public static NotFoundException ofOrder() {
+        return of("Order");
+    }
+
+    public static NotFoundException ofPayment() {
+        return of("Payment");
     }
 }

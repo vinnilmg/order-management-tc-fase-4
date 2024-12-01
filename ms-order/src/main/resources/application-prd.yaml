@@ -1,10 +1,13 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: root
-    password: root
-  h2:
-    console:
-      enabled: true
   kafka:
     bootstrap-servers: ${KAFKA_HOST}
+
+ms:
+  product:
+    host: ${MS_PRODUCT_HOST}
+  customer:
+    host: ${MS_CUSTOMER_HOST}
+  shipping:
+    host: ${MS_SHIPPING_HOST}
+  payment:
+    host: ${MS_PAYMENT_HOST}

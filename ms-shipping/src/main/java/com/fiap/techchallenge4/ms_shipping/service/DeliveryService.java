@@ -40,7 +40,7 @@ public class DeliveryService {
     public DeliveryDto getDeliveryByOrderId(Long orderId) {
         Optional<DeliveryEntity> deliveryEntity = deliveryRepository.findByOrderId(orderId);
         log.info("Searching for orderId: {}", orderId);
-        if(deliveryEntity.isEmpty()) {
+        if (deliveryEntity.isEmpty()) {
             log.error("OrderId not found: {}", orderId);
             throw new NotFoundExpection(String.format("OrderId %s", orderId));
         }
@@ -59,7 +59,6 @@ public class DeliveryService {
         if (deliveryRepository.findByOrderId(orderIdRequest).isPresent()) {
             log.error("OrderId already exists: {}", orderIdRequest);
             throw new NotFoundExpection(String.format("OrderId already exists:  %s", orderIdRequest));
-            //TODO: Criar a classe de exceção correta
         }
         //criando delivery
         DeliveryEntity delivery = new DeliveryEntity();
@@ -85,9 +84,10 @@ public class DeliveryService {
         try {
             orderServiceClient.finishOrder(orderId);
             log.info("Order finished whith id {}", orderId);
-        }catch (Exception e) {
-            log.error("Error finishing order with id {}", orderId);
-            throw new NotFoundExpection(String.format("Error finishing order with id %s", orderId));
+        } catch (Exception e) {
+            String errorMessage = String.format("Error finishing order with id %s, message %s", orderId, e.getMessage());
+            log.error(errorMessage, e);
+            throw new NotFoundExpection(errorMessage);
         }
     }
 }

@@ -28,7 +28,7 @@ public class CustomerRepositoryGateway implements CustomerGateway {
     }
 
     @Override
-    public List<Customer> getAllOrders() {
+    public List<Customer> findAllCustomers() {
         final var entities = customerRepository.findAll();
         return customerEntityMapper.toDomains(entities);
     }

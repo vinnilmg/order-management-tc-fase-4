@@ -62,7 +62,8 @@ public class CourierService {
         try {
             orderServiceClient.updateOrderToDeliveryRoute(orderId);
             log.info("Order finished whith id {}", orderId);
-        }catch (Exception e) {
+        } catch (Exception e) {
+            log.error("DEU ERRO: {}", e.getMessage(), e);
             log.error("Error finishing order with id {}", orderId);
             throw new NotFoundExpection(String.format("Error finishing order with id %s", orderId));
         }
