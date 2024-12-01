@@ -32,7 +32,6 @@ public class CsvLoaderServiceImplTest {
 
     @Test
     void findAllByStatusPending_deveRetornarListaDeCsvLoaders() {
-        // Arrange
         List<CsvLoaderData> entities = List.of(
                 CsvLoaderData.builder()
                         .id(1L)
@@ -62,10 +61,8 @@ public class CsvLoaderServiceImplTest {
         Mockito.when(csvLoaderMapper.toModel(entities.get(0))).thenReturn(models.get(0));
         Mockito.when(csvLoaderMapper.toModel(entities.get(1))).thenReturn(models.get(1));
 
-        // Act
         List<CsvLoader> result = csvLoaderService.findAllByStatusPending();
 
-        // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals("file1.csv", result.get(0).getFileName());
@@ -73,7 +70,6 @@ public class CsvLoaderServiceImplTest {
 
     @Test
     void findAllByStatusWaiting_deveRetornarListaDeCsvLoaders() {
-        // Arrange
         List<CsvLoaderData> entities = List.of(
                 CsvLoaderData.builder()
                         .id(1L)
@@ -92,10 +88,8 @@ public class CsvLoaderServiceImplTest {
         Mockito.when(csvLoaderRepository.findAllByStatusCsv(StatusCsv.WAITING)).thenReturn(entities);
         Mockito.when(csvLoaderMapper.toModel(entities.get(0))).thenReturn(models.get(0));
 
-        // Act
         List<CsvLoader> result = csvLoaderService.findAllByStatusWaiting();
 
-        // Assert
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("file1.csv", result.get(0).getFileName());
@@ -103,7 +97,6 @@ public class CsvLoaderServiceImplTest {
 
     @Test
     void saveAll_deveSalvarListaDeCsvLoaders() {
-        // Arrange
         List<CsvLoader> models = List.of(
                 CsvLoader.builder()
                         .id(1L)
@@ -121,16 +114,13 @@ public class CsvLoaderServiceImplTest {
 
         Mockito.when(csvLoaderMapper.toEntity(models.get(0))).thenReturn(entities.get(0));
 
-        // Act
         csvLoaderService.saveAll(models);
 
-        // Assert
         Mockito.verify(csvLoaderRepository).saveAllAndFlush(entities);
     }
 
     @Test
     void save_deveSalvarEMapearCsvLoader() {
-        // Arrange
         CsvLoader model = CsvLoader.builder()
                 .id(1L)
                 .fileName("file1.csv")
@@ -147,10 +137,8 @@ public class CsvLoaderServiceImplTest {
         Mockito.when(csvLoaderRepository.saveAndFlush(entity)).thenReturn(entity);
         Mockito.when(csvLoaderMapper.toModel(entity)).thenReturn(model);
 
-        // Act
         CsvLoader result = csvLoaderService.save(model);
 
-        // Assert
         assertNotNull(result);
         assertEquals("file1.csv", result.getFileName());
         Mockito.verify(csvLoaderRepository).saveAndFlush(entity);

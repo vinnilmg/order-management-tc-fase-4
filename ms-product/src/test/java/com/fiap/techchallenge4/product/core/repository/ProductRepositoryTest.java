@@ -22,17 +22,14 @@ public class ProductRepositoryTest {
     @Test
     @DisplayName("Deve encontrar um produto pelo SKU ID")
     void shouldFindProductBySkuId() {
-        // Arrange
         ProductData product = new ProductData();
         product.setSkuId(123L);
         product.setName("Produto Teste");
         product.setPrice(new BigDecimal(100.0));
 
         when(productRepository.findBySkuId(123L)).thenReturn(Optional.of(product));
-        // Act
         Optional<ProductData> result = productRepository.findBySkuId(123L);
 
-        // Assert
         assertThat(result).isPresent();
         assertThat(result.get().getSkuId()).isEqualTo(123L);
         assertThat(result.get().getName()).isEqualTo("Produto Teste");
@@ -42,10 +39,8 @@ public class ProductRepositoryTest {
     @Test
     @DisplayName("Não deve encontrar produto com SKU ID inexistente")
     void shouldNotFindProductByNonExistingSkuId() {
-        // Act
         Optional<ProductData> result = productRepository.findBySkuId(999L);
 
-        // Assert
         assertThat(result).isNotPresent();
     }
 }

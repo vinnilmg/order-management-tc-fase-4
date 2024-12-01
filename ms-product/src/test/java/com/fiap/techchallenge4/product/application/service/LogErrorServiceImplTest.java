@@ -27,14 +27,9 @@ class LogErrorServiceImplTest {
     @InjectMocks
     private LogErrorServiceImpl logErrorService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void save_deveChamarMapperERepository() {
-        // Arrange
         LogError logError = LogError.builder()
                 .error("Error log da silva")
                 .className("Test")
@@ -42,12 +37,8 @@ class LogErrorServiceImplTest {
 
         LogErrorData logErrorEntity = logErrorMapper.toEntity(logError);
 
-        // Configura o mock do mapeamento
-
-        // Act
         logErrorService.save(logError);
 
-        // Assert
-        verify(logErrorRepository, times(1)).save(logErrorEntity); // Verifica se o repositório foi chamado com a entidade correta
+        verify(logErrorRepository, times(1)).save(logErrorEntity);
     }
 }

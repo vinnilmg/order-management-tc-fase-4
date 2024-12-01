@@ -1,6 +1,6 @@
 package com.fiap.techchallenge4.product.infrasctructure.config;
 
-import com.fiap.techchallenge4.product.application.dto.ApiErrorResponse;
+import com.fiap.techchallenge4.product.application.dto.ApiResponse;
 import com.fiap.techchallenge4.product.application.exception.NotFoundException;
 import com.fiap.techchallenge4.product.application.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
@@ -16,18 +16,18 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class CustomExceptionHandler {
 
     @ExceptionHandler({ValidationException.class, IllegalArgumentException.class})
-    public ResponseEntity<ApiErrorResponse> handleValidationError(Exception e, WebRequest request) {
+    public ResponseEntity<ApiResponse> handleValidationError(Exception e, WebRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ApiErrorResponse(e.getMessage()));
+                .body(new ApiResponse(e.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleNotFoundError(NotFoundException e, WebRequest request) {
+    public ResponseEntity<ApiResponse> handleNotFoundError(NotFoundException e, WebRequest request) {
         log.error(e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ApiErrorResponse(e.getMessage()));
+                .body(new ApiResponse(e.getMessage()));
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
@@ -38,11 +38,11 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleInternalServerError(Exception e, WebRequest request) {
+    public ResponseEntity<ApiResponse> handleInternalServerError(Exception e, WebRequest request) {
         log.error("Erro interno: {}", e.getMessage(), e);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ApiErrorResponse("Erro interno"));
+                .body(new ApiResponse("Erro interno"));
     }
 
 }

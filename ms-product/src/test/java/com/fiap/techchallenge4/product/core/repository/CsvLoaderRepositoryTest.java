@@ -21,7 +21,6 @@ public class CsvLoaderRepositoryTest {
 
     @Test
     void shouldFindAllByStatusCsv() {
-        // Arrange
         final var statusCsv = StatusCsv.FINISHED;
 
         CsvLoaderData csvLoader1 = CsvLoaderData.builder()
@@ -42,10 +41,8 @@ public class CsvLoaderRepositoryTest {
 
         when(csvLoaderRepository.findAllByStatusCsv(statusCsv)).thenReturn(csvLoaderList);
 
-        // Act
         List<CsvLoaderData> result = csvLoaderRepository.findAllByStatusCsv(statusCsv);
 
-        // Assert
         assertThat(result)
                 .isNotNull()
                 .hasSize(2)
@@ -54,15 +51,12 @@ public class CsvLoaderRepositoryTest {
 
     @Test
     void shouldReturnEmptyListWhenNoDataFoundForStatusCsv() {
-        // Arrange
         final var statusCsv = StatusCsv.ERROR;
 
         when(csvLoaderRepository.findAllByStatusCsv(statusCsv)).thenReturn(List.of());
 
-        // Act
         List<CsvLoaderData> result = csvLoaderRepository.findAllByStatusCsv(statusCsv);
 
-        // Assert
         assertThat(result)
                 .isNotNull()
                 .isEmpty();

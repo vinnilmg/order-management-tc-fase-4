@@ -1,7 +1,6 @@
 package com.fiap.techchallenge4.product.application.controller.impl;
 
 import com.fiap.techchallenge4.product.application.controller.ProductController;
-import com.fiap.techchallenge4.product.application.dto.ApiErrorResponse;
 import com.fiap.techchallenge4.product.application.dto.ProductQuantityDTO;
 import com.fiap.techchallenge4.product.application.service.ProductService;
 import com.fiap.techchallenge4.product.core.model.Product;

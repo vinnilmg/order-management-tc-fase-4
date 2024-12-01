@@ -3,39 +3,41 @@ spring:
     init:
       mode: always
 
+  profiles:
+    active: prod
+
   application:
     name: ms-product
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: root
-    password: root
+    url: jdbc:postgresql://localhost:5415/ms_product_db
+    username: postgres
+    password: postgres
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      minimum-idle: 5 # Configuração recomendada para pool mínimo
+      idle-timeout: 600000 # Tempo máximo que uma conexão pode ficar ociosa
+      max-lifetime: 1800000 # Tempo máximo de vida de uma conexão no pool
 
-  batch:
-    job:
-      enabled: false
-    initialize-schema: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   transaction:
     management:
       enabled: true
 
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
 
-  h2:
-    console:
-      enabled: true
-
-  jpa:
-    show: true
-    defer-datasource-initialization: true
-    properties:
-      hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: create-drop
-      show_sql: true
 
 server:
   port: 8093
@@ -45,11 +47,12 @@ logging:
     root: INFO
     hibernate: TRACE
     org.springframework.transaction: DEBUG
+    org.springframework.jdbc.datasource.DriverManagerDataSource: TRACE
 
 directory:
-  pending:  ms-product/src/main/resources/imports/pending
+  pending: ms-product/src/main/resources/imports/pending
   finished: ms-product/src/main/resources/imports/finished
-  waiting:  ms-product/src/main/resources/imports/waiting
+  waiting: ms-product/src/main/resources/imports/waiting
 
 springdoc:
   api-docs:
@@ -57,7 +60,3 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
-
-
-
-

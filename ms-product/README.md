@@ -47,9 +47,9 @@ A seguir, estão as regras de negócio e a explicação dos endpoints principais
 
 ## Configurações
 
-As configurações dos diretórios de arquivos pendentes, esperando e finalizados devem ser definidas no arquivo `application.properties` ou `application.yml`.
+As configurações dos diretórios de arquivos pendentes, esperando e finalizados devem ser definidas no arquivo `application.properties` ou `application.yaml`.
 
-Exemplo de configuração no `application.properties`:
+Exemplo de configuração no `application.yaml`:
 
 ```properties
 directory:
