@@ -1,8 +1,13 @@
-FROM openjdk:17-slim
-WORKDIR /ms-shipping
+FROM maven:3.8.4-openjdk-17 AS build
 
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} ms-shipping.jar
+WORKDIR /app
 
-ENTRYPOINT ["java", "-jar", "ms-shipping.jar"]
-EXPOSE 8090
+COPY . /app
+
+RUN mvn clean package -Dmaven.test.skip
+
+FROM openjdk:17-alpine
+
+COPY --from=build /app/target/*.jar /app/app.jar
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

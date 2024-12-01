@@ -135,7 +135,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: ms-shipping
     volumes:
-      - mysql-data:/var/lib/mysql
+      - ./mysql-data:/var/lib/mysql
     networks:
       - order-management-network
     healthcheck:

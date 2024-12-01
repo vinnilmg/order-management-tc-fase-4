@@ -1,14 +1,13 @@
-# Use uma imagem base do OpenJDK
-FROM openjdk:17-jdk-slim
+FROM maven:3.8.4-openjdk-17 AS build
 
-# Defina o diretório de trabalho no container
 WORKDIR /app
 
-# Copie o arquivo JAR do Spring Boot para o diretório de trabalho no container
-COPY target/ms-product-*.jar ms-product.jar
+COPY . /app
 
-# Exponha a porta 8093
-EXPOSE 8093
+RUN mvn clean package -Dmaven.test.skip
 
-# Comando para executar o aplicativo
-ENTRYPOINT ["java", "-jar", "ms-product.jar"]
+FROM openjdk:17-alpine
+
+COPY --from=build /app/target/*.jar /app/app.jar
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
