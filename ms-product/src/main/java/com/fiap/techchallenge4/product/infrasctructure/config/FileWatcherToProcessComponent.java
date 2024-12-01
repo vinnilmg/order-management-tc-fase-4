@@ -43,9 +43,10 @@ public class FileWatcherToProcessComponent {
 
             File directory = new File(directoryPathPending);
             File[] files = directory.listFiles();
+
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile()) {
+                    if (file.isFile() && file.getName().endsWith(".csv")) {
                         log.info("Arquivo encontrado para carregar: {}.", file.getName());
                         CsvLoader csvToSave = new CsvLoader();
                         csvToSave.setPath(directoryPathToWaiting);

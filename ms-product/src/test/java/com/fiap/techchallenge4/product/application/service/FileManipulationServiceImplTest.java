@@ -34,7 +34,7 @@ public class FileManipulationServiceImplTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        testFile = new File(resourceDirectory, "test-file.txt");
+        testFile = new File(resourceDirectory, "test-file.csv");
 
         if (testFile.createNewFile()) {
             try (FileWriter writer = new FileWriter(testFile)) {
@@ -68,17 +68,20 @@ public class FileManipulationServiceImplTest {
     @Test
     @DisplayName("Deve mover arquivo com sucesso para o diretório de destino")
     void shouldMoveFileSuccessfully() throws IOException {
-        // Act: Mover o arquivo para o diretório de destino
         fileManipulationService.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), testFile.getName());
 
-        // Assert: Arquivo movido com sucesso
-        assertThat(testFile.exists()).isFalse();
+        File movedFile = new File(destinationDirectory.getPath(), testFile.getName());
+        assertThat(movedFile).exists();
+
+        File originalFile = new File(resourceDirectory.getPath(), testFile.getName());
+        assertThat(originalFile).doesNotExist();
     }
+
 
     @Test
     @DisplayName("Deve lançar exceção se o arquivo não existir")
     void shouldThrowExceptionWhenFileDoesNotExist() {
-        String nonExistentFileName = "non-existent-file.txt";
+        String nonExistentFileName = "non-existent-file.csv";
 
         IOException exception = assertThrows(IOException.class, () ->
                 fileManipulationService.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), nonExistentFileName)
