@@ -13,10 +13,6 @@ public class ValidationException extends RuntimeException {
         this.message = message;
     }
 
-    public String getField() {
-        return field;
-    }
-
     @Override
     public String getMessage() {
         return format("%s %s", field, message);
