@@ -4,7 +4,7 @@ spring:
       mode: always
 
   profiles:
-    active: prod
+    active: local
 
   application:
     name: ms-product

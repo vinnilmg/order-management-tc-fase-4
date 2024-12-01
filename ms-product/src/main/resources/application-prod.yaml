@@ -1,0 +1,49 @@
+spring:
+  sql:
+    init:
+      mode: always
+
+  application:
+    name: ms-product
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: create-drop
+
+  transaction:
+    management:
+      enabled: true
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+
+
+server:
+  port: 8093
+
+logging:
+  level:
+    root: INFO
+    hibernate: TRACE
+    org.springframework.transaction: DEBUG
+    org.springframework.jdbc.datasource.DriverManagerDataSource: TRACE
+
+directory:
+  pending: ms-product/src/main/resources/imports/pending
+  finished: ms-product/src/main/resources/imports/finished
+  waiting: ms-product/src/main/resources/imports/waiting
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
