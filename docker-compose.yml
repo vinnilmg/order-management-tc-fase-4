@@ -20,7 +20,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: ms-order-zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ms-order-kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://ms-order-kafka:29092,PLAINTEXT_HOST://ms-order-kafka:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -66,13 +66,12 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 123456
       KAFKA_HOST: ms-order-kafka:9092
-      MS_PRODUCT_HOST: ms-product-api
-      MS_CUSTOMER_HOST: ms-customer-api
-      MS_SHIPPING_HOST: ms-shipping-api
-      MS_PAYMENT_HOST: ms-payment-processor-api
+      MS_PRODUCT_HOST: ms-product-api:8093
+      MS_CUSTOMER_HOST: ms-customer-api:8092
+      MS_SHIPPING_HOST: ms-shipping-api:8090
+      MS_PAYMENT_HOST: ms-payment-processor-api:9090
 
 ###################################################################################################################
-
   ms-payment-processor-api:
     image: ms-payment-processor:latest
     build: ./ms-payment-processor
@@ -93,8 +92,6 @@ services:
       POSTGRES_DB: customer_db
     ports:
       - "5435:5432"
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
 
   ms-customer-api:
     image: ms-customer:latest
@@ -106,6 +103,7 @@ services:
     depends_on:
       - ms-customer-db
     environment:
+      SPRING_PROFILES_ACTIVE: prd
       SPRING_DATASOURCE_URL: jdbc:postgresql://ms-customer-db:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 123456
@@ -139,35 +137,35 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
 
 ####################################################################################################################
-  ms-shipping-api:
-    image: ms-shipping:latest
-    build: ./ms-shipping
-    networks:
-      - order-management-network
-    ports:
-      - "8090:8090"
-    depends_on:
-      - ms-shipping-db
-
-  ms-shipping-db:
-    image: mysql:latest
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ms-shipping
-    volumes:
-      - ./mysql-data:/var/lib/mysql
-    networks:
-      - order-management-network
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      interval: 1s
-      timeout: 3s
-      retries: 10
+#  ms-shipping-api:
+#    image: ms-shipping:latest
+#    build: ./ms-shipping
+#    networks:
+#      - order-management-network
+#    ports:
+#      - "8090:8090"
+#    depends_on:
+#      - ms-shipping-db
+#
+#  ms-shipping-db:
+#    image: mysql:latest
+#    restart: always
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_USER: admin
+#      MYSQL_PASSWORD: root
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: ms-shipping
+#    volumes:
+#      - ./mysql-data:/var/lib/mysql
+#    networks:
+#      - order-management-network
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#      interval: 1s
+#      timeout: 3s
+#      retries: 10
 ####################################################################################################################
 
 networks:

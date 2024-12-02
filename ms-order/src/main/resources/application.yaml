@@ -7,10 +7,6 @@ spring:
   jpa:
     show: true
     defer-datasource-initialization: true
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
     hibernate:
       ddl-auto: create-drop
 
@@ -18,10 +14,12 @@ logging:
   level:
     root: INFO
     org.apache.kafka: ERROR
-    org.hibernate.SQL: DEBUG
 
 kafka:
   topics:
     created-order: created-order-topic
     pending-payment: pending-payment-topic
     processed-order: processed-order-topic
+
+server:
+  port: 8091
