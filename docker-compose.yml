@@ -123,26 +123,23 @@ services:
       - "8090:8090"
     depends_on:
       - ms-shipping-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-shipping-db:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
 
   ms-shipping-db:
-    image: mysql:latest
-    restart: always
-    ports:
-      - "3306:3306"
+    image: postgres:latest
+    container_name: postgres_shipping
     environment:
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ms-shipping
-    volumes:
-      - ./mysql-data:/var/lib/mysql
+      POSTGRES_DB: ms_shipping
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5419:5432"
     networks:
       - order-management-network
-    healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      interval: 1s
-      timeout: 3s
-      retries: 10
 ####################################################################################################################
 
 networks:

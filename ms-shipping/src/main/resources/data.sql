@@ -16,9 +16,9 @@ VALUES
     ('ANA', 4, 'AVAILABLE', '11998524578'),
     ('PEDRO', 2, 'AVAILABLE', '1192102125');
 
---INSERT INTO DELIVERY
---     ( courier_id, order_id, status, region_id)
--- VALUES
---     (1, 1, 'WAITING_FOR_DELIVERY', 1),
---     (2, 2, 'ON_DELIVERY_ROUTE', 2),
---     (3, 3, 'WAITING_FOR_DELIVERY', 3)
+INSERT INTO DELIVERY
+    ( courier_id, order_id, status, region_id)
+VALUES
+    (1, 1, 'WAITING_FOR_DELIVERY', 1),
+    (2, 2, 'ON_DELIVERY_ROUTE', 2),
+    (3, 3, 'WAITING_FOR_DELIVERY', 3)

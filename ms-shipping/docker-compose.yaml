@@ -1,23 +1,13 @@
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    ports:
-      - "3307:3306"
+  postgres_shipping:
+    image: postgres:15
+    container_name: postgres_shipping
     environment:
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ms-shipping
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - ms-shipping-network
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      interval: 1s
-      timeout: 3s
-      retries: 10
+      POSTGRES_DB: ms-shipping
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5420:5432"
   ms-shipping:
     build: .
     ports:
@@ -26,6 +16,10 @@ services:
       - mysql
     networks:
         - ms-shipping-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-shipping-db:5420/ms-shipping
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
 networks:
   ms-shipping-network:
     driver: bridge
