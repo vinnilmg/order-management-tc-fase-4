@@ -20,9 +20,9 @@ public interface ProductController {
 
     @Operation(summary = "Diminuir o estoque de um produto", description = "Diminui o estoque de um produto por uma quantidade especificada.")
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "Estoque diminuído com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "Estoque diminuído com sucesso", content = @Content(mediaType = "application/json")),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Produto não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Estoque insuficiente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ApiResponse.class)))
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Estoque insuficiente", content = @Content(mediaType = "application/json"))
     })
     @PutMapping("/{skuId}/diminuir-estoque")
     ResponseEntity<Void> decreaseStock(
