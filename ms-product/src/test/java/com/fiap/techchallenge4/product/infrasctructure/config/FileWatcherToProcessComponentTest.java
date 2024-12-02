@@ -11,6 +11,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -71,7 +72,7 @@ class FileWatcherToProcessComponentTest {
     }
 
     @Test
-    void shouldProcessFilesInPendingDirectory() throws IOException {
+    void shouldProcessFilesInPendingDirectory() throws IOException, URISyntaxException {
         // Criando arquivos de teste
         File file1 = new File(pendingDirectory, "file1.csv");
         File file2 = new File(pendingDirectory, "file2.csv");
@@ -94,7 +95,7 @@ class FileWatcherToProcessComponentTest {
     }
 
     @Test
-    void shouldDoNothingIfPendingDirectoryIsEmpty() throws IOException {
+    void shouldDoNothingIfPendingDirectoryIsEmpty() throws IOException, URISyntaxException {
         fileWatcherToProcessComponent.watchDirectory();
 
         // Verificando que saveAll não foi chamado

@@ -4,6 +4,8 @@ import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
 import com.fiap.techchallenge4.product.application.service.FileManipulationService;
 import com.fiap.techchallenge4.product.core.enums.StatusCsv;
 import com.fiap.techchallenge4.product.core.model.CsvLoader;
+import com.sun.tools.javac.Main;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +23,15 @@ import java.util.List;
 @Slf4j
 public class FileWatcherToProcessComponent {
 
-    @Value("${directory.pending}")
+
+    @Value("${app.file-directory.pending}")
     private String directoryPathPending;
 
-    @Value("${directory.finished}")
-    private String directoryPathToFinished;
-
-    @Value("${directory.waiting}")
+    @Value("${app.file-directory.waiting}")
     private String directoryPathToWaiting;
+
+    @Value("${app.file-directory.finished}")
+    private String directoryPathToFinished;
 
     private final CsvLoaderService csvLoaderService;
 
@@ -37,7 +43,7 @@ public class FileWatcherToProcessComponent {
     }
 
     @Scheduled(fixedDelay = 10000)
-    public void watchDirectory() throws IOException {
+    public void watchDirectory() throws IOException, URISyntaxException {
         List<CsvLoader> csvLoaderList = new ArrayList<>();
         if (directoryPathPending != null) {
 

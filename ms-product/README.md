@@ -18,7 +18,7 @@ A seguir, estão as regras de negócio e a explicação dos endpoints principais
 
 3. **Entidades e Estruturas**:
 	- **`CsvLoader`**: Representa o arquivo CSV a ser processado, contendo informações como o nome do arquivo e o status do processamento (pending, waiting, finished).
-	- **`ApiErrorResponse`**: Usado para padronizar as respostas de erro da API.
+	- **`ApiResponse`**: Usado para padronizar as respostas em geral da API.
 	- **`Product`**: A entidade que será populada no banco de dados a partir dos dados presentes no arquivo CSV.
 	- **`LogError`**: A entidade que representa erros de processamento do batch ou de algum fluxo específico da aplicação.
 
@@ -26,6 +26,31 @@ A seguir, estão as regras de negócio e a explicação dos endpoints principais
 
 - **`/api/files/pending`**: Endpoint para recuperar a lista de arquivos CSV pendentes de processamento.
 - **`/api/batch/process`**: Endpoint para iniciar o processamento dos arquivos CSV e inserir os dados no banco de dados.
+
+## Endpoints de Gerenciamento de Produtos
+
+1. **`PUT /api/products/{skuId}/decrease-stock`**
+	- **Descrição**: Reduz a quantidade de estoque disponível para um produto com base no `skuId`.
+	- **Parâmetros**:
+		- **`skuId`** (PathVariable): Identificador único do produto no estoque.
+		- **`productQuantityDTO`** (RequestBody): Objeto contendo a quantidade a ser subtraída do estoque.
+
+2. **`PUT /api/products/{skuId}/additional-stock`**
+	- **Descrição**: Adiciona uma quantidade ao estoque disponível de um produto com base no `skuId`.
+	- **Parâmetros**:
+		- **`skuId`** (PathVariable): Identificador único do produto no estoque.
+		- **`productQuantityDTO`** (RequestBody): Objeto contendo a quantidade a ser adicionada ao estoque.
+
+3. **`GET /api/products/{id}`**
+	- **Descrição**: Busca os detalhes de um produto com base no seu `id`.
+	- **Parâmetros**:
+		- **`id`** (PathVariable): Identificador único do produto no banco de dados.
+
+4. **`GET /api/products/skuId/{skuId}`**
+	- **Descrição**: Busca os detalhes de um produto com base no seu `skuId`.
+	- **Parâmetros**:
+		- **`skuId`** (PathVariable): Identificador único do produto no estoque.
+
 
 
 ## Fluxo de Processamento
@@ -41,6 +66,7 @@ A seguir, estão as regras de negócio e a explicação dos endpoints principais
 
 - **Spring Boot**: Framework para construir a aplicação RESTful.
 - **Spring Scheduler**: Usado para automatizar a detecção de novos arquivos e movê-los entre os diretórios.
+- **Spring Batch**: Processar dados dentro dos arquivos CSV(s).
 - **JPA/Hibernate**: Para a persistência de dados no banco de dados.
 - **Docker**: Para ambientes de desenvolvimento e testes.
 - **PostgreSQL**: Banco de dados utilizado para armazenar os dados de produtos.
@@ -52,11 +78,28 @@ As configurações dos diretórios de arquivos pendentes, esperando e finalizado
 Exemplo de configuração no `application.yaml`:
 
 ```properties
-directory:
-	pending:  ms-product/src/main/resources/imports/pending
-	finished: ms-product/src/main/resources/imports/finished
-	waiting:  ms-product/src/main/resources/imports/waiting
+##Configuração Local
+app:
+file-directory:
+pending: ms-product/data/imports/pending
+waiting: ms-product/data/imports/waiting
+finished: ms-product/data/imports/finished
 ```
-ms-product/src/main/resources/imports/pending
-finished: ms-product/src/main/resources/imports/finished
-waiting:  ms-product/src/main/resources/imports/waiting
+```properties
+##Configuração Prod
+app:
+file-directory:
+pending: /app/data/imports/pending
+waiting: /app/data/imports/waiting
+finished: /app/data/imports/finished
+```
+```properties
+##Configuração Prod
+app:
+file-directory:
+pending: /app/data/imports/pending
+waiting: /app/data/imports/waiting
+finished: /app/data/imports/finished
+```
+
+
