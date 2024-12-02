@@ -1,8 +1,8 @@
-package com.fiap.techchallenge4.product.infrasctructure.utils;
+package com.fiap.techchallenge4.product.application.service;
 
+import com.fiap.techchallenge4.product.application.service.impl.FileManipulationServiceImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
@@ -11,19 +11,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mockStatic;
 
 @ExtendWith(MockitoExtension.class)
-public class FileManipulationUtilsTest {
+public class FileManipulationServiceImplTest {
 
     private static File resourceDirectory;
     private static File destinationDirectory;
     private static File testFile;
     private File pendingDirectory;
     private File waitingDirectory;
-    private MockedStatic<FileManipulationUtils> mockedStatic;
+    private FileManipulationServiceImpl fileManipulationService;
 
     @BeforeAll
     static void setupDirectories() throws IOException {
@@ -35,7 +34,7 @@ public class FileManipulationUtilsTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        testFile = new File(resourceDirectory, "test-file.txt");
+        testFile = new File(resourceDirectory, "test-file.csv");
 
         if (testFile.createNewFile()) {
             try (FileWriter writer = new FileWriter(testFile)) {
@@ -47,6 +46,9 @@ public class FileManipulationUtilsTest {
         waitingDirectory = new File("src/test/resources/waiting");
         Files.createDirectories(pendingDirectory.toPath());
         Files.createDirectories(waitingDirectory.toPath());
+
+        // Criação da instância do serviço
+        fileManipulationService = new FileManipulationServiceImpl();
     }
 
     @AfterEach
@@ -54,11 +56,6 @@ public class FileManipulationUtilsTest {
         if (testFile.exists()) Files.deleteIfExists(testFile.toPath());
         Files.deleteIfExists(pendingDirectory.toPath());
         Files.deleteIfExists(waitingDirectory.toPath());
-
-        if (mockedStatic != null) {
-            mockedStatic.close();
-            mockedStatic = null;
-        }
     }
 
     @AfterAll
@@ -71,23 +68,23 @@ public class FileManipulationUtilsTest {
     @Test
     @DisplayName("Deve mover arquivo com sucesso para o diretório de destino")
     void shouldMoveFileSuccessfully() throws IOException {
-        mockedStatic = mockStatic(FileManipulationUtils.class);
+        fileManipulationService.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), testFile.getName());
 
-        // Act: Mover o arquivo para o diretório de destino
-        FileManipulationUtils.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), testFile.getName());
+        File movedFile = new File(destinationDirectory.getPath(), testFile.getName());
+        assertThat(movedFile).exists();
 
-        // Assert: Arquivo movido com sucesso
-        assertThat(testFile.exists()).isTrue();
-        assertThat( Arrays.stream(destinationDirectory.listFiles()).findAny().get().getName()).isEqualTo(testFile.getName());
+        File originalFile = new File(resourceDirectory.getPath(), testFile.getName());
+        assertThat(originalFile).doesNotExist();
     }
+
 
     @Test
     @DisplayName("Deve lançar exceção se o arquivo não existir")
     void shouldThrowExceptionWhenFileDoesNotExist() {
-        String nonExistentFileName = "non-existent-file.txt";
+        String nonExistentFileName = "non-existent-file.csv";
 
         IOException exception = assertThrows(IOException.class, () ->
-                FileManipulationUtils.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), nonExistentFileName)
+                fileManipulationService.moveFile(resourceDirectory.getPath(), destinationDirectory.getPath(), nonExistentFileName)
         );
         assertThat(exception.getMessage()).contains(nonExistentFileName);
     }
