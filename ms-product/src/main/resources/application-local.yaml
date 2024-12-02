@@ -3,14 +3,11 @@ spring:
     init:
       mode: always
 
-  profiles:
-    active: prod
-
   application:
     name: ms-product
 
   datasource:
-    url: jdbc:postgresql://localhost:5415/ms_product_db
+    url: jdbc:postgresql://localhost:5415/ms-product-dbase
     username: postgres
     password: postgres
     hikari:
@@ -49,10 +46,11 @@ logging:
     org.springframework.transaction: DEBUG
     org.springframework.jdbc.datasource.DriverManagerDataSource: TRACE
 
-directory:
-  pending: ms-product/src/main/resources/imports/pending
-  finished: ms-product/src/main/resources/imports/finished
-  waiting: ms-product/src/main/resources/imports/waiting
+app:
+  file-directory:
+    pending: ms-product/data/imports/pending
+    waiting: ms-product/data/imports/waiting
+    finished: ms-product/data/imports/finished
 
 springdoc:
   api-docs:

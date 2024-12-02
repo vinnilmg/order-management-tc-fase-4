@@ -1,28 +1,30 @@
 package com.fiap.techchallenge4.product.infrasctructure.config;
 
 import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
+import com.fiap.techchallenge4.product.application.service.FileManipulationService;
 import com.fiap.techchallenge4.product.core.enums.StatusCsv;
-import com.fiap.techchallenge4.product.infrasctructure.utils.FileManipulationUtils;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mockStatic;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FileWatcherToProcessComponentTest {
 
     @Mock
     private CsvLoaderService csvLoaderService;
+
+    @Mock
+    private FileManipulationService fileManipulationService;
 
     @InjectMocks
     private FileWatcherToProcessComponent fileWatcherToProcessComponent;
@@ -53,7 +55,7 @@ class FileWatcherToProcessComponentTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
 
-        fileWatcherToProcessComponent = new FileWatcherToProcessComponent(csvLoaderService);
+        fileWatcherToProcessComponent = new FileWatcherToProcessComponent(csvLoaderService, fileManipulationService);
         ReflectionTestUtils.setField(fileWatcherToProcessComponent, "directoryPathPending", pendingDirectory.getPath());
         ReflectionTestUtils.setField(fileWatcherToProcessComponent, "directoryPathToWaiting", waitingDirectory.getPath());
     }
@@ -64,31 +66,36 @@ class FileWatcherToProcessComponentTest {
         if (csvLoaderService != null) {
             reset(csvLoaderService);
         }
+        if (fileManipulationService != null) {
+            reset(fileManipulationService);
+        }
     }
 
     @Test
-    void shouldProcessFilesInPendingDirectory() throws IOException {
+    void shouldProcessFilesInPendingDirectory() throws IOException, URISyntaxException {
         // Criando arquivos de teste
         File file1 = new File(pendingDirectory, "file1.csv");
         File file2 = new File(pendingDirectory, "file2.csv");
         file1.createNewFile();
         file2.createNewFile();
 
-        // Mocking FileManipulationUtils.moveFile com mockStatic
-        try (MockedStatic<FileManipulationUtils> mockedStatic = mockStatic(FileManipulationUtils.class)) {
-            fileWatcherToProcessComponent.watchDirectory();
+        // Mocking FileManipulationService.moveFile
+        doNothing().when(fileManipulationService).moveFile(eq(pendingDirectory.getPath()), eq(waitingDirectory.getPath()), anyString());
 
-            verify(csvLoaderService, times(1)).saveAll(argThat(csvLoaderList -> {
-                return csvLoaderList.size() == 2 &&
-                        csvLoaderList.stream().allMatch(loader -> loader.getStatusCsv() == StatusCsv.WAITING);
-            }));
+        fileWatcherToProcessComponent.watchDirectory();
 
-            mockedStatic.verify(() -> FileManipulationUtils.moveFile(eq(pendingDirectory.getPath()), eq(waitingDirectory.getPath()), anyString()), times(2));
-        }
+        // Verificando que saveAll foi chamado para os arquivos processados
+        verify(csvLoaderService, times(1)).saveAll(argThat(csvLoaderList -> {
+            return csvLoaderList.size() == 2 &&
+                    csvLoaderList.stream().allMatch(loader -> loader.getStatusCsv() == StatusCsv.WAITING);
+        }));
+
+        // Verificando que moveFile foi chamado duas vezes, uma para cada arquivo
+        verify(fileManipulationService, times(2)).moveFile(eq(pendingDirectory.getPath()), eq(waitingDirectory.getPath()), anyString());
     }
 
     @Test
-    void shouldDoNothingIfPendingDirectoryIsEmpty() throws IOException {
+    void shouldDoNothingIfPendingDirectoryIsEmpty() throws IOException, URISyntaxException {
         fileWatcherToProcessComponent.watchDirectory();
 
         // Verificando que saveAll não foi chamado

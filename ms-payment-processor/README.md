@@ -21,4 +21,4 @@ Regras:
 - Caso o código do cartão (CVV) finalize com dígito diferente de 9 o retorno será de pagamento aprovado
 - Caso o código do cartão (CVV) finalize com dígito igual a 9 o retorno será de pagamento não aprovado
 
-Obs: Esse endpoint foi criado para apenas simular um pagamento e para exemplificar os dois cenário (aprovado e não aprovado) a regra acima foi definida.
+Obs: Esse endpoint foi criado para apenas simular um pagamento e para exemplificar os dois cenários (aprovado e não aprovado) e, por essa razão, a regra acima foi definida.

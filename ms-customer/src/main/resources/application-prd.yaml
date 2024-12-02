@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: ms-customer
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    root: info
+
+server:
+  port: 8092

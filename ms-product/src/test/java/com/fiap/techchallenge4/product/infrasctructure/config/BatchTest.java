@@ -72,8 +72,7 @@ public class BatchTest {
     @Test
     public void testBatchProcessing() throws Exception {
         // Configuração dos parâmetros do job
-        String filePath = "ms-product/src/test/resources/products.csv";  // Caminho do arquivo
-        System.out.println("Arquivo de entrada: " + filePath); // Debugging
+        String filePath = "src/test/data/products.csv";
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("pathWithFileName", filePath)
