@@ -1,10 +1,18 @@
 spring:
-  application:
-    name: ms-customer
   sql:
     init:
       mode: always
+  application:
+    name: ms-customer
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: toor
+  h2:
+    console:
+      enabled: true
   jpa:
+    show-sql: true
     defer-datasource-initialization: true
     properties:
       hibernate:
@@ -12,9 +20,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+server:
+  port: 8092
+
 logging:
   level:
     root: info
-
-server:
-  port: 8092
