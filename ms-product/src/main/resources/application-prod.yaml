@@ -36,14 +36,15 @@ logging:
     org.springframework.transaction: DEBUG
     org.springframework.jdbc.datasource.DriverManagerDataSource: TRACE
 
-directory:
-  pending: ms-product/src/main/resources/imports/pending
-  finished: ms-product/src/main/resources/imports/finished
-  waiting: ms-product/src/main/resources/imports/waiting
-
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+app:
+  file-directory:
+    pending: /app/data/imports/pending
+    waiting: /app/data/imports/waiting
+    finished: /app/data/imports/finished

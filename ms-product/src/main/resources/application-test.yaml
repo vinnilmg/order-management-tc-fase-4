@@ -43,3 +43,9 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+  app:
+    file-directory:
+      pending: ms-product/data/imports/pending
+      waiting: ms-product/data/imports/waiting
+      finished: ms-product/data/imports/finished

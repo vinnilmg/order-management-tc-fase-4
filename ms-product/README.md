@@ -57,6 +57,4 @@ directory:
 	finished: ms-product/src/main/resources/imports/finished
 	waiting:  ms-product/src/main/resources/imports/waiting
 ```
-ms-product/src/main/resources/imports/pending
-finished: ms-product/src/main/resources/imports/finished
-waiting:  ms-product/src/main/resources/imports/waiting
+

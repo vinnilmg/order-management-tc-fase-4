@@ -9,6 +9,7 @@ import com.fiap.techchallenge4.product.core.model.LogError;
 import com.fiap.techchallenge4.product.application.service.CsvLoaderService;
 import com.fiap.techchallenge4.product.application.service.LogErrorService;
 import com.fiap.techchallenge4.product.application.service.ProcessBatchService;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,10 @@ import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @Setter
@@ -30,11 +35,11 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
     private final LogErrorService logErrorService;
     private final FileManipulationService fileManipulationService;
 
-    @Value("${directory.finished}")
-    private String directoryPathToFinished;
-
-    @Value("${directory.waiting}")
+    @Value("${app.file-directory.waiting}")
     private String directoryPathToWaiting;
+
+    @Value("${app.file-directory.finished}")
+    private String directoryPathToFinished;
 
     public ProcessBatchServiceImpl(JobLauncher jobLauncher, Job productJob, CsvLoaderService csvLoaderService, LogErrorService logErrorService, FileManipulationService fileManipulationService) {
         this.jobLauncher = jobLauncher;
@@ -43,6 +48,7 @@ public class ProcessBatchServiceImpl implements ProcessBatchService {
         this.logErrorService = logErrorService;
         this.fileManipulationService = fileManipulationService;
     }
+
 
     @Override
     public void execute() {
