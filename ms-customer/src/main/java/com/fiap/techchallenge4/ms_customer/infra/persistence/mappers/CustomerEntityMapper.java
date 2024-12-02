@@ -9,7 +9,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {AddressEntityMapper.class})
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE,
+        uses = {AddressEntityMapper.class, PaymentEntityMapper.class})
 public interface CustomerEntityMapper {
 
     @Mapping(target = "cpf", source = "cpf")

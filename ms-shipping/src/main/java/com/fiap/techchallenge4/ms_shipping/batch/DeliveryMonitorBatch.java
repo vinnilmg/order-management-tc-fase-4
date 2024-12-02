@@ -26,7 +26,7 @@ public class DeliveryMonitorBatch {
         this.deliveryService = deliveryService;
     }
 
-    @Scheduled(fixedRate = 3000, initialDelay = 1500)
+    @Scheduled(fixedRate = 30000, initialDelay = 1500)
     @Transactional
     public void updateDeliveriesInTransit(){
 
