@@ -4,11 +4,17 @@ import com.fiap.techchallenge4.ms_shipping.model.enums.DeliveryStatusEnum;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name = "delivery")
+@Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class DeliveryEntity {
 
     @Id

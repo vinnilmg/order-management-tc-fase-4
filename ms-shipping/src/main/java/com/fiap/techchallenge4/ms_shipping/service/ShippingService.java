@@ -39,7 +39,6 @@ public class ShippingService {
 
     public List<ShippingEntity> getAllRegion() {
         var shippingEntity = shippingRepository.findAll();
-
         return shippingEntity;
     }
 

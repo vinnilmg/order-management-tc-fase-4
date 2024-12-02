@@ -111,6 +111,18 @@ services:
       SPRING_DATASOURCE_PASSWORD: 123456
 
 ####################################################################################################################
+  ms-product-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: ms-product-dbase
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5415:5432"
+    networks:
+      - order-management-network
+
   ms-product-api:
     image: ms-product:latest
     build: ./ms-product
@@ -122,21 +134,9 @@ services:
       - ms-product-db
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-product-db:5415/ms_product
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-product-db:5432/ms-product-dbase
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-
-  ms-product-db:
-    image: postgres:15
-    container_name: postgres
-    environment:
-      POSTGRES_DB: ms_product
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5415:5432"
-    networks:
-      - order-management-network
 
 ####################################################################################################################
   ms-shipping-api:

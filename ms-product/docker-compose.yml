@@ -1,23 +1,11 @@
-  services:
-    ms-product-service:
-      build: .
-      container_name: ms-product-service
-      ports:
-        - "8083:8083"
-      environment:
-        - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5415/ms_product_db
-        - SPRING_DATASOURCE_USERNAME=postgres
-        - SPRING_DATASOURCE_PASSWORD=postgres
-      depends_on:
-        - postgres
-      networks:
-        - ms-product-network
+name: ms-product
 
+services:
     postgres:
       image: postgres:15
       container_name: postgres
       environment:
-        POSTGRES_DB: ms_product_db
+        POSTGRES_DB: ms-product-dbase
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: postgres
       ports:
@@ -25,5 +13,6 @@
       networks:
         - ms-product-network
 
-  networks:
-    ms-product-network:
+networks:
+  ms-product-network:
+    driver: bridge
