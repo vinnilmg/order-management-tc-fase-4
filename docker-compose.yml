@@ -150,7 +150,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://ms-shipping-db:5432/postgres
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
-
+      MS_ORDER_HOST: ms-order-api:8091
 
   ms-shipping-db:
     image: postgres:latest
