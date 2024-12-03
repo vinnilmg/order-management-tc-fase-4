@@ -32,7 +32,7 @@ public class DataConfig {
                         .price(BigDecimal.valueOf(180))
                         .stock(100)
                         .description("Teste 2")
-                        .skuId(15000L)
+                        .skuId(15001L)
                         .build()
                 );
         productService.saveAll(productList);
