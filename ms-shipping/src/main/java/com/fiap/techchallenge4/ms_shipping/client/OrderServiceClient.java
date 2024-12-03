@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @FeignClient(name = "order-service", url= "${order-service.url}")
 public interface OrderServiceClient {
 
-    @PutMapping("/{orderId}/finish")
+    @PutMapping("/api/orders/{orderId}/finish")
     void finishOrder(@PathVariable Long orderId);
 
-    @PutMapping("/{orderId}/shipping")
+    @PutMapping("/api/orders/{orderId}/shipping")
     void updateOrderToDeliveryRoute(@PathVariable Long orderId);
 }
