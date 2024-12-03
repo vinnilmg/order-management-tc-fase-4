@@ -11,3 +11,6 @@ ms:
     host: ${MS_SHIPPING_HOST}
   payment:
     host: ${MS_PAYMENT_HOST}
+
+server:
+  port: 8091

@@ -1,0 +1,842 @@
+{
+	"info": {
+		"_postman_id": "d277df64-4564-4214-91f7-a225e9e7fd30",
+		"name": "Fase 4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7403997",
+		"_collection_link": "https://gold-station-588936.postman.co/workspace/FIAP--Grupo-5~ae9d38dd-1094-43ca-9e2d-a749c7a7997e/collection/7403997-d277df64-4564-4214-91f7-a225e9e7fd30?action=share&source=collection_link&creator=7403997"
+	},
+	"item": [
+		{
+			"name": "ms-order",
+			"item": [
+				{
+					"name": "get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get order by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/orders/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get orders by cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/orders/customers/06463241016",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders",
+								"customers",
+								"06463241016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cpf\": \"46799709013\",\r\n    \"products\": [\r\n        {\r\n            \"sku\": 150000,\r\n            \"quantity\": 1,\r\n            \"unitaryValue\": 180.0\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update to delivery route",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/orders/1/shipping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders",
+								"1",
+								"shipping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finish order",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/orders/2/finish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"orders",
+								"2",
+								"finish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-payment-processor",
+			"item": [
+				{
+					"name": "process payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cardNumber\": \"5538360554254365\",\r\n    \"expirationDate\": \"30/09/2026\",\r\n    \"code\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/api/payment/processor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"payment",
+								"processor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-product",
+			"item": [
+				{
+					"name": "process batch",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/batch/process",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"batch",
+								"process"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by sku-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/products/skuId/150000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"products",
+								"skuId",
+								"150000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease-Stock Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8093/api/products/:id/decrease-stock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"products",
+								":id",
+								"decrease-stock"
+							],
+							"query": [
+								{
+									"key": "quantity",
+									"value": "65",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "150000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Additional Stock Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\" : 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8093/api/products/:id/additional-stock",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"products",
+								":id",
+								"additional-stock"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "150000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/products/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get files by folder pending",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/files/pending",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"files",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ms-shipping",
+			"item": [
+				{
+					"name": "courier",
+					"item": [
+						{
+							"name": "Get Courier",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/api/courier/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"courier",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Delivery of Courier",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/api/delivery-courier/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"delivery-courier",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Courier",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Cristina\",\r\n    \"phone\": \"01198552121\",\r\n    \"regionId\": 1,\r\n    \"status\": \"AVAILABLE\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8090/api/courier",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"courier"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Courier",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/api/courier",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"courier"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateStatusCourier",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"ON_DELIVERY_ROUTE\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8090/api/courier/updatestatus/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"courier",
+										"updatestatus",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "shipping",
+					"item": [
+						{
+							"name": "get CEP",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/api/shippings/02998060",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"shippings",
+										"02998060"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delivery",
+					"item": [
+						{
+							"name": "create delivery by order id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"orderId\": 5,\r\n    \"postalCode\": 30000000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8090/api/deliveries",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"deliveries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get delivery by order",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8090/api/delivery/order/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8090",
+									"path": [
+										"api",
+										"delivery",
+										"order",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ms-customer",
+			"item": [
+				{
+					"name": "find all customers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers"
+							]
+						},
+						"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+					},
+					"response": []
+				},
+				{
+					"name": "find by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/customers/id/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find by cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/customers/cpf/46799709013",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"cpf",
+								"46799709013"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find payment by customer cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/customers/paymentInfo/06463241016",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"paymentInfo",
+								"06463241016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find address by customer cpf",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/customers/addressInfo/06463241016",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"addressInfo",
+								"06463241016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"51488248087\",\n    \"name\": \"Jenna Coleman\",\n    \"address\": {\n        \"street\": \"Praça Monsenhor Renato Galvão\",\n        \"number\": \"237\",\n        \"complement\": null,\n        \"district\": \"Centro\",\n        \"city\": \"Feira de Santana\",\n        \"state\": \"BA\",\n        \"cep\": \"44002120\"\n        },\n    \"birthDate\": \"1986-04-27\",\n    \"payment\": {\n            \"cardNumber\": \"4716343709327531\",\n            \"expirationDate\": \"2025-10-09\",\n            \"cvvCode\": \"185\"\n        }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8092/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers"
+							]
+						},
+						"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "update customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful PUT request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"51488248087\",\n    \"name\": \"Jenna\",\n    \"address\": {\n        \"street\": \"Praça\",\n        \"number\": \"237\",\n        \"complement\": null,\n        \"district\": \"Centro\",\n        \"city\": \"Feira de Santana\",\n        \"state\": \"BA\",\n        \"cep\": \"44002120\"\n        },\n    \"birthDate\": \"1986-04-27\",\n    \"payment\": {\n            \"cardNumber\": \"4716343709327531\",\n            \"expirationDate\": \"2025-10-09\",\n            \"cvvCode\": \"185\"\n        }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8092/api/customers/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"3"
+							]
+						},
+						"description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+					},
+					"response": []
+				},
+				{
+					"name": "delete customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful DELETE request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8092/api/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"customers",
+								"1"
+							]
+						},
+						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
