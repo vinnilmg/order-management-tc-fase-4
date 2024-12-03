@@ -19,20 +19,20 @@ public class DataConfig {
     @PostConstruct
     public void createData() {
         List<Product> productList = List.of(Product.builder()
-                        .id(15000L)
+                        .id(150000L)
                         .name("Teste 1")
                         .price(BigDecimal.valueOf(180))
                         .stock(100)
                         .description("Teste 1")
-                        .skuId(15000L)
+                        .skuId(150000L)
                 .build(),
                 Product.builder()
-                        .id(15001L)
+                        .id(150001L)
                         .name("Teste 2")
                         .price(BigDecimal.valueOf(180))
                         .stock(100)
                         .description("Teste 2")
-                        .skuId(15000L)
+                        .skuId(150001L)
                         .build()
                 );
         productService.saveAll(productList);
